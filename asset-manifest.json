@@ -1,18 +1,21 @@
 {
   "files": {
-    "main.css": "/steam/static/css/main.2d542e5b.chunk.css",
-    "main.js": "/steam/static/js/main.99d3eb93.chunk.js",
-    "main.js.map": "/steam/static/js/main.99d3eb93.chunk.js.map",
+    "main.css": "/steam/static/css/main.b811ba91.chunk.css",
+    "main.js": "/steam/static/js/main.1d7652b0.chunk.js",
+    "main.js.map": "/steam/static/js/main.1d7652b0.chunk.js.map",
     "runtime-main.js": "/steam/static/js/runtime-main.5d1c48d4.js",
     "runtime-main.js.map": "/steam/static/js/runtime-main.5d1c48d4.js.map",
     "static/css/2.02435527.chunk.css": "/steam/static/css/2.02435527.chunk.css",
-    "static/js/2.e02c6e89.chunk.js": "/steam/static/js/2.e02c6e89.chunk.js",
-    "static/js/2.e02c6e89.chunk.js.map": "/steam/static/js/2.e02c6e89.chunk.js.map",
+    "static/js/2.6a8af3c5.chunk.js": "/steam/static/js/2.6a8af3c5.chunk.js",
+    "static/js/2.6a8af3c5.chunk.js.map": "/steam/static/js/2.6a8af3c5.chunk.js.map",
     "index.html": "/steam/index.html",
-    "precache-manifest.e7e27f487bb26b908247479640d539db.js": "/steam/precache-manifest.e7e27f487bb26b908247479640d539db.js",
+    "precache-manifest.db857266ae4e2f4d7d5a0bcd3abdc8c4.js": "/steam/precache-manifest.db857266ae4e2f4d7d5a0bcd3abdc8c4.js",
     "service-worker.js": "/steam/service-worker.js",
     "static/css/2.02435527.chunk.css.map": "/steam/static/css/2.02435527.chunk.css.map",
-    "static/css/main.2d542e5b.chunk.css.map": "/steam/static/css/main.2d542e5b.chunk.css.map",
+    "static/css/main.b811ba91.chunk.css.map": "/steam/static/css/main.b811ba91.chunk.css.map",
+    "static/media/style.css": "/steam/static/media/Montserrat-SemiBold.c641dbee.ttf",
+    "static/media/McDonald.png": "/steam/static/media/McDonald.4f06acbe.png",
+    "static/media/Starbuck.png": "/steam/static/media/Starbuck.73576eb9.png",
     "static/media/active.png": "/steam/static/media/active.2a18bd1a.png",
     "static/media/ahli.png": "/steam/static/media/ahli.8b100b88.png",
     "static/media/al-ahly.png": "/steam/static/media/al-ahly.fee87a18.png",
@@ -34,8 +37,8 @@
   "entrypoints": [
     "static/js/runtime-main.5d1c48d4.js",
     "static/css/2.02435527.chunk.css",
-    "static/js/2.e02c6e89.chunk.js",
-    "static/css/main.2d542e5b.chunk.css",
-    "static/js/main.99d3eb93.chunk.js"
+    "static/js/2.6a8af3c5.chunk.js",
+    "static/css/main.b811ba91.chunk.css",
+    "static/js/main.1d7652b0.chunk.js"
   ]
 }
