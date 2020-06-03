@@ -1,0 +1,24 @@
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+div::-webkit-scrollbar,
+section::-webkit-scrollbarb,
+main::-webkit-scrollbar,
+ul::-webkit-scrollbar,
+.ant-layout::-webkit-scrollbar {
+    background-color: #f4f4f4 !important;
+    width: 7px !important;
+}
+
+
+
+
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+div::-webkit-scrollbar-thumb,
+section::-webkit-scrollbar-thumb,
+main::-webkit-scrollbar-thumb,
+ul::-webkit-scrollbar-thumb,
+.ant-layout::-webkit-scrollbar-thumb {
+    background-color: #81b955 !important; 
+}

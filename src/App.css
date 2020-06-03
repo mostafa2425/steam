@@ -1,0 +1,128 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+.vendor-table{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+.vendor-card{
+  padding: 20px 15px;
+  border-radius: 4px;
+  border: 1px solid #DDD;
+  background: #FFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+  position: relative;
+  margin: 5px;
+  transition: all ease-in-out 0.3s; 
+  cursor: pointer;
+}
+.vendor-card:hover{
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.vendor-card .info{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.vendor-card > div{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.vendor-name{
+  font-size: 20px;
+  color: #000;
+  margin-bottom: 5px;
+}
+.location{
+  font-size: 14px;
+  line-height: 1.19;
+  color: #9a9a9a;
+}
+  .vendor-card--img{
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin: auto;
+    margin-bottom: 10px;  
+}
+.status{
+  font-size: 14px;
+  color: #81b955;
+}
+.vendor-card .anticon-more{
+  position: absolute;
+  top: 10px;
+  right: 6px;
+  font-size: 22px;
+}
+
+.detailes{
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  color: #9a9a9a;
+  margin-top: 10px;
+}
+.detailes p{margin-bottom: 3px; }
+.detailes .anticon {color: #81b955; margin-right: 4px;}
+
+.root-wrapper{
+  height: 100vh;
+  overflow: hidden;
+}
+
+.ant-menu-item-selected a, .ant-menu-item-selected a:hover{
+  color: #81b955;
+}
+.ant-menu-item-selected{
+  color: #81b955;
+}
+.ant-menu-item.ant-menu-item-active{
+  color: #81b955;
+}
+.ant-menu-submenu.ant-menu-submenu-active{
+  color: #81b955;
+}
+.ant-menu-submenu-title:hover{
+  color: #81b955;
+}
+.ant-menu-submenu-title:hover .anticon{
+  color: #81b955;
+}
+.ant-menu-submenu-vertical > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::after, .ant-menu-submenu-vertical-left > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::after, .ant-menu-submenu-vertical-right > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::after, .ant-menu-submenu-inline > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::after, .ant-menu-submenu-vertical > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::before, .ant-menu-submenu-vertical-left > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::before, .ant-menu-submenu-vertical-right > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::before, .ant-menu-submenu-inline > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::before{
+  background: #81b955; 
+  /* transition: all ease 0 !important; */
+}
+.ant-menu-vertical .ant-menu-item::after, .ant-menu-vertical-left .ant-menu-item::after, .ant-menu-vertical-right .ant-menu-item::after, .ant-menu-inline .ant-menu-item::after{
+  border-color: #81b955;
+}
+.ant-menu-vertical .ant-menu-submenu-selected, .ant-menu-vertical-left .ant-menu-submenu-selected, .ant-menu-vertical-right .ant-menu-submenu-selected{
+  color: #81b955;
+}
