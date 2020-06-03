@@ -1,0 +1,134 @@
+/************LINKS ********************/
+@mixin link($color) {
+  color: $color;
+  display: inline-block;
+  transition: 0.3s;
+  font-size: 0.9375rem;
+  text-transform: capitalize;
+  &:hover {
+    text-decoration: underline;
+  }
+  &:active,
+  &:focus {
+    text-decoration: none;
+  }
+  &:disabled {
+    color: red !important;
+    @extend .isdisabled;
+  }
+}
+
+/************ triangle ********************/
+
+@mixin triangle($size, $color, $direction) {
+  height: 0;
+  width: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: $size / 2;
+
+  @if $direction == up {
+    border-bottom-color: $color;
+  } @else if $direction == right {
+    border-left-color: $color;
+  } @else if $direction == down {
+    border-top-color: $color;
+  } @else if $direction == left {
+    border-right-color: $color;
+  } @else {
+    @error "Unknown direction #{$direction}.";
+  }
+}
+
+//  @include triangle(5px, black, right);
+
+/************MEDIA QUERY ********************/
+$breakpoints: (
+  "tiny-phone": 361px,
+  "iphone": 380px,
+  "phone": 400px,
+  "phone-wide": 480px,
+  "phablet": 576px,
+  "tablet-small": 640px,
+  "tablet": 768px, 
+  "ipad": 992px,
+  "tablet-wide": 1024px,
+  "tablet-qc": 1200px,
+  "desktop": 1248px,
+  "desktop-wide": 1440px,
+  "desktop-wide-lg": 1700px
+);
+
+@mixin mq($width, $type: max) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+
+    @if $type==max {
+      $width: $width - 1px;
+    }
+
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}
+
+/*****************prfix*************/
+@mixin prefixer($property, $val) {
+  #{$property}: $val;
+  -webkit-#{$property}: $val;
+  -moz-#{$property}: $val;
+  -ms-#{$property}: $val;
+  -o-#{$property}: $val;
+}
+
+/*****************input placeholder*************/
+@mixin input-placeholder {
+  &:-moz-placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    @content;
+  }
+  &:-ms-input-placeholder {
+    @content;
+  }
+  &::-webkit-input-placeholder {
+    @content;
+  }
+}
+
+/***************** slide imgs *************/
+
+@mixin slideimgs($type: stay, $duration: 4, $dir: left) {
+  animation-name: slideimgsAnimation-#{$dir};
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+  animation-duration: #{$duration}s;
+  @if $type == stay { animation-delay: #{$duration / 2}s; }
+  @keyframes slideimgsAnimation-#{$dir} {
+    0% {
+      #{$dir} : 0;
+      transform: rotate(0);
+      @if $type == move {
+        z-index: 10;
+      }
+    }
+    50% {
+      #{$dir} : 0;
+      transform: rotate(0);
+    }
+    100% {
+      #{$dir} : -140%;
+      @if $dir == left {
+        transform: rotate(-180deg);
+      }@else {
+        transform: rotate(180deg);
+      }
+      @if $type == stay {
+        z-index: 44;
+      }
+    }
+  }
+}
+
