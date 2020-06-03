@@ -1,0 +1,135 @@
+
+//************************** COLORS **************************//
+
+//primary color 
+$primary:#81b955;  //  2DBB54
+$primary-2:rgb(7, 122, 163);
+$primary-3 : #249D45;
+$primary-4:#80D698;
+$primary-5:#008539;
+
+// Secondary color
+$secondary:#2db2bb; 
+// $secondary:#d83025;
+$secondary-2:#c30c00;
+$secondary-3:#df5950;
+
+// Warning colors
+$warning: #d83025;
+
+// Info colors
+$info: #d4b425;
+
+// Grayscale
+$gray : #DADCE0;
+$gray-2 : #CBCBCB;
+$gray-3 : #f9f9fc;
+$gray-4 : #7e7e7e;
+$gray-5 : #656565;
+$gray-6:#4b4b4b; 
+$gray-7:#242424;
+$gray-8:#cccccc;
+
+// other colors  
+$black : #000;
+$white : #FFF;
+
+// out of palitte
+$Snow : #FAFAFA;
+$WhiteSmoke : #F5F5F5;
+$offWhite: #e5e5e5;
+$Endeavour : #249D45;
+$darkEndeavour : #1F883C;
+$notifybackground : rgba(57, 103, 169, 0.09);
+$userbackground : #f0f3f8;
+
+$brd-rds : 4px;
+
+// gradient color
+
+$primary-gradient : linear-gradient(to left, #008539, #008539 3%);
+$primary-light-gradient : linear-gradient(89deg, #008539 1%, #5db92c 100%);
+
+//************************** FONTS **************************//
+
+// @font-face {
+//     font-family: Cairo;
+//     font-style: normal;
+//     src: local('Cairo ExtraLight'), local('Cairo-Ex traLight'), url("assets/fonts/Cairo/Cairo-ExtraLight.ttf");
+//     font-weight: 200;
+//     font-display: swap;
+//   }
+  
+//   @font-face {
+//     font-family: Cairo;
+//     font-style: normal;
+//     src: local('Cairo Light'), local('Cairo-Light'), url("assets/fonts/Cairo/Cairo-Light.ttf");
+//     font-weight: 300;
+//     font-display: swap;
+//   }
+  
+  @font-face {
+    font-family: Cairo;   
+    font-style: normal;
+    src: local('Cairo Regular'), local('Cairo-Regular'), url("../sass/fonts/Cairo-Regular.ttf");
+    font-weight: 400;
+  }
+  
+//   @font-face {
+//     font-family: Cairo;
+//     font-style: normal;
+//     src: local('Cairo SemiBold'), local('Cairo-SemiBold'), url("assets/fonts/Cairo/Cairo-SemiBold.ttf");
+//     font-weight: 600;
+//    3. font-display: swap;
+//   }
+  
+  @font-face {
+    font-family: Cairo;
+    font-style: normal;
+    src: local('Cairo Bold'), local('Cairo-Bold'), url("../sass/fonts/Cairo-Bold.ttf");
+    font-display: swap;
+    font-weight: 700;
+  }
+  
+
+  //  Montserrat fonts
+  @font-face {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 400;
+    src: local('Montserrat Regular'), local('Montserrat-Regular'), url("../sass/fonts/Montserrat/Montserrat-Regular.ttf");
+    font-display: swap; 
+  }
+  
+  @font-face {
+    font-family: Montserrat; 
+    font-style: normal;
+    font-weight: 300;
+    src: local('Montserrat Light'), local('Montserrat-Light'), url("../sass/fonts/Montserrat/Montserrat-Light.ttf");
+    font-display: swap; 
+  }
+
+  @font-face {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    src: local('Montserrat Medium'), local('Montserrat-Medium'), url("../sass/fonts/Montserrat/Montserrat-Medium.ttf");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    src: local('Montserrat SemiBold'), local('Montserrat-SemiBold'), url("../sass/fonts/Montserrat/Montserrat-SemiBold.ttf");
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 700;
+    src: local('Montserrat Bold'), local('Montserrat-Bold'), url("../sass/fonts/Montserrat/Montserrat-Bold.ttf");
+    font-display: swap;
+  }
+

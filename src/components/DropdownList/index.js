@@ -15,7 +15,7 @@ class DropdownList extends React.Component {
     const { title, list, titleImage } = this.props;
 
     return (
-      <Container onClick={() => this.setState({ isMenuOpened: !isMenuOpened })}>
+      <Container className="profile-holder" onClick={() => this.setState({ isMenuOpened: !isMenuOpened })}>
         <Image src={titleImage} alt={title} />
         <Title>{title}</Title>
         {isMenuOpened && (

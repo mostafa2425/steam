@@ -27,11 +27,19 @@ import {
 } from "@ant-design/icons";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
-
+const mq = window.matchMedia( "(max-width: 480px)" );
 export default class LayoutSite extends Component {
   state = {
     collapsed: false,
+    screenSize: mq.matches ? true : false
   };
+componentDidMount() {
+  mq.addListener((e) => {
+    this.setState({
+      screenSize: e.matches ? true : false
+    })
+  })
+}
 
   onCollapse = (collapsed) => {
     console.log(collapsed);
@@ -52,8 +60,11 @@ export default class LayoutSite extends Component {
                 <Sider
                   className="site-layout-background"
                   collapsible
+                  collapsedWidth={this.state.collapsedWidth}
                   collapsed={this.state.collapsed}
                   onCollapse={this.onCollapse}
+                  width="230px"
+                  breakpoint="md"
                 >
                   <div className="logo">
                     </div>
@@ -69,8 +80,8 @@ export default class LayoutSite extends Component {
                       Dashbord
                     </Menu.Item>
                     <Menu.Item key="2" icon={<ShopOutlined />}>
-                      <Link to="/vendors" />
-                      vendors
+                      <Link to="/companies" />
+                      company
                     </Menu.Item>
                     <Menu.Item key="3" icon={<SkinOutlined  />}>
                       <Link to="/clubs" />
@@ -98,7 +109,7 @@ export default class LayoutSite extends Component {
                 </Sider>
                 <Content >
                   <Route exact path="/" component={HomePage} />
-                  <Route path="/vendors" component={VendorPage} />
+                  <Route path="/companies" component={VendorPage} />
                   <Route path="/clubs" component={ClubPage} />
                   <Route
                     path="/dashbord-profile"

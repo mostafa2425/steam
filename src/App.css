@@ -37,7 +37,7 @@
   align-items: center;
   padding-top: 5px;
   position: relative;
-  margin: 5px;
+  margin: 0;
   transition: all ease-in-out 0.3s; 
   cursor: pointer;
 }
@@ -90,7 +90,8 @@
   color: #9a9a9a;
   margin-top: 10px;
 }
-.detailes p{margin-bottom: 3px; }
+.detailes p{margin-bottom: 3px; color: #48465b;
+  font-size: 17px;}
 .detailes .anticon {color: #81b955; margin-right: 4px;}
 
 .root-wrapper{

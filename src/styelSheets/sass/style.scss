@@ -3,6 +3,9 @@
 //         "helpers/mixins",
 //         "helpers/loops",
 //         "helpers/helpers"; 
+@import "pages/variables";
 @import "pages/mixins";
+@import "pages/buttons";
+@import "pages/addCompany";
 @import "pages/rest";
-@import "pages/dashboard";  
+@import "pages/dashboard"; 

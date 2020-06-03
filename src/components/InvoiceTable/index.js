@@ -303,7 +303,7 @@ class InvoiceTable extends React.Component {
       //     pagination
       //   />
       // </Container>
-      <div class="vendor-table">
+      <div className="vendor-table">
         {[...Array(10)].map(card => 
             <Link to="/vendor-profile" className="vendor-card">
             <Dropdown overlay={menu} trigger={['click']}>

@@ -18,12 +18,12 @@ class RevenueListItem extends React.Component {
   render() {
 
     return (
-      <Container>
+      <Container className="revenue-holder">
         {console.log(this.props.type)}
         <ListingNumber>1</ListingNumber>
         <VendorImage src={this.props.type === "club" ? club1 : Vendor} alt="vendor" />
-        <VendorTextContainer>
-          <VendorName>{this.props.type === "club" ? "hilal" : "Hungerstation"}</VendorName>
+        <VendorTextContainer className="revenue-name">
+          <VendorName >{this.props.type === "club" ? "hilal" : "Hungerstation"}</VendorName>
           <VendorCompanyName>{this.props.type === "club" ? "hilal club" : "Hungerstation Company"}</VendorCompanyName> 
         </VendorTextContainer>
         <RevenueNumber>200</RevenueNumber>

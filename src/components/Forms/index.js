@@ -18,7 +18,7 @@ import {
 const Forms = props => {
   const { handleSubmit, reset, submitting, title } = props;
   return (
-    <Container>
+    <Container className="add-company-wrapper">
       <Title>{title}</Title>
       <form onSubmit={handleSubmit}>
         <FieldContainer>
