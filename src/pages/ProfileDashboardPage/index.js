@@ -27,7 +27,7 @@ class ProfileDashboardPage extends React.Component {
     return (
       <Container>
         
-        <PageContainer>
+        <PageContainer className="vendor-profile-wrapper">
           <HeaderPageSection>
             <DropdownList 
               title="user name"

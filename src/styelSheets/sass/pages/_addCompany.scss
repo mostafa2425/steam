@@ -1,3 +1,28 @@
+.company-veiw-wrapper{
+    > div{
+        padding: 0 30px;
+    }
+    .company-grid-holder{
+        > div{
+            width: 29%;
+            padding-top: 5px;
+            > div{
+                &:first-of-type{
+                    img{
+                        width: 70px;
+                        object-fit: contain;
+                    }
+                }
+            }
+        }
+    }
+}
+.progress-holder{
+    top: -6px;
+    .ant-progress-bg{
+        background-color: #81b955;
+    }
+}
 .add-company-wrapper{
     margin: 0 30px !important;
 }

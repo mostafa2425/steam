@@ -12,6 +12,7 @@ import {
   VendorCompanyName,
   RevenueNumber,
 } from './StyledComponents';
+import { Progress } from 'antd';
 
 class RevenueListItem extends React.Component {
 
@@ -19,14 +20,15 @@ class RevenueListItem extends React.Component {
 
     return (
       <Container className="revenue-holder">
-        {console.log(this.props.type)}
         <ListingNumber>1</ListingNumber>
         <VendorImage src={this.props.type === "club" ? club1 : Vendor} alt="vendor" />
+        {this.props.type === "club" ? <Progress className="progress-holder" percent={80} format={percent => `${percent} K`} /> : 
         <VendorTextContainer className="revenue-name">
-          <VendorName >{this.props.type === "club" ? "hilal" : "Hungerstation"}</VendorName>
-          <VendorCompanyName>{this.props.type === "club" ? "hilal club" : "Hungerstation Company"}</VendorCompanyName> 
+          <VendorName >Hungerstation</VendorName>
+          <VendorCompanyName> Hungerstation Company</VendorCompanyName> 
         </VendorTextContainer>
-        <RevenueNumber>200</RevenueNumber>
+        }
+        {this.props.type === "Venor" && <RevenueNumber>200</RevenueNumber>}  
       </Container>
     );
   }

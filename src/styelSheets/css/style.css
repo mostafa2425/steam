@@ -59,7 +59,7 @@
 /*****************prfix*************/
 /*****************input placeholder*************/
 /***************** slide imgs *************/
-.primary-fill, .primary-outline, .secondary-fill, .secondary-outline, .grayscale-fill, .grayscale-outline, .grayscale-light-fill, .grayscale-light-outline, .warning-fill, .warning-outline, .info-fill, .info-outline, .gradient-fill, .gradient-light-fill {
+.primary-fill, .primary-outline, .secondary-fill, .secondary-outline, .grayscale-fill, .grayscale-light-fill, .grayscale-light-outline, .warning-fill, .warning-outline, .info-fill, .info-outline {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -75,43 +75,43 @@
   text-decoration: none;
 }
 
-.sm-btn.primary-fill, .sm-btn.primary-outline, .sm-btn.secondary-fill, .sm-btn.secondary-outline, .sm-btn.grayscale-fill, .sm-btn.grayscale-outline, .sm-btn.grayscale-light-fill, .sm-btn.grayscale-light-outline, .sm-btn.warning-fill, .sm-btn.warning-outline, .sm-btn.info-fill, .sm-btn.info-outline, .sm-btn.gradient-fill, .sm-btn.gradient-light-fill {
+.sm-btn.primary-fill, .sm-btn.primary-outline, .sm-btn.secondary-fill, .sm-btn.secondary-outline, .sm-btn.grayscale-fill, .sm-btn.grayscale-light-fill, .sm-btn.grayscale-light-outline, .sm-btn.warning-fill, .sm-btn.warning-outline, .sm-btn.info-fill, .sm-btn.info-outline {
   min-height: 24px !important;
   padding: 0 18px;
   font-size: 14px;
   font-weight: normal;
 }
 
-.rounded.primary-fill, .rounded.primary-outline, .rounded.secondary-fill, .rounded.secondary-outline, .rounded.grayscale-fill, .rounded.grayscale-outline, .rounded.grayscale-light-fill, .rounded.grayscale-light-outline, .rounded.warning-fill, .rounded.warning-outline, .rounded.info-fill, .rounded.info-outline, .rounded.gradient-fill, .rounded.gradient-light-fill {
+.rounded.primary-fill, .rounded.primary-outline, .rounded.secondary-fill, .rounded.secondary-outline, .rounded.grayscale-fill, .rounded.grayscale-light-fill, .rounded.grayscale-light-outline, .rounded.warning-fill, .rounded.warning-outline, .rounded.info-fill, .rounded.info-outline {
   border-radius: 20px;
 }
 
-.light-green.primary-fill, .light-green.primary-outline, .light-green.secondary-fill, .light-green.secondary-outline, .light-green.grayscale-fill, .light-green.grayscale-outline, .light-green.grayscale-light-fill, .light-green.grayscale-light-outline, .light-green.warning-fill, .light-green.warning-outline, .light-green.info-fill, .light-green.info-outline, .light-green.gradient-fill, .light-green.gradient-light-fill {
+.light-green.primary-fill, .light-green.primary-outline, .light-green.secondary-fill, .light-green.secondary-outline, .light-green.grayscale-fill, .light-green.grayscale-light-fill, .light-green.grayscale-light-outline, .light-green.warning-fill, .light-green.warning-outline, .light-green.info-fill, .light-green.info-outline {
   color: #008539 !important;
   border: 1px solid #008539 !important;
 }
 
-.light-green.primary-fill:hover, .light-green.primary-outline:hover, .light-green.secondary-fill:hover, .light-green.secondary-outline:hover, .light-green.grayscale-fill:hover, .light-green.grayscale-outline:hover, .light-green.grayscale-light-fill:hover, .light-green.grayscale-light-outline:hover, .light-green.warning-fill:hover, .light-green.warning-outline:hover, .light-green.info-fill:hover, .light-green.info-outline:hover, .light-green.gradient-fill:hover, .light-green.gradient-light-fill:hover {
+.light-green.primary-fill:hover, .light-green.primary-outline:hover, .light-green.secondary-fill:hover, .light-green.secondary-outline:hover, .light-green.grayscale-fill:hover, .light-green.grayscale-light-fill:hover, .light-green.grayscale-light-outline:hover, .light-green.warning-fill:hover, .light-green.warning-outline:hover, .light-green.info-fill:hover, .light-green.info-outline:hover {
   background-color: #008539 !important;
   color: white !important;
 }
 
-.light-green-bg.primary-fill, .light-green-bg.primary-outline, .light-green-bg.secondary-fill, .light-green-bg.secondary-outline, .light-green-bg.grayscale-fill, .light-green-bg.grayscale-outline, .light-green-bg.grayscale-light-fill, .light-green-bg.grayscale-light-outline, .light-green-bg.warning-fill, .light-green-bg.warning-outline, .light-green-bg.info-fill, .light-green-bg.info-outline, .light-green-bg.gradient-fill, .light-green-bg.gradient-light-fill {
+.light-green-bg.primary-fill, .light-green-bg.primary-outline, .light-green-bg.secondary-fill, .light-green-bg.secondary-outline, .light-green-bg.grayscale-fill, .light-green-bg.grayscale-light-fill, .light-green-bg.grayscale-light-outline, .light-green-bg.warning-fill, .light-green-bg.warning-outline, .light-green-bg.info-fill, .light-green-bg.info-outline {
   background-color: #008539 !important;
 }
 
-.light-green-bg.primary-fill:focus, .light-green-bg.primary-outline:focus, .light-green-bg.secondary-fill:focus, .light-green-bg.secondary-outline:focus, .light-green-bg.grayscale-fill:focus, .light-green-bg.grayscale-outline:focus, .light-green-bg.grayscale-light-fill:focus, .light-green-bg.grayscale-light-outline:focus, .light-green-bg.warning-fill:focus, .light-green-bg.warning-outline:focus, .light-green-bg.info-fill:focus, .light-green-bg.info-outline:focus, .light-green-bg.gradient-fill:focus, .light-green-bg.gradient-light-fill:focus {
+.light-green-bg.primary-fill:focus, .light-green-bg.primary-outline:focus, .light-green-bg.secondary-fill:focus, .light-green-bg.secondary-outline:focus, .light-green-bg.grayscale-fill:focus, .light-green-bg.grayscale-light-fill:focus, .light-green-bg.grayscale-light-outline:focus, .light-green-bg.warning-fill:focus, .light-green-bg.warning-outline:focus, .light-green-bg.info-fill:focus, .light-green-bg.info-outline:focus {
   color: #fff;
 }
 
-.lg-btn.primary-fill, .lg-btn.primary-outline, .lg-btn.secondary-fill, .lg-btn.secondary-outline, .lg-btn.grayscale-fill, .lg-btn.grayscale-outline, .lg-btn.grayscale-light-fill, .lg-btn.grayscale-light-outline, .lg-btn.warning-fill, .lg-btn.warning-outline, .lg-btn.info-fill, .lg-btn.info-outline, .lg-btn.gradient-fill, .lg-btn.gradient-light-fill {
+.lg-btn.primary-fill, .lg-btn.primary-outline, .lg-btn.secondary-fill, .lg-btn.secondary-outline, .lg-btn.grayscale-fill, .lg-btn.grayscale-light-fill, .lg-btn.grayscale-light-outline, .lg-btn.warning-fill, .lg-btn.warning-outline, .lg-btn.info-fill, .lg-btn.info-outline {
   min-height: 38px !important;
   padding: 0 3.125rem;
   font-size: 16px;
   font-weight: normal;
 }
 
-.xlg-btn.primary-fill, .xlg-btn.primary-outline, .xlg-btn.secondary-fill, .xlg-btn.secondary-outline, .xlg-btn.grayscale-fill, .xlg-btn.grayscale-outline, .xlg-btn.grayscale-light-fill, .xlg-btn.grayscale-light-outline, .xlg-btn.warning-fill, .xlg-btn.warning-outline, .xlg-btn.info-fill, .xlg-btn.info-outline, .xlg-btn.gradient-fill, .xlg-btn.gradient-light-fill {
+.xlg-btn.primary-fill, .xlg-btn.primary-outline, .xlg-btn.secondary-fill, .xlg-btn.secondary-outline, .xlg-btn.grayscale-fill, .xlg-btn.grayscale-light-fill, .xlg-btn.grayscale-light-outline, .xlg-btn.warning-fill, .xlg-btn.warning-outline, .xlg-btn.info-fill, .xlg-btn.info-outline {
   min-height: 47px !important;
   padding: 0.75rem 3.25rem;
   font-size: 16px;
@@ -121,18 +121,18 @@
 }
 
 @media only screen and (max-width: 575px) {
-  .xlg-btn.primary-fill, .xlg-btn.primary-outline, .xlg-btn.secondary-fill, .xlg-btn.secondary-outline, .xlg-btn.grayscale-fill, .xlg-btn.grayscale-outline, .xlg-btn.grayscale-light-fill, .xlg-btn.grayscale-light-outline, .xlg-btn.warning-fill, .xlg-btn.warning-outline, .xlg-btn.info-fill, .xlg-btn.info-outline, .xlg-btn.gradient-fill, .xlg-btn.gradient-light-fill {
+  .xlg-btn.primary-fill, .xlg-btn.primary-outline, .xlg-btn.secondary-fill, .xlg-btn.secondary-outline, .xlg-btn.grayscale-fill, .xlg-btn.grayscale-light-fill, .xlg-btn.grayscale-light-outline, .xlg-btn.warning-fill, .xlg-btn.warning-outline, .xlg-btn.info-fill, .xlg-btn.info-outline {
     min-height: 40px !important;
     padding: 0.75rem 1.25rem;
     font-size: 15px;
   }
 }
 
-.primary-fill:focus, .primary-outline:focus, .secondary-fill:focus, .secondary-outline:focus, .grayscale-fill:focus, .grayscale-outline:focus, .grayscale-light-fill:focus, .grayscale-light-outline:focus, .warning-fill:focus, .warning-outline:focus, .info-fill:focus, .info-outline:focus, .gradient-fill:focus, .gradient-light-fill:focus {
+.primary-fill:focus, .primary-outline:focus, .secondary-fill:focus, .secondary-outline:focus, .grayscale-fill:focus, .grayscale-light-fill:focus, .grayscale-light-outline:focus, .warning-fill:focus, .warning-outline:focus, .info-fill:focus, .info-outline:focus {
   outline: none !important;
 }
 
-.sharpe.primary-fill, .sharpe.primary-outline, .sharpe.secondary-fill, .sharpe.secondary-outline, .sharpe.grayscale-fill, .sharpe.grayscale-outline, .sharpe.grayscale-light-fill, .sharpe.grayscale-light-outline, .sharpe.warning-fill, .sharpe.warning-outline, .sharpe.info-fill, .sharpe.info-outline, .sharpe.gradient-fill, .sharpe.gradient-light-fill {
+.sharpe.primary-fill, .sharpe.primary-outline, .sharpe.secondary-fill, .sharpe.secondary-outline, .sharpe.grayscale-fill, .sharpe.grayscale-light-fill, .sharpe.grayscale-light-outline, .sharpe.warning-fill, .sharpe.warning-outline, .sharpe.info-fill, .sharpe.info-outline {
   border-radius: 6px;
 }
 
@@ -211,40 +211,27 @@
 }
 
 .grayscale-fill {
-  background: #4b4b4b;
-  color: #FFF;
+  background: #e4e4e4;
+  color: #232323;
   border: 0;
 }
 
 .grayscale-fill:focus {
-  background: #4b4b4b;
-  color: #FFF;
+  background: #e4e4e4;
+  color: #232323;
   border: 0;
 }
 
 .grayscale-fill:active {
-  background: #4b4b4b;
-  color: #FFF;
+  background: #e4e4e4;
+  color: #232323;
   border: 0;
 }
 
 .grayscale-fill:hover {
-  background: #FFF;
-  color: #4b4b4b;
-  border: 1px solid #4b4b4b;
-}
-
-.grayscale-outline {
-  background-color: #fff;
-  color: #4b4b4b;
-  border: 1px solid #4b4b4b;
-  border-radius: 4px;
-}
-
-.grayscale-outline:hover {
-  color: #fff;
-  background-color: #4b4b4b;
-  border-color: #4b4b4b;
+  background: #e4e4e4;
+  color: #232323;
+  border-color: #e4e4e4;
 }
 
 .grayscale-light-fill {
@@ -358,54 +345,6 @@
   border-color: #d4b425;
 }
 
-.gradient-fill {
-  background: linear-gradient(to left, #008539, #008539 3%);
-  color: #FFF;
-  border: 0;
-}
-
-.gradient-fill:focus {
-  background: linear-gradient(to left, #008539, #008539 3%);
-  color: #FFF;
-  border: 0;
-}
-
-.gradient-fill:active {
-  background: linear-gradient(to left, #008539, #008539 3%);
-  color: #FFF;
-  border: 0;
-}
-
-.gradient-fill:hover {
-  background: linear-gradient(to left, #008539, #008539 3%);
-  color: #FFF;
-  border-color: linear-gradient(to left, #008539, #008539 3%);
-}
-
-.gradient-light-fill {
-  background: linear-gradient(89deg, #008539 1%, #5db92c 100%);
-  color: #FFF;
-  border: 0;
-}
-
-.gradient-light-fill:focus {
-  background: linear-gradient(89deg, #008539 1%, #5db92c 100%);
-  color: #FFF;
-  border: 0;
-}
-
-.gradient-light-fill:active {
-  background: linear-gradient(89deg, #008539 1%, #5db92c 100%);
-  color: #FFF;
-  border: 0;
-}
-
-.gradient-light-fill:hover {
-  background: linear-gradient(89deg, #008539 1%, #5db92c 100%);
-  color: #FFF;
-  border-color: linear-gradient(89deg, #008539 1%, #5db92c 100%);
-}
-
 .remove-icon-btn {
   display: flex;
   align-items: center;
@@ -417,8 +356,9 @@
   padding: 0;
 }
 
-.add-company-wrapper {
-  margin: 0 30px !important;
+.ant-layout-sider-trigger {
+  background: #81b955;
+  display: none;
 }
 
 html::-webkit-scrollbar,
@@ -442,11 +382,279 @@ ul::-webkit-scrollbar-thumb,
   background-color: #81b955 !important;
 }
 
-body,
-html {
+.first-list > div {
+  margin-top: 0;
+}
+
+.ant-form-item-has-error .ant-form-item-explain, .ant-form-item-has-error .ant-form-item-split {
+  color: #d83025;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.mr-15 {
+  margin-right: 15px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.company-veiw-wrapper > div {
+  padding: 0 30px;
+}
+
+.company-veiw-wrapper .company-grid-holder > div {
+  width: 29%;
+  padding-top: 5px;
+}
+
+.company-veiw-wrapper .company-grid-holder > div > div:first-of-type img {
+  width: 70px;
+  object-fit: contain;
+}
+
+.progress-holder {
+  top: -6px;
+}
+
+.progress-holder .ant-progress-bg {
+  background-color: #81b955;
+}
+
+.add-company-wrapper {
+  margin: 0 30px !important;
+}
+
+.club-wrapper {
+  padding: 0 30px;
+  padding-bottom: 100px;
+}
+
+.club-wrapper .club-card-list > div {
+  width: 29%;
+  padding-top: 5px;
+}
+
+.club-wrapper .club-card-list > div > div:first-of-type img {
+  width: 80px;
+  object-fit: contain;
+}
+
+.vendor-page-wrapper {
+  padding: 0 30px;
+  padding-bottom: 100px;
+}
+
+.vendor-page-wrapper .vendor-card-list > div {
+  width: 29%;
+  padding-top: 5px;
+}
+
+.vendor-page-wrapper .vendor-card-list > div > div:first-of-type img {
+  width: 80px;
+  object-fit: contain;
+}
+
+.vendor-profile-wrapper {
+  padding: 0 30px;
+  padding-bottom: 100px;
+}
+
+.add-company-form {
+  margin: 0 30px;
+}
+
+@media only screen and (max-width: 767px) {
+  .add-company-form {
+    margin: 0 15px;
+  }
+}
+
+.add-company-form .form-holder {
+  background-color: #fff;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+  padding: 35px 25px;
+  border-radius: 8px;
+  margin-bottom: 110px;
+}
+
+.add-company-form .form-holder h2 {
+  font-weight: bold;
+  font-size: 22px;
+  color: #232323;
+  margin-bottom: 30px;
+}
+
+.add-company-form .form-holder h4 {
+  font-weight: bold;
+  font-size: 22px;
+  color: #232323;
+  margin-bottom: 35px;
+  margin-top: 25px;
+}
+
+.add-company-form .form-holder form {
+  width: 90%;
+  margin: auto;
+}
+
+.add-company-form .btn-action {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.add-company-form .ant-form-item-label > label.ant-form-item-required::before {
+  display: none;
+}
+
+.add-company-form .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+  width: 600px;
+  padding: 13px;
+  border-radius: 8px;
+  border: 1px solid #a9a9a9;
+  height: 50px;
+}
+
+@media only screen and (max-width: 991px) {
+  .add-company-form .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+    width: 400px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .add-company-form .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+    width: 300px;
+  }
+}
+
+@media only screen and (max-width: 399px) {
+  .add-company-form .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+    width: fit-content;
+  }
+}
+
+.add-company-form .ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item {
+  display: flex;
+  align-items: center;
   font-size: 16px;
-  position: relative;
-  font-family: Montserrat, Cairo, sans-serif;
+  color: #232323;
+  margin-right: 20px;
+  font-weight: normal;
+}
+
+.add-company-form .ant-form-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.add-company-form .ant-form-item .ant-form-item-label {
+  width: 180px;
+  text-align: left;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+}
+
+.add-company-form .ant-form-item .ant-form-item-label label {
+  font-size: 16px;
+  color: #232323;
+  margin-right: 20px;
+  font-weight: normal;
+}
+
+.add-company-form .ant-form-item .ant-form-item-control-input {
+  width: fit-content;
+}
+
+.add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input {
+  width: 600px;
+  padding: 13px;
+  border-radius: 8px;
+  border: 1px solid #a9a9a9;
+  height: 50px;
+  font-size: 16px;
+  color: #232323;
+}
+
+@media only screen and (max-width: 991px) {
+  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input {
+    width: 400px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input {
+    width: 300px;
+  }
+}
+
+@media only screen and (max-width: 399px) {
+  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input {
+    width: fit-content;
+  }
+}
+
+.add-company-form .ant-form-item .ant-form-item-control-input .ant-input-password {
+  width: 600px;
+  padding: 0;
+  padding-right: 15px;
+  border-radius: 8px;
+  border: 1px solid #a9a9a9;
+  height: 50px;
+  font-size: 16px;
+  color: #232323;
+}
+
+@media only screen and (max-width: 991px) {
+  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-password {
+    width: 400px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-password {
+    width: 300px;
+  }
+}
+
+@media only screen and (max-width: 399px) {
+  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-password {
+    width: fit-content;
+  }
+}
+
+.add-company-form .ant-form-item .ant-form-item-control-input .ant-input-password .ant-input {
+  border: 0;
+  width: 100%;
+  height: 100%;
+  padding: 13px;
+}
+
+.add-company-form .ant-input-number-handler-wrap {
+  display: none;
+}
+
+.add-company-form .ant-input-number {
+  border: 0;
+  width: fit-content !important;
+}
+
+.add-company-form.add-vendor-form .ant-form-item .ant-form-item-label label {
+  white-space: normal;
+}
+
+.add-company-form.add-vendor-form .ant-form-item .ant-form-item-label {
+  width: 200px;
+}
+
+.ant-switch-checked {
+  background-color: #81b955;
 }
 
 .root-wrapper > section {
@@ -612,8 +820,14 @@ html {
 
 .dashboard-wrapper .card-wrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 200px));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+}
+
+@media only screen and (max-width: 1199px) {
+  .dashboard-wrapper .card-wrapper {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
 }
 
 @media only screen and (max-width: 575px) {
@@ -671,4 +885,20 @@ html {
   .revenue-holder .revenue-name {
     margin: 0;
   }
+}
+
+.revenue-holder .progress-holder {
+  display: flex;
+  align-items: center;
+  top: 0;
+}
+
+.revenue-holder .progress-holder .ant-progress-text {
+  color: #000;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.ant-progress-inner {
+  background-color: #ebedf2;
 }

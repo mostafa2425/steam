@@ -30,10 +30,10 @@ class VendorProfileDashboardPage extends React.Component {
     return (
       <Container>
         
-        <PageContainer>
+        <PageContainer className="vendor-profile-wrapper">
           <HeaderPageSection>
           <Link to="/add-branch" style={{ textDecoration: 'none', display: 'flex' }}>
-            <AddBtn>Add Branch</AddBtn>
+            <button className="primary-fill">Add Branch</button>
           </Link>
             <DropdownList 
               title="user name"

@@ -1,9 +1,4 @@
-body,
-html {
-    font-size: 16px;
-    position: relative;
-    font-family: Montserrat, Cairo, sans-serif;
-}
+
 
 .root-wrapper{
     > section{
@@ -148,8 +143,13 @@ html {
     }
     .card-wrapper{
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(190px, 200px));
+        // grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+        grid-template-columns : repeat(4, 1fr);
         gap: 20px;
+
+        @include mq("tablet-qc", "max"){
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
         @include mq("phablet"){
             grid-template-columns : 1fr; 
         }
@@ -201,4 +201,17 @@ html {
                 margin: 0; 
         }
     }
+    .progress-holder{
+        display: flex;
+        align-items: center;
+        top: 0;
+        .ant-progress-text{
+            color: #000;
+            font-weight: bold;
+            font-size: 17px;
+        }
+    }
+}
+.ant-progress-inner{
+    background-color: #ebedf2;
 }

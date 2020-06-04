@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import HomePage from "../../pages/HomePage";
+import CompanyPage from "../../pages/CompanyPage";
 import VendorPage from "../../pages/VendorPage";
 import ClubPage from "../../pages/ClubPage";
 import ProfileDashboardPage from "../../pages/ProfileDashboardPage";
@@ -10,11 +11,11 @@ import AddCompanyPage from "../../pages/AddCompanyPage";
 import AddBranchPage from "../../pages/AddBranchPage";
 import AddClubPage from "../../pages/AddClubPage";
 import PrintPage from "../../pages/PrintPage";
-import OffersPage from "../../pages/OffersPage";
+import OffersPage from "../../pages/OffersPage"; 
 import AlertsPage from "../../pages/AlertsPage";
 import AddOfferPage from "../../pages/AddOfferPage";
-import AddAlertPage from "../../pages/AddAlertPage";
-import { Layout, Menu, Breadcrumb } from "antd";
+import AddAlertPage from "../../pages/AddAlertPage"; 
+import { Layout, Menu, Spin  } from "antd";
 import {
     SkinOutlined,
     HomeOutlined,
@@ -25,9 +26,15 @@ import {
   SoundOutlined,
   ShopOutlined,
 } from "@ant-design/icons";
+import AddCompany from "../../components/AddCompany/AddCompany";
+import AddBranch from "../../components/AddBranch/AddBranch";
+import AddVendor from "../../components/AddVendor/AddVendor";
+import AddClub from "../../components/AddClub/AddClub";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const mq = window.matchMedia( "(max-width: 480px)" );
+
+
 export default class LayoutSite extends Component {
   state = {
     collapsed: false,
@@ -83,6 +90,10 @@ componentDidMount() {
                       <Link to="/companies" />
                       company
                     </Menu.Item>
+                    <Menu.Item key="11" icon={<ApartmentOutlined />}>
+                      <Link to="/vendors" />
+                      vendors
+                    </Menu.Item>
                     <Menu.Item key="3" icon={<SkinOutlined  />}>
                       <Link to="/clubs" />
                       clubs
@@ -104,12 +115,22 @@ componentDidMount() {
                         <Link to="/alerts" />
                         alerts
                       </Menu.Item>
+                      {/* <Menu.Item key="7" icon={<SoundOutlined />}>
+                        <Link to="/test" />
+                        add company
+                      </Menu.Item>
+                      <Menu.Item key="8" icon={<SoundOutlined />}>
+                        <Link to="/add-branch2" />
+                        Add Branch
+                      </Menu.Item> */}
                     </SubMenu>
                   </Menu>
                 </Sider>
+                <Suspense fallback={<Spin />}>
                 <Content >
                   <Route exact path="/" component={HomePage} />
-                  <Route path="/companies" component={VendorPage} />
+                  <Route path="/companies" component={CompanyPage} />
+                  <Route path="/vendors" component={VendorPage} />
                   <Route path="/clubs" component={ClubPage} />
                   <Route
                     path="/dashbord-profile"
@@ -120,15 +141,20 @@ componentDidMount() {
                     component={VendorProfileDashboardPage}
                   />
                   <Route path="/brand-invoice" component={InvoicePage} />
-                  <Route path="/add-company" component={AddCompanyPage} />
-                  <Route path="/add-branch" component={AddBranchPage} />
-                  <Route path="/add-club" component={AddClubPage} />
-                  <Route path="/invoice" component={PrintPage} />
+                  <Route path="/add-company" component={AddCompany} />
+                  <Route path="/add-branch" component={AddBranch} />
+                  {/* <Route path="/add-clubb" component={AddClubPage} /> */}
+                  <Route path="/add-club" component={AddClub} /> 
+                  <Route path="/invoice" component={PrintPage} /> 
                   <Route path="/offers" component={OffersPage} />
                   <Route path="/alerts" component={AlertsPage} />
                   <Route path="/add-offer" component={AddOfferPage} />
                   <Route path="/add-alert" component={AddAlertPage} />
+                  <Route path="/add-vendor" component={AddVendor} /> 
+                  {/* <Route path="/add-branch2" component={AddBranch} /> */}
+                  {/* <Route path="/test" component={AddCompany} /> */}
                 </Content>
+                </Suspense>
               </Layout>
             </Content>
           </Layout>

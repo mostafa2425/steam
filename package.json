@@ -6,6 +6,7 @@
   "dependencies": {
     "antd": "^4.2.5",
     "apexcharts": "^3.10.1",
+    "google-map-react": "^1.1.7",
     "moment": "^2.24.0",
     "moment-range": "^4.0.2",
     "prop-types": "^15.7.2",
@@ -29,7 +30,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject", 
+    "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },

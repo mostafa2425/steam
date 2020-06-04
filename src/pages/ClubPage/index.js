@@ -22,10 +22,11 @@ class ClubPage extends React.Component {
     return (
       <Container>
         
-        <PageContainer>
+        <PageContainer className="club-wrapper">
           <HeaderPageSection>
           <Link to="/add-club" style={{ textDecoration: 'none', display: 'flex' }}>
-            <AddBtn>Add Club</AddBtn>
+            {/* <AddBtn>Add Club</AddBtn> */}
+            <button className="primary-fill">Add Club</button>
           </Link>
             <DropdownList 
               title="user name"
@@ -33,7 +34,7 @@ class ClubPage extends React.Component {
               titleImage={UserAvatar}
             />
           </HeaderPageSection>
-          <PageSection>
+          <PageSection className="club-card-list first-list">
             <VendorCard 
               name="Al Hilal" 
               image={AlhilalIcon} 
@@ -56,7 +57,7 @@ class ClubPage extends React.Component {
               to="/dashbord-profile"
             />
           </PageSection>
-          <PageSection>
+          <PageSection className="club-card-list">
             <VendorCard 
               name="Al Hilal" 
               image={AlhilalIcon} 
@@ -79,7 +80,7 @@ class ClubPage extends React.Component {
               to="/dashbord-profile"
             />
           </PageSection>
-          <PageSection>
+          <PageSection className="club-card-list">
             <VendorCard 
               name="Al Hilal" 
               image={AlhilalIcon} 

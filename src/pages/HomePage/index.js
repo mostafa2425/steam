@@ -47,6 +47,7 @@ class HomePage extends React.Component {
               title="Active User"
               image={placeholderImage}
               number="41%"
+              isProgress
             />
           </PageSection>
           <PageSection>

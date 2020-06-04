@@ -68,12 +68,10 @@
 $btns-list: (
   (primary, $primary, $white, false, true),
   (secondary, $secondary, $white, false, true),
-  (grayscale, $gray-6, $white, true, true),
+  (grayscale, $gray-9,$primary-4, false, false),
   (grayscale-light, $gray-3, $white, false, true),
   (warning, $warning, $white, false, true),
   (info, $info, $white, false, true),
-  (gradient, $primary-gradient, $white, false, false),
-  (gradient-light, $primary-light-gradient, $white, false, false),
 );
 
 @each $btn-name, $bg-color, $color, $has-hover, $has-outline in $btns-list { 
