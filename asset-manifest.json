@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/steam/static/css/main.b811ba91.chunk.css",
-    "main.js": "/steam/static/js/main.1d7652b0.chunk.js",
-    "main.js.map": "/steam/static/js/main.1d7652b0.chunk.js.map",
+    "main.css": "/steam/static/css/main.dc0e5430.chunk.css",
+    "main.js": "/steam/static/js/main.7f5e087f.chunk.js",
+    "main.js.map": "/steam/static/js/main.7f5e087f.chunk.js.map",
     "runtime-main.js": "/steam/static/js/runtime-main.5d1c48d4.js",
     "runtime-main.js.map": "/steam/static/js/runtime-main.5d1c48d4.js.map",
     "static/css/2.02435527.chunk.css": "/steam/static/css/2.02435527.chunk.css",
-    "static/js/2.6a8af3c5.chunk.js": "/steam/static/js/2.6a8af3c5.chunk.js",
-    "static/js/2.6a8af3c5.chunk.js.map": "/steam/static/js/2.6a8af3c5.chunk.js.map",
+    "static/js/2.2301034a.chunk.js": "/steam/static/js/2.2301034a.chunk.js",
+    "static/js/2.2301034a.chunk.js.map": "/steam/static/js/2.2301034a.chunk.js.map",
     "index.html": "/steam/index.html",
-    "precache-manifest.db857266ae4e2f4d7d5a0bcd3abdc8c4.js": "/steam/precache-manifest.db857266ae4e2f4d7d5a0bcd3abdc8c4.js",
+    "precache-manifest.5fe538ca9243637eef089b7ce27202eb.js": "/steam/precache-manifest.5fe538ca9243637eef089b7ce27202eb.js",
     "service-worker.js": "/steam/service-worker.js",
     "static/css/2.02435527.chunk.css.map": "/steam/static/css/2.02435527.chunk.css.map",
-    "static/css/main.b811ba91.chunk.css.map": "/steam/static/css/main.b811ba91.chunk.css.map",
+    "static/css/main.dc0e5430.chunk.css.map": "/steam/static/css/main.dc0e5430.chunk.css.map",
     "static/media/style.css": "/steam/static/media/Montserrat-SemiBold.c641dbee.ttf",
     "static/media/McDonald.png": "/steam/static/media/McDonald.4f06acbe.png",
     "static/media/Starbuck.png": "/steam/static/media/Starbuck.73576eb9.png",
@@ -26,6 +26,7 @@
     "static/media/commission.png": "/steam/static/media/commission.d21f3307.png",
     "static/media/email.png": "/steam/static/media/email.fcc1432d.png",
     "static/media/hilal.png": "/steam/static/media/hilal.72ecb743.png",
+    "static/media/hunger.jpg": "/steam/static/media/hunger.1b744c3f.jpg",
     "static/media/logo-png.png": "/steam/static/media/logo-png.5af42b2e.png",
     "static/media/orders.png": "/steam/static/media/orders.9aa3bc85.png",
     "static/media/phone.png": "/steam/static/media/phone.7e75c368.png",
@@ -37,8 +38,8 @@
   "entrypoints": [
     "static/js/runtime-main.5d1c48d4.js",
     "static/css/2.02435527.chunk.css",
-    "static/js/2.6a8af3c5.chunk.js",
-    "static/css/main.b811ba91.chunk.css",
-    "static/js/main.1d7652b0.chunk.js"
+    "static/js/2.2301034a.chunk.js",
+    "static/css/main.dc0e5430.chunk.css",
+    "static/js/main.7f5e087f.chunk.js"
   ]
 }
