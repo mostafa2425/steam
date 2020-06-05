@@ -292,39 +292,39 @@ class InvoiceTable extends React.Component {
   render() {
 
     return (
-      // <Container>
-      //   <DataTable
-      //     title="Branches"
-      //     columns={columns}
-      //     data={data}
-      //     striped
-      //     pointerOnHover
-      //     persistTableHead
-      //     pagination
-      //   />
-      // </Container>
-      <div className="vendor-table">
-        {[...Array(10)].map(card => 
-            <Link to="/vendor-profile" className="vendor-card">
-            <Dropdown overlay={menu} trigger={['click']}>
-              <MoreOutlined />
-            </Dropdown>
-              <img className="vendor-card--img" src={DunkinDonutsIcon} />
-              <div style={{"display" : "flex", "juasifyContent" : "space-between"}}>
-                <div className="info">
-                <h3 className="vendor-name">Dunkin Donuts</h3>
-                <span className="location">KSA</span>
-                </div>
-                <p className="status">Active</p>
-              </div>
-              <div className="detailes">
-                <p><MailOutlined /> abc@gmail.com </p>
-                <p><EnvironmentOutlined /> Riyadh </p>
-                <p><PhoneOutlined /> +966547777777 </p>
-              </div>
-            </Link>
-          )}
-      </div>
+      <Container className="invoice-page-wrapper">
+        <DataTable
+          title="Branches"
+          columns={columns}
+          data={data}
+          striped
+          pointerOnHover
+          persistTableHead
+          pagination
+        />
+      </Container>
+      // <div className="vendor-table">
+      //   {[...Array(10)].map(card => 
+      //       <Link to="/vendor-profile" className="vendor-card">
+      //       <Dropdown overlay={menu} trigger={['click']}>
+      //         <MoreOutlined />
+      //       </Dropdown>
+      //         <img className="vendor-card--img" src={DunkinDonutsIcon} />
+      //         <div style={{"display" : "flex", "juasifyContent" : "space-between"}}>
+      //           <div className="info">
+      //           <h3 className="vendor-name">Dunkin Donuts</h3>
+      //           <span className="location">KSA</span>
+      //           </div>
+      //           <p className="status">Active</p>
+      //         </div>
+      //         <div className="detailes">
+      //           <p><MailOutlined /> abc@gmail.com </p>
+      //           <p><EnvironmentOutlined /> Riyadh </p>
+      //           <p><PhoneOutlined /> +966547777777 </p>
+      //         </div>
+      //       </Link>
+      //     )}
+      // </div>
     );
   }
 }

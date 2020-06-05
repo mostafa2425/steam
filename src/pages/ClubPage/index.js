@@ -14,9 +14,22 @@ import {
   HeaderPageSection,
   AddBtn,
 } from './StyledComponents';
+import { Spin } from 'antd';
 
 class ClubPage extends React.Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      clubsId : null,
+    }
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ clubsId : "idd" })
+    }, 500)
+    
+    console.log(this.props.location)
+  }
   render() {
 
     return (
@@ -34,75 +47,81 @@ class ClubPage extends React.Component {
               titleImage={UserAvatar}
             />
           </HeaderPageSection>
-          <PageSection className="club-card-list first-list">
+          {/* <PageSection className="club-card-list first-list"> */}
+          {this.state.clubsId ? 
+          <>
+          <div className="club-card-list">
             <VendorCard 
               name="Al Hilal" 
               image={AlhilalIcon} 
               link="VEIW DASHBORD"
               fans
-              to="/dashbord-profile"
+              to={{ pathname: "/dashbord-profile", id : "ddd"}}
             />
             <VendorCard 
               name="Al Ahly" 
               image={AlahlyIcon} 
               link="VEIW DASHBORD"
               fans
-              to="/dashbord-profile"
+              to={{ pathname: "/dashbord-profile", id : "ddd"}}
             />
             <VendorCard 
               name="Al Ittihad" 
               image={AlittihadIcon} 
               link="VEIW DASHBORD"
               fans
-              to="/dashbord-profile"
+              to={{ pathname: "/dashbord-profile", id : "ddd"}}
             />
-          </PageSection>
-          <PageSection className="club-card-list">
+          {/* </PageSection> */}
+          {/* <PageSection className="club-card-list"> */}
             <VendorCard 
               name="Al Hilal" 
               image={AlhilalIcon} 
               link="VEIW DASHBORD"
               fans
-              to="/dashbord-profile"
+              to={{ pathname: "/dashbord-profile", id : "ddd"}}
             />
             <VendorCard 
               name="Al Ahly" 
               image={AlahlyIcon} 
               link="VEIW DASHBORD"
               fans
-              to="/dashbord-profile"
+              to={{ pathname: "/dashbord-profile", id : "ddd"}}
             />
             <VendorCard 
               name="Al Ittihad" 
               image={AlittihadIcon} 
               link="VEIW DASHBORD"
               fans
-              to="/dashbord-profile"
+              to={{ pathname: "/dashbord-profile", id : "ddd"}}
             />
-          </PageSection>
-          <PageSection className="club-card-list">
+          {/* </PageSection> */}
+          {/* <PageSection className="club-card-list"> */}
             <VendorCard 
               name="Al Hilal" 
               image={AlhilalIcon} 
               link="VEIW DASHBORD"
               fans
-              to="/dashbord-profile"
+              to={{ pathname: "/dashbord-profile", id : "ddd"}}
             />
             <VendorCard 
               name="Al Ahly" 
               image={AlahlyIcon} 
               link="VEIW DASHBORD"
               fans
-              to="/dashbord-profile"
+              to={{ pathname: "/dashbord-profile", id : "ddd"}}
             />
             <VendorCard 
               name="Al Ittihad" 
               image={AlittihadIcon} 
               link="VEIW DASHBORD"
               fans
-              to="/dashbord-profile"
+              to={{ pathname: "/dashbord-profile", id : "ddd"}}
             />
-          </PageSection>
+          {/* </PageSection> */}
+          </div>
+          </>
+        : <Spin />}
         </PageContainer>
       </Container>
     );

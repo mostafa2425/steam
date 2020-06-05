@@ -1,11 +1,26 @@
 .company-veiw-wrapper{
     > div{
         padding: 0 30px;
+        @include mq("phablet"){
+            padding: 0 15px;
+        }
     }
     .company-grid-holder{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 30px 100px;
+        @include mq("desktop"){
+          grid-template-columns: 1fr 1fr;
+          gap: 30px 60px;
+        }
+        @include mq("phablet"){
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
         > div{
-            width: 29%;
+            width: 100%;
             padding-top: 5px;
+            margin-top: 0;
             > div{
                 &:first-of-type{
                     img{

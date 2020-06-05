@@ -372,6 +372,10 @@ ul::-webkit-scrollbar,
   width: 7px !important;
 }
 
+.ant-menu-submenu-selected {
+  color: #81b955;
+}
+
 html::-webkit-scrollbar-thumb,
 body::-webkit-scrollbar-thumb,
 div::-webkit-scrollbar-thumb,
@@ -402,13 +406,52 @@ ul::-webkit-scrollbar-thumb,
   margin-right: 10px;
 }
 
+.ant-spin-spinning {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: #FFF;
+}
+
+.ant-spin-spinning .ant-spin-dot-item {
+  background-color: #81b955;
+}
+
 .company-veiw-wrapper > div {
   padding: 0 30px;
 }
 
+@media only screen and (max-width: 575px) {
+  .company-veiw-wrapper > div {
+    padding: 0 15px;
+  }
+}
+
+.company-veiw-wrapper .company-grid-holder {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px 100px;
+}
+
+@media only screen and (max-width: 1247px) {
+  .company-veiw-wrapper .company-grid-holder {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px 60px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .company-veiw-wrapper .company-grid-holder {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
 .company-veiw-wrapper .company-grid-holder > div {
-  width: 29%;
+  width: 100%;
   padding-top: 5px;
+  margin-top: 0;
 }
 
 .company-veiw-wrapper .company-grid-holder > div > div:first-of-type img {
@@ -433,9 +476,30 @@ ul::-webkit-scrollbar-thumb,
   padding-bottom: 100px;
 }
 
+.club-wrapper .club-card-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px 100px;
+}
+
+@media only screen and (max-width: 1247px) {
+  .club-wrapper .club-card-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px 60px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .club-wrapper .club-card-list {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
 .club-wrapper .club-card-list > div {
-  width: 29%;
+  width: 100%;
   padding-top: 5px;
+  margin-top: 0;
 }
 
 .club-wrapper .club-card-list > div > div:first-of-type img {
@@ -448,9 +512,30 @@ ul::-webkit-scrollbar-thumb,
   padding-bottom: 100px;
 }
 
+.vendor-page-wrapper .vendor-card-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px 100px;
+}
+
+@media only screen and (max-width: 1247px) {
+  .vendor-page-wrapper .vendor-card-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px 60px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .vendor-page-wrapper .vendor-card-list {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
 .vendor-page-wrapper .vendor-card-list > div {
-  width: 29%;
+  width: 100%;
   padding-top: 5px;
+  margin-top: 0;
 }
 
 .vendor-page-wrapper .vendor-card-list > div > div:first-of-type img {
@@ -572,7 +657,7 @@ ul::-webkit-scrollbar-thumb,
   width: fit-content;
 }
 
-.add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input {
+.add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker-range {
   width: 600px;
   padding: 13px;
   border-radius: 8px;
@@ -583,19 +668,19 @@ ul::-webkit-scrollbar-thumb,
 }
 
 @media only screen and (max-width: 991px) {
-  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input {
+  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker-range {
     width: 400px;
   }
 }
 
 @media only screen and (max-width: 575px) {
-  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input {
+  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker-range {
     width: 300px;
   }
 }
 
 @media only screen and (max-width: 399px) {
-  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input {
+  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker-range {
     width: fit-content;
   }
 }
@@ -655,6 +740,33 @@ ul::-webkit-scrollbar-thumb,
 
 .ant-switch-checked {
   background-color: #81b955;
+}
+
+.map-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.map-wrapper label {
+  font-size: 16px;
+  color: #232323;
+  margin-right: 20px;
+  font-weight: normal;
+  width: 200px;
+}
+
+.invoice-page-wrapper {
+  margin: 0 30px !important;
+  margin-bottom: 100px !important;
+}
+
+.offer-page-wrapper {
+  padding: 0 30px;
+  padding-bottom: 100px;
+}
+
+.offer-page-wrapper > div {
+  margin-top: 0;
 }
 
 .root-wrapper > section {

@@ -12,9 +12,22 @@ import {
   AddBtn,
   HeaderPageSection,
 } from './StyledComponents';
+import { Spin } from 'antd';
 
 class VendorPage extends React.Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      vendorsId : null,
+    }
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ vendorsId : "idd" })
+    }, 500)
+    
+    console.log(this.props.location)
+  }
   render() {
 
     return (
@@ -31,7 +44,9 @@ class VendorPage extends React.Component {
               titleImage={UserAvatar}
             />
           </HeaderPageSection>
-          <PageSection className="vendor-card-list first-list">
+          {this.state.vendorsId ? 
+          <>
+          <div className="vendor-card-list">
             <VendorCard 
               name="Dunkin Donuts" 
               image={DunkinDonutsIcon} 
@@ -53,8 +68,6 @@ class VendorPage extends React.Component {
               location
               to="/vendor-profile"
             />
-          </PageSection>
-          <PageSection className="vendor-card-list">
             <VendorCard 
               name="Dunkin Donuts" 
               image={DunkinDonutsIcon} 
@@ -76,8 +89,7 @@ class VendorPage extends React.Component {
               location
               to="/vendor-profile"
             />
-          </PageSection>
-          <PageSection className="vendor-card-list">
+          
             <VendorCard 
               name="Dunkin Donuts"    
               image={DunkinDonutsIcon} 
@@ -99,7 +111,9 @@ class VendorPage extends React.Component {
               location
               to="/vendor-profile"
             />
-          </PageSection>
+            </div>
+            </>
+        : <Spin />}
         </PageContainer>
       </Container>
     );

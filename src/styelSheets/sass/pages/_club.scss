@@ -2,15 +2,32 @@
   padding: 0 30px;
   padding-bottom: 100px;
   .club-card-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px 100px;
+    @include mq("desktop"){
+      grid-template-columns: 1fr 1fr;
+      gap: 30px 60px;
+    }
+    @include mq("phablet"){
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
     > div {
-      width: 29%;
+      width: 100%;
       padding-top: 5px;
+      margin-top: 0;
       > div:first-of-type {
         img {
           width: 80px;
           object-fit: contain;
         }
       }
+    //   @include mq("ipad"){
+    //     width: 90%;
+    //     margin: auto;
+    //     margin-bottom: 20px;
+    // }
     }
   }
 }
@@ -18,15 +35,32 @@
   padding: 0 30px;
   padding-bottom: 100px;
   .vendor-card-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px 100px;
+    @include mq("desktop"){
+      grid-template-columns: 1fr 1fr;
+      gap: 30px 60px;
+    }
+    @include mq("phablet"){
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
     > div {
-      width: 29%;
+      width: 100%;
       padding-top: 5px;
+      margin-top: 0;
       > div:first-of-type {
         img {
           width: 80px;
           object-fit: contain;
         }
       }
+    //   @include mq("ipad"){
+    //     width: 90%;
+    //     margin: auto;
+    //     margin-bottom: 20px;
+    // }
     }
   }
 }
@@ -121,7 +155,7 @@
     }
     .ant-form-item-control-input {
         width: fit-content;
-        .ant-input, .ant-input-number-input {
+        .ant-input, .ant-input-number-input, .ant-picker-range {
         width: 600px;
         padding: 13px;
         border-radius: 8px;
@@ -185,4 +219,29 @@
 }
 .ant-switch-checked{
     background-color: #81b955;
+}
+
+.map-wrapper{
+  display: flex;
+  align-items: center;
+  label{
+      font-size: 16px;
+      color: #232323;
+      margin-right: 20px;
+      font-weight: normal;
+      width: 200px; 
+  }
+}
+
+.invoice-page-wrapper{
+  margin: 0 30px !important;
+  margin-bottom: 100px !important; 
+}
+
+.offer-page-wrapper{
+  padding: 0 30px;
+  padding-bottom: 100px;
+  > div{
+    margin-top: 0;
+  }
 }

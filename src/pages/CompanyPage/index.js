@@ -15,7 +15,7 @@ import {
   AddBtn,
   HeaderPageSection,
 } from './StyledComponents';
-import { Dropdown, Menu } from 'antd';
+import { Dropdown, Menu, Spin } from 'antd';
 import { MoreOutlined, MailOutlined, EnvironmentOutlined, PhoneOutlined } from '@ant-design/icons';
 
 const menu = (
@@ -30,7 +30,19 @@ const menu = (
   </Menu>
 );
 class CompanyPage extends React.Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      companyId : null,
+    }
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ companyId : "idd" })
+    }, 500)
+    
+    console.log(this.props.location)
+  }
   render() {
 
     return (
@@ -102,8 +114,9 @@ class CompanyPage extends React.Component {
             </>
             )}
             </div> */}
-
-          <PageSection className="company-grid-holder first-list">
+            {this.state.companyId ? 
+          <>
+          <div className="company-grid-holder">
             <VendorCard 
               name="Starbuck" 
               image={Starbuck} 
@@ -125,8 +138,6 @@ class CompanyPage extends React.Component {
               location
               to="/vendors" 
             />
-          </PageSection>
-          <PageSection className="company-grid-holder">
           <VendorCard 
               name="hunger" 
               image={hunger} 
@@ -148,8 +159,6 @@ class CompanyPage extends React.Component {
               location
               to="/vendors"
             />
-          </PageSection>
-          <PageSection className="company-grid-holder">
           <VendorCard 
               name="McDonald" 
               image={McDonald} 
@@ -171,7 +180,9 @@ class CompanyPage extends React.Component {
               location
               to="/vendors"
             />
-          </PageSection>
+            </div>
+            </>
+        : <Spin />}
         </PageContainer>
       </Container>
     );

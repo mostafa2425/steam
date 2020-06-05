@@ -50,7 +50,8 @@ class AlertsPage extends React.Component {
         <PageContainer>
           <HeaderPageSection>
             <Link to="/add-alert" style={{ textDecoration: 'none', display: 'flex' }}>
-              <AddBtn>Add Alert</AddBtn>
+              {/* <AddBtn>Add Alert</AddBtn> */}
+              <button className="primary-fill">Add Alert</button>
             </Link>
             <DropdownList 
               title="user name"

@@ -12,6 +12,7 @@ import Commission from '../../images/commission.png'
 import CompanyLogo from '../../images/al-hilal.png'
 import Email from '../../images/email.png'
 import Phone from '../../images/phone.png'
+import { Spin  } from "antd";
 import {
   Container,
   PageContainer,
@@ -21,9 +22,21 @@ import {
 } from './StyledComponents';
 
 class ProfileDashboardPage extends React.Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      clubId : null,
+    }
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ clubId : "idd" })
+    }, 2000)
+    
+    console.log(this.props.location)
+  }
   render() {
-
+    
     return (
       <Container>
         
@@ -35,6 +48,8 @@ class ProfileDashboardPage extends React.Component {
               titleImage={UserAvatar}
             />
           </HeaderPageSection>
+          {this.state.clubId ? 
+          <>
           <InformationPageSection>
             <ComponyProfile 
               name="Al Hilal"
@@ -73,6 +88,8 @@ class ProfileDashboardPage extends React.Component {
           <PageSection>
             <TableComponent />
           </PageSection>
+        </>
+        : <Spin />}
         </PageContainer>
       </Container>
     );

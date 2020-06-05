@@ -50,7 +50,8 @@ class OffersPage extends React.Component {
         <PageContainer>
           <HeaderPageSection>
             <Link to="/add-offer" style={{ textDecoration: 'none', display: 'flex' }}>
-              <AddBtn>Add Offer</AddBtn>
+              {/* <AddBtn>Add Offer</AddBtn> */}
+              <button className="primary-fill">Add Offer</button>
             </Link>
             <DropdownList 
               title="user name"
@@ -58,7 +59,7 @@ class OffersPage extends React.Component {
               titleImage={UserAvatar}
             />
           </HeaderPageSection>
-          <PageSection>
+          <PageSection className="offer-page-wrapper">
             <CalendarContainer>
               <Title>Offers Calendar</Title>
               <Calendar

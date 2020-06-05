@@ -22,9 +22,22 @@ import {
   InformationPageSection,
   AddBtn,
 } from './StyledComponents';
+import { Spin } from 'antd';
 
 class VendorProfileDashboardPage extends React.Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      vendorId : null,
+    }
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ vendorId : "idd" })
+    }, 1000)
+    
+    console.log(this.props.location)
+  }
   render() {
 
     return (
@@ -41,6 +54,8 @@ class VendorProfileDashboardPage extends React.Component {
               titleImage={UserAvatar}
             />
           </HeaderPageSection>
+          {this.state.vendorId ? 
+          <>
           <InformationPageSection>
             <ComponyProfile 
               name="Dunkin Donuts"
@@ -84,6 +99,8 @@ class VendorProfileDashboardPage extends React.Component {
           <PageSection>
             <TableComponent />
           </PageSection>
+          </>
+        : <Spin />}
         </PageContainer>
       </Container>
     );

@@ -25,9 +25,14 @@ import {
 
 class VendorCard extends React.Component {
   state = {};
+
+  componentDidMount() {
+    console.log(this.props.history)
+  }
  
   render() {
     const { image, name, link, fans, location, to } = this.props;
+    console.log(this.props.location)
 
     return (
       <Container>

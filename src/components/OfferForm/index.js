@@ -53,7 +53,7 @@ class OfferForm extends React.Component {
         <ButtonContainer>
           <SubmitBtn 
             type="submit"
-            disabled={submitting}
+            // disabled={submitting}
           >
             Submit
           </SubmitBtn>

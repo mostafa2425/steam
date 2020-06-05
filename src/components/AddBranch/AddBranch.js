@@ -116,6 +116,8 @@ export default class AddBranch extends Component {
                 <Form.Item label="Enable" name="branchStutes">
                   <Switch defaultChecked onChange={this.changeCompanyStutes} />
                 </Form.Item>
+                <div className="map-wrapper">
+                  <label>Branch Location</label>
                 <div style={{ height: '50vh', width: '100%' }}>
                 <GoogleMapReact
                   bootstrapURLKeys={{ key: "AIzaSyBh6FbV8FeEBGtnwkw1siI4XcpYEM7QyQQ" }}
@@ -126,6 +128,7 @@ export default class AddBranch extends Component {
                 >
                   {/* <Marker lat={this.state.center.lat} lng={this.state.center.lng} /> */}
                 </GoogleMapReact>
+              </div>
               </div>
                 <h4>Branch Info:</h4>
                 <Form.Item
@@ -177,6 +180,21 @@ export default class AddBranch extends Component {
                   ]}
                 >
                   <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Branch Type"
+                  name="BranchType"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select branch Type",
+                    },
+                  ]}
+                >
+                  <Select>
+                    <Select.Option value="online">online store</Select.Option>
+                    <Select.Option value="physical">physical store</Select.Option>
+                  </Select>
                 </Form.Item>
                 <Form.Item
                   name="password"
