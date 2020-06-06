@@ -15,7 +15,7 @@ import {
   AddBtn,
   HeaderPageSection,
 } from './StyledComponents';
-import { Dropdown, Menu, Spin } from 'antd';
+import { Dropdown, Menu, Spin, message } from 'antd';
 import { MoreOutlined, MailOutlined, EnvironmentOutlined, PhoneOutlined } from '@ant-design/icons';
 
 const menu = (
@@ -33,15 +33,28 @@ class CompanyPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      companyId : null,
+      companies : null,
+      loading : true,
     }
   }
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({ companyId : "idd" })
-    }, 500)
-    
-    console.log(this.props.location)
+    fetch('http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0').then((response) => {
+      if(response.ok) {
+        response.json().then((data) => {
+          let companies = data.model;
+          console.log(companies)
+          this.setState({companies, loading : false})
+        });
+      } else {
+        message.error('Network response was not ok.');
+        this.setState({loading : false})
+      }
+    })
+    .catch((error) => {
+      this.setState({loading : false})
+      message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
+
   }
   render() {
 
@@ -114,72 +127,22 @@ class CompanyPage extends React.Component {
             </>
             )}
             </div> */}
-            {this.state.companyId ? 
+            {!this.state.loading ? 
           <>
           <div className="company-grid-holder">
+          {this.state.companies && this.state.companies.map(company =>
             <VendorCard 
-              name="Starbuck" 
-              image={Starbuck} 
+              name={company.Email}
+              email = {company.Email}
+              status={company.Enable}
+              phone={company.Phone}
+              HeadQuarter={company.HeadQuarter}
+              image={false} 
               link="VEIW VENDOR" 
               location
               to="/vendors"
             />
-            <VendorCard 
-              name="McDonald" 
-              image={McDonald} 
-              link="VEIW VENDOR" 
-              location
-              to="/vendors" 
-            />
-            <VendorCard 
-              name="hunger" 
-              image={hunger} 
-              link="VEIW VENDOR" 
-              location
-              to="/vendors" 
-            />
-          <VendorCard 
-              name="hunger" 
-              image={hunger} 
-              link="VEIW VENDOR" 
-              location
-              to="/vendors"
-            />
-            <VendorCard 
-              name="Starbuck" 
-              image={Starbuck} 
-              link="VEIW VENDOR" 
-              location
-              to="/vendors"
-            />
-            <VendorCard 
-              name="McDonald" 
-              image={McDonald} 
-              link="VEIW VENDOR" 
-              location
-              to="/vendors"
-            />
-          <VendorCard 
-              name="McDonald" 
-              image={McDonald} 
-              link="VEIW VENDOR" 
-              location
-              to="/vendors"
-            />
-            <VendorCard 
-              name="hunger" 
-              image={hunger} 
-              link="VEIW VENDOR" 
-              location
-              to="/vendors"
-            />
-            <VendorCard 
-              name="Starbuck" 
-              image={Starbuck} 
-              link="VEIW VENDOR" 
-              location
-              to="/vendors"
-            />
+          )}
             </div>
             </>
         : <Spin />}

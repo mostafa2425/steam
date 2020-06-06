@@ -8,13 +8,47 @@ import {
   Container,
   PageContainer,
 } from "./StyledComponents";
+import axios from 'axios';
 
 export default class AddCompany extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      CompanyStutes : true,
+      loadingBtn : false,
+    }
+  }
 
-
+  formRef = React.createRef();
 
   handelSubmit = (values, errors) => {
-    message.success('company added successfully'); 
+    this.setState({loadingBtn : true})
+        let data = {
+        "Name":`${values.CompanyName}`,
+        "NameLT":`${values.ArabicCompanyName}`,
+        "Email":`${values.email}`,
+        "Phone":`${values.phone}`,
+        "HeadQuarter":`${values.Location}`,
+        "Enable":this.state.CompanyStutes
+    }
+
+    fetch("http://native-001-site2.ctempurl.com/api/AddCompany", {
+          method: "post",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data) 
+        })
+        .then( (response) => { 
+          this.setState({loadingBtn : false})
+          message.success('company added successfully'); 
+          this.formRef.current.resetFields();
+        })
+        .catch((error) => {
+          this.setState({loadingBtn : false})
+          message.error('There has been a problem with your fetch operation: ' + error.message);
+        });
   };
 
   onFinishFailed = (errorInfo) => {
@@ -22,7 +56,7 @@ export default class AddCompany extends Component {
   };
 
   changeCompanyStutes = (value) => {
-    console.log(value);
+    this.setState({CompanyStutes : value})
   };
 
   render() {
@@ -43,6 +77,7 @@ export default class AddCompany extends Component {
                 name="nest-messages"
                 onFinish={this.handelSubmit}
                 onFinishFailed={this.onFinishFailed}
+                ref={this.formRef}
               >
                 <Form.Item
                   name="CompanyName"
@@ -123,6 +158,7 @@ export default class AddCompany extends Component {
                     type="primary"
                     className="primary-fill xlg-btn mr-20"
                     htmlType="submit"
+                    loading = {this.state.loadingBtn}
                   >
                     Submit
                   </Button>

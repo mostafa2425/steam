@@ -418,6 +418,26 @@ ul::-webkit-scrollbar-thumb,
   background-color: #81b955;
 }
 
+.ant-layout-sider {
+  background-color: #FFF;
+}
+
+.sidebar-logo {
+  width: 60%;
+  margin: auto;
+  display: flex;
+}
+
+.sidebar-logo img {
+  width: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+  .sidebar-logo {
+    display: none;
+  }
+}
+
 .company-veiw-wrapper > div {
   padding: 0 30px;
 }

@@ -3,7 +3,7 @@ import ReactToPrint from "react-to-print";
 import SideBarContainer from '../../containers/SideBarContainer'
 import DropdownList from '../../components/DropdownList'
 import UserAvatar from '../../images/avatar.jpg'
-import Logo from '../../images/logo_client_color.png'
+import Logo from '../../images/wla-logo.jpeg'
 import {
   Container,
   PageContainer,

@@ -281,13 +281,34 @@ const columns = [
     selector: 'actions',
     sortable: true,
     right: true,
-    cell: () => <Link to="/invoice" style={{ textDecoration: 'none', display: 'flex' }}><AddBtn style={{ fontWeight: 'bold' }}>print</AddBtn></Link>,
+    cell: () => <Link to="/invoice" style={{ textDecoration: 'none', display: 'flex' }}><button className="primary-fill" style={{ fontWeight: 'bold' }}>print</button></Link>,
   },
 ];
 
 
 
 class InvoiceTable extends React.Component {
+  componentDidMount() { 
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0')
+    .then(response => response.json())
+    .then(data => console.log(data));
+    
+    // fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then(res => console.log(res))
+    // fetch('http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then(function(response) {
+    //   if(response.ok) {
+    //     response.blob().then(function(myBlob) {
+    //       console.log(myBlob)
+    //     });
+    //   } else {
+    //     console.log('Network response was not ok.');
+    //   }
+    // })
+    // .catch(function(error) {
+
+    //   console.log('There has been a problem with your fetch operation: ' + error.message);
+    // });
+
+  }
   
   render() {
 
