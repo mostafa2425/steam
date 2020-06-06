@@ -438,6 +438,16 @@ ul::-webkit-scrollbar-thumb,
   }
 }
 
+.company-info {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px !important;
+}
+
+.company-info > div p {
+  text-align: center;
+}
+
 .company-veiw-wrapper > div {
   padding: 0 30px;
 }

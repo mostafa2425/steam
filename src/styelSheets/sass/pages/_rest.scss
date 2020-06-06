@@ -81,3 +81,14 @@ ul::-webkit-scrollbar-thumb,
         display: none;
     }
 }
+
+.company-info{
+    display: flex;
+    justify-content: center;
+    margin-top: 16px !important;
+    > div{
+        p{
+            text-align: center;
+        }
+    }
+}

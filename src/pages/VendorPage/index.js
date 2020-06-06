@@ -22,6 +22,7 @@ class VendorPage extends React.Component {
       loading : true,
     }
   }
+  
   componentDidMount() {
     fetch('http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then((response) => {
       if(response.ok) {
@@ -39,8 +40,8 @@ class VendorPage extends React.Component {
       this.setState({loading : false})
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
-
   }
+
   render() {
 
     return (

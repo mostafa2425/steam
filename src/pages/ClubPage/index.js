@@ -14,21 +14,33 @@ import {
   HeaderPageSection,
   AddBtn,
 } from './StyledComponents';
-import { Spin } from 'antd';
+import { Spin,message } from 'antd';
 
 class ClubPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      clubsId : null,
+      clubs : null,
+      loading : true,
     }
   }
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({ clubsId : "idd" })
-    }, 500)
-    
-    console.log(this.props.location)
+    fetch('http://native-001-site2.ctempurl.com/api/GetClubs?Page=0').then((response) => {
+      if(response.ok) {
+        response.json().then((data) => {
+          let clubs = data.model;
+          this.setState({clubs, loading : false})
+        });
+      } else {
+        message.error('Network response was not ok.');
+        this.setState({loading : false})
+      }
+    })
+    .catch((error) => {
+      this.setState({loading : false})
+      message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
+
   }
   render() {
 
@@ -47,78 +59,21 @@ class ClubPage extends React.Component {
               titleImage={UserAvatar}
             />
           </HeaderPageSection>
-          {/* <PageSection className="club-card-list first-list"> */}
-          {this.state.clubsId ? 
+          {!this.state.loading ? 
           <>
           <div className="club-card-list">
+          {this.state.clubs && this.state.clubs.map(club =>
             <VendorCard 
-              name="Al Hilal" 
-              image={AlhilalIcon} 
+              name={club.Name}
+              image={club.Logo}
+              email = {club.Email}
+              status={club.Enable}
+              phone={club.Phone}
               link="VEIW DASHBORD"
               fans
-              to={{ pathname: "/dashbord-profile", id : "ddd"}}
+              to={{ pathname: "/dashbord-profile", id : club.Id }}
             />
-            <VendorCard 
-              name="Al Ahly" 
-              image={AlahlyIcon} 
-              link="VEIW DASHBORD"
-              fans
-              to={{ pathname: "/dashbord-profile", id : "ddd"}}
-            />
-            <VendorCard 
-              name="Al Ittihad" 
-              image={AlittihadIcon} 
-              link="VEIW DASHBORD"
-              fans
-              to={{ pathname: "/dashbord-profile", id : "ddd"}}
-            />
-          {/* </PageSection> */}
-          {/* <PageSection className="club-card-list"> */}
-            <VendorCard 
-              name="Al Hilal" 
-              image={AlhilalIcon} 
-              link="VEIW DASHBORD"
-              fans
-              to={{ pathname: "/dashbord-profile", id : "ddd"}}
-            />
-            <VendorCard 
-              name="Al Ahly" 
-              image={AlahlyIcon} 
-              link="VEIW DASHBORD"
-              fans
-              to={{ pathname: "/dashbord-profile", id : "ddd"}}
-            />
-            <VendorCard 
-              name="Al Ittihad" 
-              image={AlittihadIcon} 
-              link="VEIW DASHBORD"
-              fans
-              to={{ pathname: "/dashbord-profile", id : "ddd"}}
-            />
-          {/* </PageSection> */}
-          {/* <PageSection className="club-card-list"> */}
-            <VendorCard 
-              name="Al Hilal" 
-              image={AlhilalIcon} 
-              link="VEIW DASHBORD"
-              fans
-              to={{ pathname: "/dashbord-profile", id : "ddd"}}
-            />
-            <VendorCard 
-              name="Al Ahly" 
-              image={AlahlyIcon} 
-              link="VEIW DASHBORD"
-              fans
-              to={{ pathname: "/dashbord-profile", id : "ddd"}}
-            />
-            <VendorCard 
-              name="Al Ittihad" 
-              image={AlittihadIcon} 
-              link="VEIW DASHBORD"
-              fans
-              to={{ pathname: "/dashbord-profile", id : "ddd"}}
-            />
-          {/* </PageSection> */}
+            )}
           </div>
           </>
         : <Spin />}

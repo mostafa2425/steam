@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Input, InputNumber, Button, Select, Switch, message, Upload } from "antd";
+import { Form, Input, InputNumber, Button, Select, Switch, message, Upload, Spin } from "antd";
 import { Link } from "react-router-dom";
 import DropdownList from "../DropdownList";
 import UserAvatar from "../../images/avatar.jpg";
@@ -10,23 +10,11 @@ import {
 } from "./StyledComponents";
 import { UploadOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
-const props = {
-  name: 'file',
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  headers: {
-    authorization: 'authorization-text',
-  },
 
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
 };
 
 function beforeUpload(file) {
@@ -43,18 +31,124 @@ function beforeUpload(file) {
 
 export default class AddVendor extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      vendorStutes : true,
+      loadingBtn : false,
+      imageUrl : null,
+      companies : null,
+      vendorIndustry : null,
+    }
+  }
 
+  formRef = React.createRef();
+  componentDidMount() {
+    if(!this.props.isFromCompany){
+    fetch('http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0').then((response) => {
+      if(response.ok) {
+        response.json().then((data) => {
+          let companies = data.model;
+          this.setState({companies, loading : false})
+        });
+      } else {
+        message.error('Network response was not ok.');
+        this.setState({loading : false})
+      }
+    })
+    .catch((error) => {
+      this.setState({loading : false})
+      // message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
+
+    fetch('http://native-001-site2.ctempurl.com/api/GetVendorTypes').then((response) => {
+      if(response.ok) {
+        response.json().then((data) => {
+          let vendorIndustry = data.model;
+          this.setState({vendorIndustry, loading : false})
+        });
+      } else {
+        message.error('Network response was not ok.');
+        this.setState({loading : false})
+      }
+    })
+    .catch((error) => {
+      this.setState({loading : false})
+      // message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
+  }
+  }
 
   handelSubmit = (values, errors) => {
-    message.success('vendor added successfully'); 
+    console.log(values)
+    this.setState({loadingBtn : true})
+    let data = {
+    "Name":`${values.VendorName}`,
+    "NameLT":`${values.ArabicVendorName}`,
+    "Email":`${values.email}`,
+    "Phone":`${values.phone}`,
+    "Enable":this.state.vendorStutes,
+    "CompanyId":values.CompanyName,
+    "HeadQuarter": "Dammam",
+    "Percentage":values.Commission,
+    "Industry":`${values.Indastry}`,
+    "Description":`${values.VendorDescription}`,
+    "Password":`123456`,
+    "ConfirmPassword":`123456`, 
+    "Logo": this.state.imageUrl, 
+}
+
+fetch("http://native-001-site2.ctempurl.com/api/AddVendor", {
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data) 
+    })
+    .then( (response) => { 
+      console.log(response)
+      this.setState({loadingBtn : false})
+      message.success('vendor added successfully'); 
+      // this.formRef.current.resetFields();
+    })
+    .catch((error) => {
+      this.setState({loadingBtn : false})
+      message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
   };
 
   onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
-  changeCompanyStutes = (value) => {
-    console.log(value);
+  changeVendorStutes = (value) => {
+    this.setState({vendorStutes : value})
+  };
+
+  handleChangeCompany = (value) => {
+    this.setState({vendorStutes : value})
+  };
+
+  onChangeimg = (info) => {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      getBase64(info.file.originFileObj, imageUrl =>{
+        let imageUrljpeg = imageUrl.replace("data:image/jpeg;base64,", "");
+        let imageUrlpng = imageUrljpeg.replace("data:image/png;base64,", "");
+        this.setState({
+          imageUrl : imageUrlpng,
+          loading: false,
+        })
+      }
+        
+      );
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
   };
 
   beforeUpload = (file) => {
@@ -81,19 +175,38 @@ export default class AddVendor extends Component {
                 titleImage={UserAvatar}
               />
             </HeaderPageSection>
+            {!this.state.loading ?
             <div className="form-holder">
               <h2>Add Vendor</h2>
               <Form
                 name="nest-messages"
                 onFinish={this.handelSubmit}
                 onFinishFailed={this.onFinishFailed}
+                ref={this.formRef}
               >
-                <Form.Item
+                {/* <Form.Item
                   name="CompanyName"
                   label="Company Name"
                 >
-                  <Input  value="McDonald's" />
+                  <Input disabled defaultValue="McDonald's" />
+                </Form.Item> */}
+
+                <Form.Item
+                  label="Company Name"
+                  name="CompanyName"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select company",
+                    },
+                  ]}
+                >
+                  <Select onChange={this.handleChangeCompany}>
+                      {this.state.companies && this.state.companies.map(company => <Select.Option value={`${company.Id}`}>{company.Name}</Select.Option>)}
+                  </Select>
                 </Form.Item>
+
+
                 <Form.Item
                   name="VendorName"
                   label="Vendor Name"
@@ -114,7 +227,9 @@ export default class AddVendor extends Component {
                   label="Vendor Logo"
                   rules={[{ required: true, message: "Please input Vendor Logo!", }]}
                 >
-                  <Upload {...props} beforeUpload={this.beforeUpload}> 
+                  <Upload onChange={this.onChangeimg}  name ='file'
+                      action = 'https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                      beforeUpload={this.beforeUpload}> 
                   <Button>
                     <UploadOutlined /> Click to Upload
                   </Button>
@@ -184,7 +299,7 @@ export default class AddVendor extends Component {
                 </Form.Item>
                 <Form.Item
                   label="Vendor Indastry"
-                  name="Location"
+                  name="Indastry"
                   rules={[
                     {
                       required: true,
@@ -193,29 +308,25 @@ export default class AddVendor extends Component {
                   ]}
                 >
                   <Select>
-                    <Select.Option value="Food">Food</Select.Option>
-                    <Select.Option value="Education">Education</Select.Option>
-                    <Select.Option value="Food">Food</Select.Option>
-                    <Select.Option value="Education">Education</Select.Option>
-                    <Select.Option value="Food">Food</Select.Option>
-                    <Select.Option value="Education">Education</Select.Option>
+                  {this.state.vendorIndustry && this.state.vendorIndustry.map(type => <Select.Option value={`${type.Id}`}>{type.Name}</Select.Option>)}
                   </Select>
                 </Form.Item>
-                <Form.Item label="Enable" name="CompanyStutes">
-                  <Switch defaultChecked onChange={this.changeCompanyStutes} />
+                <Form.Item label="Enable" name="vendorStutes">
+                  <Switch defaultChecked onChange={this.changeVendorStutes} />
                 </Form.Item>
                 <div className="btn-action">
                   <Button
                     type="primary"
                     className="primary-fill xlg-btn mr-20"
                     htmlType="submit"
+                    loading = {this.state.loadingBtn}
                   >
                     Submit
                   </Button>
-                  <Button className="grayscale-fill xlg-btn">Cancel</Button>
+                  <Button  className="grayscale-fill xlg-btn">Cancel</Button>
                 </div>
               </Form>
-            </div>
+            </div> : <Spin />}
           </div>
         </PageContainer>
       </Container>
