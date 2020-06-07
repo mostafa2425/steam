@@ -26,7 +26,7 @@ class HomePage extends React.Component {
     }
   }
   componentDidMount() {
-    fetch('http://native-001-site2.ctempurl.com/api/GetDashBoardHome').then((response) => {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetDashBoardHome').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let dashboard = data.model;
@@ -71,7 +71,7 @@ class HomePage extends React.Component {
               image={placeholderImage}
               number={`${this.state.dashboard && this.state.dashboard.DashBoardStatistics.TotalOrders}`}
             />
-            <SmallCard
+            <SmallCard 
               title="Total Users"
               image={placeholderImage}
               number={`${this.state.dashboard && this.state.dashboard.DashBoardStatistics.TotalUsers}`}
