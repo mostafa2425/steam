@@ -32,7 +32,7 @@ class VendorProfileDashboardPage extends React.Component {
     }
   }
   componentDidMount() {
-    fetch('http://native-001-site2.ctempurl.com/api/GetBranches?Page=0').then((response) => {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetBranches?Page=0').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let branches = data.model;

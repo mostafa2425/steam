@@ -56,7 +56,7 @@ export default class AddClub extends Component {
     "Logo": this.state.imageUrl, 
 }
 
-fetch("http://native-001-site2.ctempurl.com/api/AddClub", {
+fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddClub", {
       method: "post",
       headers: {
         'Accept': 'application/json',

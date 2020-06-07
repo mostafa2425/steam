@@ -32,7 +32,7 @@ export default class AddCompany extends Component {
         "Enable":this.state.CompanyStutes
     }
 
-    fetch("http://native-001-site2.ctempurl.com/api/AddCompany", {
+    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddCompany", {
           method: "post",
           headers: {
             'Accept': 'application/json',

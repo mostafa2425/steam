@@ -45,7 +45,7 @@ export default class AddVendor extends Component {
   formRef = React.createRef();
   componentDidMount() {
     if(!this.props.isFromCompany){
-    fetch('http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0').then((response) => {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let companies = data.model;
@@ -61,7 +61,7 @@ export default class AddVendor extends Component {
       // message.error('There has been a problem with your fetch operation: ' + error.message);
     });
 
-    fetch('http://native-001-site2.ctempurl.com/api/GetVendorTypes').then((response) => {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendorTypes').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let vendorIndustry = data.model;
@@ -98,7 +98,7 @@ export default class AddVendor extends Component {
     "Logo": this.state.imageUrl, 
 }
 
-fetch("http://native-001-site2.ctempurl.com/api/AddVendor", {
+fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddVendor", {
       method: "post",
       headers: {
         'Accept': 'application/json',

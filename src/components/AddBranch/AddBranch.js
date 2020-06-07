@@ -121,7 +121,7 @@ export default class AddBranch extends Component {
     "ConfirmPassword": values.confirm, 
 }
 
-fetch("http://native-001-site2.ctempurl.com/api/AddBranch", {
+fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddBranch", {
       method: "post",
       headers: {
         'Accept': 'application/json',

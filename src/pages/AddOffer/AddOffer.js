@@ -41,7 +41,7 @@ export default class AddOffer extends Component {
       "StartDate": this.state.StartDate,
       "EndDate": this.state.EndDate,
   }
-  fetch("http://native-001-site2.ctempurl.com/api/AddOffer", {
+  fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddOffer", {
       method: "post",
       headers: {
         'Accept': 'application/json',
@@ -66,7 +66,7 @@ export default class AddOffer extends Component {
   };
 
   componentDidMount() {
-    fetch('http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then((response) => {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let vendors = data.model;
