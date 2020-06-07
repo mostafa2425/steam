@@ -33,6 +33,7 @@ import AddVendor from "../../components/AddVendor/AddVendor";
 import AddClub from "../../components/AddClub/AddClub";
 import AddOffer from "../../pages/AddOffer/AddOffer";
 import AddAlert from "../../pages/AddAlert/AddAlert";
+import NotFound from "../../components/NotFound/NotFound";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const mq = window.matchMedia( "(max-width: 480px)" );
@@ -155,6 +156,7 @@ componentDidMount() {
                   <Route path="/add-offer" component={AddOffer} />
                   <Route path="/add-alert" component={AddAlert} />
                   <Route path="/add-vendor" component={AddVendor} /> 
+                  <Route component={NotFound}/>
                   {/* <Route path="/add-branch2" component={AddBranch} /> */}
                   {/* <Route path="/test" component={AddCompany} /> */}
                 </Content>

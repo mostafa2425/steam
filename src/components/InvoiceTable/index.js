@@ -14,7 +14,7 @@ import {
   AddBtn,
 } from './StyledComponents';
 
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, message, Spin } from 'antd';
 import { MoreOutlined, MailOutlined, EnvironmentOutlined, PhoneOutlined } from '@ant-design/icons';
 import InvoicePage from '../../pages/InvoicePage';
 
@@ -258,23 +258,24 @@ const data = [
 const columns = [
   {
     name: 'Branch ID',
-    selector: 'branchId',
+    selector: 'Id',
     sortable: true,
   },
   {
     name: 'City',
-    selector: 'city',
+    selector: 'VendorTypeName',
     sortable: true,
   },
   {
     name: 'Total orders',
-    selector: 'totalOrders',
+    selector: 'Id',
     sortable: true,
   },
   {
     name: 'Statues',
-    selector: 'statues',
+    selector: 'Enable',
     sortable: true,
+    cell: (values) => <p>{values.Enable ? "true" : "false"}</p>
   },
   {
     name: 'Actions',
@@ -288,41 +289,46 @@ const columns = [
 
 
 class InvoiceTable extends React.Component {
-  componentDidMount() { 
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0')
-    .then(response => response.json())
-    .then(data => console.log(data));
-    
-    // fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then(res => console.log(res))
-    // fetch('http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then(function(response) {
-    //   if(response.ok) {
-    //     response.blob().then(function(myBlob) {
-    //       console.log(myBlob)
-    //     });
-    //   } else {
-    //     console.log('Network response was not ok.');
-    //   }
-    // })
-    // .catch(function(error) {
-
-    //   console.log('There has been a problem with your fetch operation: ' + error.message);
-    // });
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      branches : [],
+    }
+  }
+  componentDidMount() {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetBranches?Page=0').then((response) => {
+      if(response.ok) {
+        response.json().then((data) => {
+          let branches = data.model;
+          console.log(branches)
+          this.setState({branches, loading : false})
+        });
+      } else {
+        message.error('Network response was not ok.');
+        this.setState({loading : false})
+      }
+    })
+    .catch((error) => {
+      this.setState({loading : false})
+      message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
   }
   
   render() {
 
     return (
       <Container className="invoice-page-wrapper">
+        {!this.state.loading ? 
         <DataTable
           title="Branches"
-          columns={columns}
-          data={data}
+          columns={columns} 
+          data={this.state.branches.length > 0 ? this.state.branches : []}
           striped
           pointerOnHover
           persistTableHead
           pagination
-        />
+        /> : <Spin />}
+        
       </Container>
       // <div className="vendor-table">
       //   {[...Array(10)].map(card => 

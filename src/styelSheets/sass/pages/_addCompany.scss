@@ -41,3 +41,10 @@
 .add-company-wrapper{
     margin: 0 30px !important;
 }
+
+.add-offer-wrapper{
+    > div{
+        padding: 0 30px;
+        margin-bottom: 100px;
+    }
+}

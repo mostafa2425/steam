@@ -48,7 +48,6 @@ class VendorProfileDashboardPage extends React.Component {
       this.setState({loading : false})
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
-
   }
   render() {
 

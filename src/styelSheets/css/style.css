@@ -505,6 +505,11 @@ ul::-webkit-scrollbar-thumb,
   margin: 0 30px !important;
 }
 
+.add-offer-wrapper > div {
+  padding: 0 30px;
+  margin-bottom: 100px;
+}
+
 .club-wrapper {
   padding: 0 30px;
   padding-bottom: 100px;
@@ -792,11 +797,13 @@ ul::-webkit-scrollbar-thumb,
 .invoice-page-wrapper {
   margin: 0 30px !important;
   margin-bottom: 100px !important;
+  min-height: 75vh;
 }
 
 .offer-page-wrapper {
   padding: 0 30px;
   padding-bottom: 100px;
+  min-height: 80vh;
 }
 
 .offer-page-wrapper > div {

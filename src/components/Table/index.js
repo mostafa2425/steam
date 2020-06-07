@@ -270,6 +270,7 @@ const columns = [
     name: 'Statues',
     selector: 'Type',  
     sortable: true,
+    cell: (values) => <p>{values.Enable ? "true" : "false"}</p>
   },
 ];
 

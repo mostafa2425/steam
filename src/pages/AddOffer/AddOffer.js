@@ -26,6 +26,8 @@ export default class AddOffer extends Component {
     }
   }
 
+  formRef = React.createRef();
+
      onChangeDateRange = (dates, dateStrings) => {
         console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
         this.setState({StartDate : dateStrings[0], EndDate : dateStrings[1]})
@@ -53,7 +55,7 @@ export default class AddOffer extends Component {
       console.log(response)
       this.setState({loadingBtn : false})
       message.success('offer added successfully');
-      // this.formRef.current.resetFields();
+      this.formRef.current.resetFields();
     })
     .catch((error) => {
       this.setState({loadingBtn : false})
@@ -104,6 +106,7 @@ export default class AddOffer extends Component {
                 name="nest-messages"
                 onFinish={this.handelSubmit}
                 onFinishFailed={this.onFinishFailed}
+                ref={this.formRef}
               >
                 <Form.Item
                   label="Vendor Name"

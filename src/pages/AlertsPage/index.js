@@ -15,37 +15,44 @@ import {
   AddBtn,
 } from './StyledComponents';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { Spin, message } from 'antd';
 
 class AlertsPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      alerts : [],
+      loading : true
+    }
+  }
 
   localizer = momentLocalizer(moment)
 
-  myEventsList = [
-    {
-      title: "test",
-      start: "2019-12-03 02:00",
-      end: "2019-12-03 06:59",
-      up_down_ind: "N"
-    },
-    {
-      title: "test2",
-      start: "2019-12-03 07:00",
-      end: "2019-12-03 23:59",
-      up_down_ind: "Y"
-    },
-    {
-      title: "test3",
-      start: "2019-12-24 00:00",
-      end: "2019-12-28 01:59",
-      up_down_ind: "Y"
-    },
-  ];
+  componentDidMount() {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetOffers?Page=0').then((response) => {
+      if(response.ok) {
+        response.json().then((data) => {
+          let alerts = data.model;
+          let calenderAlerts = []; 
+          alerts.map(alert => calenderAlerts.push({title : alert.Description, start : moment(alert.StartDate).format('L'), end : moment(alert.EndDate).format('L')}))
+         this.setState({alerts : calenderAlerts, loading : false})
+        });
+      } else {
+        message.error('Network response was not ok.');
+        this.setState({loading : false})
+      }
+    })
+    .catch((error) => {
+      this.setState({loading : false})
+      message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
+  }
   
 
   render() {
 
     return (
-      <Container>
+      <Container className="add-offer-wrapper">
         
         <PageContainer>
           <HeaderPageSection>
@@ -59,12 +66,13 @@ class AlertsPage extends React.Component {
               titleImage={UserAvatar}
             />
           </HeaderPageSection>
-          <PageSection>
+          <PageSection className="offer-page-wrapper">
             <CalendarContainer>
               <Title>Alerts Calendar</Title>
+              {!this.state.loading ? 
               <Calendar
                 localizer={this.localizer}
-                events={this.myEventsList}
+                events={this.state.alerts}
                 startAccessor="start"
                 endAccessor="end"
                 style={{height: '800px', width: '100%', marginTop: '50px'}}
@@ -73,7 +81,7 @@ class AlertsPage extends React.Component {
                     backgroundColor: '#81b955',
                   }
                 })}
-              />
+              />: <Spin />}
             </CalendarContainer>
           </PageSection>
         </PageContainer>
