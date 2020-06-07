@@ -15,7 +15,7 @@ import OffersPage from "../../pages/OffersPage";
 import AlertsPage from "../../pages/AlertsPage";
 import AddOfferPage from "../../pages/AddOfferPage";
 import AddAlertPage from "../../pages/AddAlertPage"; 
-import Logo from '../../images/wla-logo.jpeg'
+import Logo from '../../images/logow.png'
 import { Layout, Menu, Spin  } from "antd";
 import {
     SkinOutlined,
