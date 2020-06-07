@@ -12,9 +12,10 @@ class TopCard extends React.Component {
     return (
       <Container>
         <Title>{this.props.title}</Title>
+        {this.props.data && this.props.data.map((card, i) => <RevenueListItem index={i} card={card} type={this.props.type} />)}
+        {/* <RevenueListItem type={this.props.type} />
         <RevenueListItem type={this.props.type} />
-        <RevenueListItem type={this.props.type} />
-        <RevenueListItem type={this.props.type} />
+        <RevenueListItem type={this.props.type} /> */}
       </Container>
     );
   }

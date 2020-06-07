@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import GoogleMapReact from 'google-map-react';
+// import {GoogleMapReact} from 'google-map-react';
+// import { GoogleMap, Marker } from "react-google-maps"
+import {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  Marker
+} from "react-google-maps";
 
 import {
   Form,
@@ -9,6 +16,7 @@ import {
   Select,
   Switch,
   message,
+  Spin,
 } from "antd";
 import { Link } from "react-router-dom";
 import DropdownList from "../DropdownList";
@@ -18,8 +26,6 @@ import {
   Container,
   PageContainer,
 } from "./StyledComponents";
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
-
 export default class AddBranch extends Component {
   constructor(props) {
     super(props);
@@ -29,10 +35,37 @@ export default class AddBranch extends Component {
         lng: 30.867469200000002
       },
       zoom: 11,
+      branchStutes : true,
+      // this.onMapClicked = this.onMapClicked.bind(this);
     }
   }
 
+  static defaultProps = {
+        googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyBh6FbV8FeEBGtnwkw1siI4XcpYEM7QyQQ&v=3.exp&libraries=geometry,drawing,places",
+    }
 
+    onMapClicked(props, map, e) {
+      let location = this.state.position;
+      location.lat = e.latLng.lat();
+      location.lng = e.latLng.lng();
+
+      this.setState({
+          position: location
+      })
+      console.log(this.state.position);
+  }
+
+    CMap = withScriptjs(withGoogleMap(props =>
+      <GoogleMap
+        defaultZoom={8}
+        center={{ lat: this.state.center.lat, lng: this.state.center.lng }}
+        onClick ={ (e) => this.handleMapClick(e)} 
+      >
+          {props.children}
+      </GoogleMap>
+    ));
+
+  formRef = React.createRef();
   componentDidMount() {
     if (navigator && navigator.geolocation) 
     { 
@@ -46,27 +79,80 @@ export default class AddBranch extends Component {
     let marker = new maps.Marker({
     position: { lat: this.state.center.lat, lng: this.state.center.lng },
     map,
-    title: 'Hello World!'
     });
     return marker;
    };
 
    addMarker = ({x, y, lat, lng, event}) => {
+     console.log(lat,lng)
      this.setState({center : {lat, lng}},
       //  () => {this.renderMarkers(map, maps)}
        ) 
    }
 
+
   handelSubmit = (values, errors) => {
-    message.success("branch added successfully");
+    console.log(values)
+    this.setState({loadingBtn : true})
+    // "Name":"Cocacola",
+    // "NameLT":"كوكاكولا",
+    // "Email":"cocavendor@yahoo.com",
+    // "Phone":"0100000000",
+    // "Enable":true,
+    // "CompanyId":1,
+    // "VendorId":1,
+    // "Longitude":44.5,
+    // "Latitude":55.2,
+    // "Type":true,
+    // "Password":"123456",
+    // "ConfirmPassword":"123456"
+    let data = {
+    "Name":`${values.BranchReference}`,
+    "NameLT":`${values.ArabicBranchReference}`,
+    "Email":`${values.email}`,
+    "Phone":`${values.phone}`,
+    "Enable":this.state.branchStutes,
+    "CompanyId":1,
+    "VendorId":1,
+    "Longitude":this.state.center.lng,
+    "Latitude":this.state.center.lat,
+    "type" : values.BranchType,
+    "Password":values.password,
+    "ConfirmPassword": values.confirm, 
+}
+
+fetch("http://native-001-site2.ctempurl.com/api/AddBranch", {
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data) 
+    })
+    .then( (response) => { 
+      console.log(response)
+      this.setState({loadingBtn : false})
+      message.success("branch added successfully");
+      this.formRef.current.resetFields(); 
+    })
+    .catch((error) => {
+      this.setState({loadingBtn : false})
+      message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
   };
+
+  handleMapClick = (e) => {
+    this.setState({center : {lat : e.latLng.lat(), lng : e.latLng.lng()}})
+    // console.log(e.latLng.lat())  
+    // console.log('==> handleMapClick(..) : ' + lat + ',' + lng + ' (x=' + x + ',y=' + y + ')');
+    }
 
   onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
-  changeCompanyStutes = (value) => {
-    console.log(value);
+  changeBranchStutes = (value) => {
+    this.setState({branchStutes : value})
   };
 
   render() {
@@ -87,6 +173,7 @@ export default class AddBranch extends Component {
                 name="nest-messages"
                 onFinish={this.handelSubmit}
                 onFinishFailed={this.onFinishFailed}
+                ref={this.formRef}
               >
                 <h4>Branch Info:</h4>
                 <Form.Item
@@ -114,20 +201,39 @@ export default class AddBranch extends Component {
                   <Input />
                 </Form.Item>
                 <Form.Item label="Enable" name="branchStutes">
-                  <Switch defaultChecked onChange={this.changeCompanyStutes} />
+                  <Switch defaultChecked onChange={this.changeBranchStutes} />
                 </Form.Item>
                 <div className="map-wrapper">
                   <label>Branch Location</label>
                 <div style={{ height: '50vh', width: '100%' }}>
-                <GoogleMapReact
+                <this.CMap
+                    googleMapURL={this.props.googleMapURL}
+                    loadingElement={<div style={{ height: `100%` }} />}
+                    containerElement={<div style={{ height: `100%` }} />}
+                    mapElement={<div style={{ height: `100%` }} />}
+                    center= {{ lat: this.state.center.lat, lng: this.state.center.lng }} 
+                    // onClick={ this.handleMapClick }
+                >
+                    <Marker
+                        position={{ lat: this.state.center.lat, lng: this.state.center.lng }}
+                    />
+                </this.CMap>
+                {/* <GoogleMap
+                  defaultZoom={8}
+                  defaultCenter={{ lat: this.state.center.lat, lng: this.state.center.lng }}
+                >
+                  <Marker position={{ lat: this.state.center.lat, lng: this.state.center.lng }} />}
+                </GoogleMap> */}
+                {/* <GoogleMapReact
                   bootstrapURLKeys={{ key: "AIzaSyBh6FbV8FeEBGtnwkw1siI4XcpYEM7QyQQ" }}
-                  defaultCenter={this.state.center}
+                  center ={this.state.center}
                   defaultZoom={this.state.zoom}
-                  onGoogleApiLoaded={({ map, maps }) => this.renderMarkers(map, maps)}
+                  onDragend={this.centerMoved}
+                  // onGoogleApiLoaded={({ map, maps }) => this.renderMarkers(map, maps)}
                   onClick={this.addMarker}
                 >
+                </GoogleMapReact> */}
                   {/* <Marker lat={this.state.center.lat} lng={this.state.center.lng} /> */}
-                </GoogleMapReact>
               </div>
               </div>
                 <h4>Branch Info:</h4>
@@ -192,8 +298,8 @@ export default class AddBranch extends Component {
                   ]}
                 >
                   <Select>
-                    <Select.Option value="online">online store</Select.Option>
-                    <Select.Option value="physical">physical store</Select.Option>
+                    <Select.Option value="true">online store</Select.Option>
+                    <Select.Option value="false">physical store</Select.Option>
                   </Select>
                 </Form.Item>
                 <Form.Item
@@ -241,6 +347,7 @@ export default class AddBranch extends Component {
                     type="primary"
                     className="primary-fill xlg-btn mr-20"
                     htmlType="submit"
+                    loading={this.state.loadingBtn}
                   >
                     Submit
                   </Button>

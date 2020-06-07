@@ -230,31 +230,62 @@ const data = [
     statues: 'Active'
   },
 ]
+
+// DeletedAt: null
+// DeviceId: null
+// Email: "t33333est@gmail.com"
+// Enable: false
+// Id: 30
+// IdentityId: "65588e45-f8de-49b4-821d-32f3ce9cb61a"
+// Latitude: 29.3471842
+// LocalId: null
+// Logo: "starbucks.png"
+// Longitude: 30.867465199999998
+// Name: "weeeeeeeeeeeeeeee"
+// NameLT: "wewewe"
+// Phone: "322323"
+// RegisterationDate: "2020-06-06T22:39:08.711899"
+// Token: null
+// Type: false
+// VendorId: 1
+// VendorTypeName: "starbucks"
+// VendorTypeNameLT: "ستاربكس"
 const columns = [
   {
     name: 'Branch ID',
-    selector: 'branchId',
+    selector: 'Id',
     sortable: true,
   },
   {
-    name: 'City',
-    selector: 'city',
+    name: 'vendor',
+    selector: 'VendorTypeName',
     sortable: true,
   },
   {
     name: 'Total orders',
-    selector: 'totalOrders',
+    selector: 'Id',
     sortable: true,
   },
   {
     name: 'Statues',
-    selector: 'statues',
+    selector: 'Type',  
     sortable: true,
   },
 ];
 
 class TableComponent extends React.Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataTable : this.props.data
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.data !== this.state.dataTable){
+      this.setState({ dataTable : nextProps.data})
+    }
+  }
+  
   render() {
 
     return (
@@ -262,7 +293,8 @@ class TableComponent extends React.Component {
         <DataTable
           title="Branches"
           columns={columns}
-          data={data}
+          data={this.state.dataTable.length > 0  ? this.state.dataTable : []}
+          // data={data} 
           striped
           pointerOnHover
           persistTableHead

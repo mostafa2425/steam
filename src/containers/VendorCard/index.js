@@ -41,12 +41,12 @@ class VendorCard extends React.Component {
  
   render() {
     const { image, name, link, fans, location, to, phone, status, email, HeadQuarter, isCompany } = this.props;
-
+    console.log(image)
     return (
       <Container>
         <VendorContainer className={`${isCompany && "company-info"}`}>
           { !isCompany ? image ?
-          <VendorImage className="card-img" src={`http://native-001-site2.ctempurl.com/images/vendorimages/${image}`} alt="vendor" /> :  <VendorImage className="card-img" src={avatarPlaceholder} alt="vendor" /> : null
+          <VendorImage className="card-img" src={ fans ? `http://native-001-site2.ctempurl.com/images/clubimages/${image}` : `http://native-001-site2.ctempurl.com/images/vendorimages/${image}`} alt="vendor" /> :  <VendorImage className="card-img" src={avatarPlaceholder} alt="vendor" /> : null
         }
           <FansTextContainer >
             <VendorName>{name}</VendorName>

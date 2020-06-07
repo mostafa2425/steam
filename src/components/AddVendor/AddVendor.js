@@ -227,7 +227,8 @@ fetch("http://native-001-site2.ctempurl.com/api/AddVendor", {
                   label="Vendor Logo"
                   rules={[{ required: true, message: "Please input Vendor Logo!", }]}
                 >
-                  <Upload onChange={this.onChangeimg}  name ='file'
+                  <Upload onChange={this.onChangeimg}  
+                      name ='file'
                       action = 'https://www.mocky.io/v2/5cc8019d300000980a055e76'
                       beforeUpload={this.beforeUpload}> 
                   <Button>

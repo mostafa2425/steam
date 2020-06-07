@@ -10,23 +10,10 @@ import {
 } from "./StyledComponents";
 import { UploadOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
-const props = {
-  name: 'file',
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  headers: {
-    authorization: 'authorization-text',
-  },
-
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
 };
 
 function beforeUpload(file) {
@@ -43,19 +30,81 @@ function beforeUpload(file) {
 
 export default class AddClub extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      clubStutes : true,
+      loadingBtn : false,
+      imageUrl : null,
+      companies : null,
+      vendorIndustry : null,
+    }
+  }
 
+  formRef = React.createRef();
 
   handelSubmit = (values, errors) => {
-    message.success('vendor added successfully'); 
+    console.log(values)
+    this.setState({loadingBtn : true})
+    let data = {
+    "Name":`${values.ClubName}`,
+    "NameLT":`${values.ArabicClubName}`,
+    "ClubTypeId":1,
+    "Email":`${values.email}`,
+    "Phone":`${values.phone}`,
+    "Enable":this.state.clubStutes,
+    "Logo": this.state.imageUrl, 
+}
+
+fetch("http://native-001-site2.ctempurl.com/api/AddClub", {
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data) 
+    })
+    .then( (response) => { 
+      console.log(response)
+      this.setState({loadingBtn : false})
+      message.success('club added successfully'); 
+      this.formRef.current.resetFields();
+    })
+    .catch((error) => {
+      this.setState({loadingBtn : false})
+      message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
   };
 
   onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
-  changeCompanyStutes = (value) => {
-    console.log(value);
+  changeClubStutes = (value) => {
+    this.setState({clubStutes : value})
   };
+
+  onChangeimg = (info) => {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      getBase64(info.file.originFileObj, imageUrl =>{
+        let imageUrljpeg = imageUrl.replace("data:image/jpeg;base64,", "");
+        let imageUrlpng = imageUrljpeg.replace("data:image/png;base64,", "");
+        this.setState({
+          imageUrl : imageUrlpng,
+          loading: false,
+        })
+      }
+        
+      );
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  };
+
 
   beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -87,6 +136,7 @@ export default class AddClub extends Component {
                 name="nest-messages"
                 onFinish={this.handelSubmit}
                 onFinishFailed={this.onFinishFailed}
+                ref={this.formRef}
               >
                 <Form.Item
                   name="ClubName"
@@ -108,7 +158,10 @@ export default class AddClub extends Component {
                   label="Club Logo"
                   rules={[{ required: true, message: "Please input Club Logo!", }]}
                 >
-                  <Upload {...props} beforeUpload={this.beforeUpload}> 
+                  <Upload
+                  name ='file'
+                  action = 'https://www.mocky.io/v2/5cc8019d300000980a055e76' 
+                  onChange={this.onChangeimg} beforeUpload={this.beforeUpload}> 
                   <Button>
                     <UploadOutlined /> Click to Upload
                   </Button>
@@ -166,14 +219,15 @@ export default class AddClub extends Component {
                 >
                   <Input />
                 </Form.Item>
-                <Form.Item label="Enable" name="CompanyStutes">
-                  <Switch defaultChecked onChange={this.changeCompanyStutes} />
+                <Form.Item label="Enable" name="clubStutes">
+                  <Switch defaultChecked onChange={this.changeClubStutes} />
                 </Form.Item>
                 <div className="btn-action">
                   <Button
                     type="primary"
                     className="primary-fill xlg-btn mr-20"
                     htmlType="submit"
+                    loading={this.state.loadingBtn}
                   >
                     Submit
                   </Button>

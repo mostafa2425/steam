@@ -17,18 +17,19 @@ import { Progress } from 'antd';
 class RevenueListItem extends React.Component {
 
   render() {
-
+console.log(this.props.card)
+    const {Name, TotalAmount, Commission} = this.props.card
     return (
       <Container className="revenue-holder">
-        <ListingNumber>1</ListingNumber>
+        <ListingNumber>{this.props.index + 1}</ListingNumber>
         <VendorImage src={this.props.type === "club" ? club1 : Vendor} alt="vendor" />
-        {this.props.type === "club" ? <Progress className="progress-holder" percent={80} format={percent => `${percent} K`} /> : 
+        {this.props.type === "club" ? <Progress className="progress-holder" percent={Commission} format={percent => `${Commission} K`} /> : 
         <VendorTextContainer className="revenue-name">
-          <VendorName >Hungerstation</VendorName>
-          <VendorCompanyName> Hungerstation Company</VendorCompanyName> 
+          <VendorName >{Name}</VendorName>
+          <VendorCompanyName> {Name}</VendorCompanyName>  
         </VendorTextContainer>
         }
-        {this.props.type === "Venor" && <RevenueNumber>200</RevenueNumber>}  
+        {this.props.type === "Venor" && <RevenueNumber>{TotalAmount}</RevenueNumber>}  
       </Container>
     );
   }

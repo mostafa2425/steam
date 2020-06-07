@@ -448,6 +448,10 @@ ul::-webkit-scrollbar-thumb,
   text-align: center;
 }
 
+.ant-picker-input > input {
+  font-size: 16px;
+}
+
 .company-veiw-wrapper > div {
   padding: 0 30px;
 }
