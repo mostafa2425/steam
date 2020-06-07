@@ -12,7 +12,7 @@ import Commission from '../../images/commission.png'
 import CompanyLogo from '../../images/al-hilal.png'
 import Email from '../../images/email.png'
 import Phone from '../../images/phone.png'
-import { Spin  } from "antd";
+import { Spin, message  } from "antd";
 import {
   Container,
   PageContainer,
@@ -26,12 +26,30 @@ class ProfileDashboardPage extends React.Component {
     super(props);
     this.state = {
       clubId : null,
+      branches : [],
     }
   }
   componentDidMount() {
     setTimeout(() => {
       this.setState({ clubId : "idd" })
     }, 2000)
+
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetBranches?Page=0').then((response) => {
+      if(response.ok) {
+        response.json().then((data) => {
+          let branches = data.model;
+          console.log(branches)
+          this.setState({branches, loading : false})
+        });
+      } else {
+        message.error('Network response was not ok.');
+        this.setState({loading : false})
+      }
+    })
+    .catch((error) => {
+      this.setState({loading : false})
+      message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
     
     console.log(this.props.location)
   }
@@ -86,7 +104,7 @@ class ProfileDashboardPage extends React.Component {
             />
           </PageSection>
           <PageSection>
-            <TableComponent />
+            <TableComponent data={this.state.branches.length > 0 && this.state.branches} />
           </PageSection>
         </>
         : <Spin />}
