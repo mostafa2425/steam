@@ -24,7 +24,19 @@ import {
   VendorCountry,
   VendorContainer,
 } from './StyledComponents';
-
+import { Menu, Dropdown, message, Spin } from 'antd';
+import { MoreOutlined, MailOutlined, EnvironmentOutlined, SettingOutlined } from '@ant-design/icons';
+const menu = (
+  <Menu className="dropdown-list-holder">
+    <Menu.Item key="0">
+      <Link href="">Edit</Link>
+    </Menu.Item>
+    <Menu.Divider />
+    <Menu.Item key="1">
+      <a>Delete</a>
+    </Menu.Item>
+  </Menu>
+);
 class VendorCard extends React.Component {
   state = {};
 
@@ -38,12 +50,17 @@ class VendorCard extends React.Component {
         });
       });
   }
+
  
-  render() {
+  render() {    
     const { image, name, link, fans, location, to, phone, status, email, HeadQuarter, isCompany } = this.props;
-    console.log(image)
+    
     return (
       <Container>
+        <Dropdown className="dropdown-list" overlay={menu} trigger={['click']}> 
+      {/* <MoreOutlined /> */}
+      <SettingOutlined />
+      </Dropdown>
         <VendorContainer className={`${isCompany && "company-info"}`}>
           { !isCompany ? image ?
           <VendorImage className="card-img" src={ fans ? `http://native-001-site2.ctempurl.com/images/clubimages/${image}` : `http://native-001-site2.ctempurl.com/images/vendorimages/${image}`} alt="vendor" /> :  <VendorImage className="card-img" src={avatarPlaceholder} alt="vendor" /> : null

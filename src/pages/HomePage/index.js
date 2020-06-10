@@ -6,6 +6,7 @@ import BarChart from '../../components/BarChart'
 import DropdownList from '../../components/DropdownList'
 import UserAvatar from '../../images/avatar.jpg'
 import placeholderImage from '../../images/users.png'
+import { setBranchesList } from '../../Dashboard/store/actions'; 
 import Moment from 'moment'
 import {
   Container,
@@ -14,6 +15,8 @@ import {
   HeaderPageSection,
 } from './StyledComponents';
 import { Dropdown, Menu, Spin, message } from 'antd';
+import { connect } from 'react-redux';
+
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -30,10 +33,26 @@ class HomePage extends React.Component {
       if(response.ok) {
         response.json().then((data) => {
           let dashboard = data.model;
-          console.log(dashboard)
           this.setState({dashboard, loading : false, 
             orderCount : dashboard.BarCharts.map(order => order.OrderCount), 
             orderDay : dashboard.BarCharts.map(order => Moment(order.Day).format('L'))})
+          });
+        
+      } else {
+        message.error('Network response was not ok.');
+        this.setState({loading : false})
+      }
+    })
+    .catch((error) => {
+      this.setState({loading : false})
+      message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
+
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetBranches?Page=0').then((response) => {
+      if(response.ok) {
+        response.json().then((data) => {
+          let branches = data.model;
+          this.props.dispatch(setBranchesList(branches)) 
         });
       } else {
         message.error('Network response was not ok.');
@@ -103,4 +122,11 @@ class HomePage extends React.Component {
   }
 }
 
-export default HomePage;
+// const mapStateToProps = state => {
+//   return {
+//       localization: state.common.currentResource,
+//       locale: state.common.currentLocale
+//   }
+// }
+
+export default connect()(HomePage);

@@ -85,7 +85,7 @@ class VendorPage extends React.Component {
             link="Veiw Dashboard" 
             phone={vendor.Phone}
             location
-            to="/vendor-profile"
+            to={`/vendor-profile:${vendor.Id}`}
             />
             )}
             </div>

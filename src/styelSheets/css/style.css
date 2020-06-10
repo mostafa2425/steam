@@ -486,6 +486,7 @@ ul::-webkit-scrollbar-thumb,
   width: 100%;
   padding-top: 5px;
   margin-top: 0;
+  position: relative;
 }
 
 .company-veiw-wrapper .company-grid-holder > div > div:first-of-type img {
@@ -539,11 +540,26 @@ ul::-webkit-scrollbar-thumb,
   width: 100%;
   padding-top: 5px;
   margin-top: 0;
+  position: relative;
 }
 
 .club-wrapper .club-card-list > div > div:first-of-type img {
   width: 80px;
   object-fit: contain;
+}
+
+.dropdown-list {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #81b955;
+}
+
+.dropdown-list-holder a {
+  padding: 5px 20px;
+  font-size: 16px;
 }
 
 .vendor-page-wrapper {
@@ -575,6 +591,7 @@ ul::-webkit-scrollbar-thumb,
   width: 100%;
   padding-top: 5px;
   margin-top: 0;
+  position: relative;
 }
 
 .vendor-page-wrapper .vendor-card-list > div > div:first-of-type img {
@@ -696,7 +713,7 @@ ul::-webkit-scrollbar-thumb,
   width: fit-content;
 }
 
-.add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker-range {
+.add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker-range, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker {
   width: 600px;
   padding: 13px;
   border-radius: 8px;
@@ -707,19 +724,19 @@ ul::-webkit-scrollbar-thumb,
 }
 
 @media only screen and (max-width: 991px) {
-  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker-range {
+  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker-range, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker {
     width: 400px;
   }
 }
 
 @media only screen and (max-width: 575px) {
-  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker-range {
+  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker-range, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker {
     width: 300px;
   }
 }
 
 @media only screen and (max-width: 399px) {
-  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker-range {
+  .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker-range, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker {
     width: fit-content;
   }
 }

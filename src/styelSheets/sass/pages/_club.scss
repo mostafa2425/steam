@@ -17,6 +17,7 @@
       width: 100%;
       padding-top: 5px;
       margin-top: 0;
+      position: relative;
       > div:first-of-type {
         img {
           width: 80px;
@@ -28,7 +29,21 @@
     //     margin: auto;
     //     margin-bottom: 20px;
     // }
-    }
+    } 
+  }
+}
+.dropdown-list{
+    position: absolute;
+    right: 12px;
+    top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #81b955;
+}
+.dropdown-list-holder{
+  a{
+    padding: 5px 20px;
+    font-size: 16px;
   }
 }
 .vendor-page-wrapper {
@@ -50,6 +65,7 @@
       width: 100%;
       padding-top: 5px;
       margin-top: 0;
+      position: relative;
       > div:first-of-type {
         img {
           width: 80px;
@@ -155,7 +171,7 @@
     }
     .ant-form-item-control-input {
         width: fit-content;
-        .ant-input, .ant-input-number-input, .ant-picker-range {
+        .ant-input, .ant-input-number-input, .ant-picker-range,.ant-picker {
         width: 600px;
         padding: 13px;
         border-radius: 8px;
@@ -165,7 +181,7 @@
         color: #232323;
         @include mq("ipad"){
             width: 400px;
-        }
+        } 
         @include mq("phablet"){
             width: 300px;
         }

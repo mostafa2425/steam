@@ -30,9 +30,8 @@ class ProfileDashboardPage extends React.Component {
     }
   }
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({ clubId : "idd" })
-    }, 2000)
+    // console.log(this.props)
+    console.log("club", this.props.location.clubInfo)
 
     fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetBranches?Page=0').then((response) => {
       if(response.ok) {
@@ -50,8 +49,7 @@ class ProfileDashboardPage extends React.Component {
       this.setState({loading : false})
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
-    
-    console.log(this.props.location)
+
   }
   render() {
     
@@ -66,7 +64,7 @@ class ProfileDashboardPage extends React.Component {
               titleImage={UserAvatar}
             />
           </HeaderPageSection>
-          {this.state.clubId ? 
+          {!this.state.clubId ? 
           <>
           <InformationPageSection>
             <ComponyProfile 
@@ -103,9 +101,9 @@ class ProfileDashboardPage extends React.Component {
               title="Daily Orders"
             />
           </PageSection>
-          <PageSection>
+          {/* <PageSection>
             <TableComponent data={this.state.branches.length > 0 && this.state.branches} />
-          </PageSection>
+          </PageSection> */}
         </>
         : <Spin />}
         </PageContainer>

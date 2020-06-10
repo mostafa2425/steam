@@ -124,8 +124,12 @@ export default class AddAlert extends Component {
                   </Select>
                 </Form.Item>   
 
-                <Form.Item name="range-picker" label="RangePicker">
+                {/* <Form.Item name="range-picker" label="RangePicker">
                 <RangePicker disabledDate={disabledDate} onChange={this.onChangeDateRange} />
+                </Form.Item>  */}
+
+                <Form.Item name="range-picker" label="RangePicker">
+                  <DatePicker disabledDate={disabledDate} onChange={this.onChangeDateRange} />
                 </Form.Item> 
 
                 <Form.Item

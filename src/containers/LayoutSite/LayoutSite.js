@@ -142,7 +142,7 @@ componentDidMount() {
                     component={ProfileDashboardPage}
                   />
                   <Route
-                    path="/vendor-profile"
+                    path="/vendor-profile:id"
                     component={VendorProfileDashboardPage}
                   />
                   <Route path="/brand-invoice" component={InvoicePage} />

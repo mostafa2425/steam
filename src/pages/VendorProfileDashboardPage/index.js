@@ -23,6 +23,7 @@ import {
   AddBtn,
 } from './StyledComponents';
 import { Spin, message } from 'antd';
+import { connect } from 'react-redux';
 
 class VendorProfileDashboardPage extends React.Component {
   constructor(props) {
@@ -32,11 +33,12 @@ class VendorProfileDashboardPage extends React.Component {
     }
   }
   componentDidMount() {
+    
+    if(!this.props.brnachesList.length > 0){
     fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetBranches?Page=0').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let branches = data.model;
-          console.log(branches)
           this.setState({branches, loading : false})
         });
       } else {
@@ -48,9 +50,15 @@ class VendorProfileDashboardPage extends React.Component {
       this.setState({loading : false})
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
+  }else{
+    this.setState({branches : this.props.brnachesList, loading : false})
+  }
+  console.log("in dashboard vendor and club")
+  console.log(this.props.match && this.props.match.params.id)
+  console.log(this.props)
   }
   render() {
-
+    
     return (
       <Container>
         
@@ -118,4 +126,10 @@ class VendorProfileDashboardPage extends React.Component {
   }
 }
 
-export default VendorProfileDashboardPage;
+const mapStateToProps = state => {
+  return {
+      brnachesList: state.dashboard.branchesList,
+  }
+}
+
+export default connect(mapStateToProps)(VendorProfileDashboardPage);
