@@ -124,7 +124,7 @@ export default class AddOffer extends Component {
                 </Form.Item>   
 
                 <Form.Item name="range-picker" label="RangePicker">
-                    <RangePicker disabledDate={disabledDate} onChange={this.onChangeDateRange} />
+                    <RangePicker showTime={{ format: 'HH:mm' }} disabledDate={disabledDate} onChange={this.onChangeDateRange} />
                 </Form.Item> 
 
                 <Form.Item
