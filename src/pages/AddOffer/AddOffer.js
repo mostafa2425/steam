@@ -40,6 +40,7 @@ export default class AddOffer extends Component {
       "VendorId":1,
 	    "ClubId":1,
       "Description":`${values.OfferDescription}`,
+      "DescriptionLT":`${values.OfferDescriptionAr}`,
       "StartDate": this.state.StartDate,
       "EndDate": this.state.EndDate,
   }
@@ -134,6 +135,16 @@ export default class AddOffer extends Component {
                 >
                   <TextArea
                     placeholder="Add Offer Description"
+                    autoSize={{ minRows: 2, maxRows: 6 }} 
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="OfferDescriptionAr"
+                  label="Offer Description Arbic"
+                  rules={[{ required: true, message: "Please add Offer Description In Arabic!", }]}
+                >
+                  <TextArea
+                    placeholder="Add Offer Description In Arabic"
                     autoSize={{ minRows: 2, maxRows: 6 }} 
                   />
                 </Form.Item>

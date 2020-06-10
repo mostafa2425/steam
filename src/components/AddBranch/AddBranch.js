@@ -94,18 +94,6 @@ export default class AddBranch extends Component {
   handelSubmit = (values, errors) => {
     console.log(values)
     this.setState({loadingBtn : true})
-    // "Name":"Cocacola",
-    // "NameLT":"كوكاكولا",
-    // "Email":"cocavendor@yahoo.com",
-    // "Phone":"0100000000",
-    // "Enable":true,
-    // "CompanyId":1,
-    // "VendorId":1,
-    // "Longitude":44.5,
-    // "Latitude":55.2,
-    // "Type":true,
-    // "Password":"123456",
-    // "ConfirmPassword":"123456"
     let data = {
     "Name":`${values.BranchReference}`,
     "NameLT":`${values.ArabicBranchReference}`,
@@ -130,7 +118,6 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
       body: JSON.stringify(data) 
     })
     .then( (response) => { 
-      console.log(response)
       this.setState({loadingBtn : false})
       message.success("branch added successfully");
       this.formRef.current.resetFields(); 
@@ -143,8 +130,6 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
 
   handleMapClick = (e) => {
     this.setState({center : {lat : e.latLng.lat(), lng : e.latLng.lng()}})
-    // console.log(e.latLng.lat())  
-    // console.log('==> handleMapClick(..) : ' + lat + ',' + lng + ' (x=' + x + ',y=' + y + ')');
     }
 
   onFinishFailed = (errorInfo) => {

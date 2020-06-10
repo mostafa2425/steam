@@ -3,6 +3,7 @@
  */
 import { 
     SET_BRANCHES,
+    ADD_BRANCH,
 } from "./action-types";
 
 /**
@@ -24,6 +25,8 @@ const reducer = (state = initialState, {type, payload = null}) => {
     switch (type) {
         case SET_BRANCHES: 
             return setBranchesList(state, payload)
+        case ADD_BRANCH: 
+            return addBranch(state, payload)
         default:
             return state;
     }
@@ -39,6 +42,12 @@ const reducer = (state = initialState, {type, payload = null}) => {
 function setBranchesList(state, payload){
     return {
         ...state, branchesList: payload
+    }
+}
+function addBranch(state, payload){
+    console.log(payload) 
+    return {
+        ...state, branchesList: [payload, ...state.branchesList]
     }
 }
 

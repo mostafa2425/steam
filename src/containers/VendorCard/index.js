@@ -24,19 +24,9 @@ import {
   VendorCountry,
   VendorContainer,
 } from './StyledComponents';
-import { Menu, Dropdown, message, Spin } from 'antd';
-import { MoreOutlined, MailOutlined, EnvironmentOutlined, SettingOutlined } from '@ant-design/icons';
-const menu = (
-  <Menu className="dropdown-list-holder">
-    <Menu.Item key="0">
-      <Link href="">Edit</Link>
-    </Menu.Item>
-    <Menu.Divider />
-    <Menu.Item key="1">
-      <a>Delete</a>
-    </Menu.Item>
-  </Menu>
-);
+import { Menu, Dropdown, message, Modal } from 'antd';
+import { MoreOutlined, MailOutlined, EnvironmentOutlined, SettingOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+const { confirm } = Modal;
 class VendorCard extends React.Component {
   state = {};
 
@@ -51,14 +41,40 @@ class VendorCard extends React.Component {
       });
   }
 
+ showDeleteConfirm = (cardId) => {
+    confirm({
+      title: 'Are you sure delete this task?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Some descriptions',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        console.log('OK', cardId);
+      },
+      onCancel() {
+        console.log('Cancel', cardId);
+      },
+    });
+  }
+
  
   render() {    
-    const { image, name, link, fans, location, to, phone, status, email, HeadQuarter, isCompany } = this.props;
-    
+    const { image, name, link, fans, location, to, phone, status, email, HeadQuarter, isCompany, cardId, editLink } = this.props;
+    console.log(editLink)
     return (
       <Container>
-        <Dropdown className="dropdown-list" overlay={menu} trigger={['click']}> 
-      {/* <MoreOutlined /> */}
+        <Dropdown className="dropdown-list" overlay={
+        <Menu className="dropdown-list-holder">
+          <Menu.Item key="0">
+            <Link to ={{ pathname: `${editLink.pathname}`, vendorInfo :editLink.vendorInfo, }}>Edit</Link>
+          </Menu.Item>
+          <Menu.Divider />
+          <Menu.Item key="1" onClick={() => this.showDeleteConfirm(cardId)}>
+            <a>Delete</a>
+          </Menu.Item>
+        </Menu>} 
+        trigger={['click']}> 
       <SettingOutlined />
       </Dropdown>
         <VendorContainer className={`${isCompany && "company-info"}`}>

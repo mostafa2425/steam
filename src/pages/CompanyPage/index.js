@@ -139,6 +139,7 @@ class CompanyPage extends React.Component {
               HeadQuarter={company.HeadQuarter}
               image={false} 
               link="VEIW VENDOR" 
+              editLink={{ pathname: "/update-company", vendorInfo :company, }}
               isCompany
               location
               to="/vendors"

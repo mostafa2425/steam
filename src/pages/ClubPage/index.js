@@ -71,8 +71,8 @@ class ClubPage extends React.Component {
               phone={club.Phone}
               link="VEIW DASHBORD"
               fans
+              editLink={{ pathname: "/update-club", vendorInfo :club, }}
               to={{ pathname: "/dashbord-profile", clubInfo :club,  id : club.Id }}
-              // to={{ pathname: "/dashbord-profile/", clubInfo :club,  id : club.Id }}
             />
             )}
           </div>

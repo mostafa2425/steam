@@ -84,6 +84,9 @@ class VendorPage extends React.Component {
             status={vendor.Enable}
             link="Veiw Dashboard" 
             phone={vendor.Phone}
+            cardId ={vendor.Id}
+            editLink={{ pathname: "/update-vendor", vendorInfo :vendor, }}
+            // editLink={`/update-vendor`}
             location
             to={`/vendor-profile:${vendor.Id}`}
             />

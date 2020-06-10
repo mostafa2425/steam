@@ -34,6 +34,9 @@ import AddClub from "../../components/AddClub/AddClub";
 import AddOffer from "../../pages/AddOffer/AddOffer";
 import AddAlert from "../../pages/AddAlert/AddAlert";
 import NotFound from "../../components/NotFound/NotFound";
+import UpdateVendor from "../../components/UpdateVendor/UpdateVendor";
+import UpdateClub from "../../components/UpdateClub/UpdateClub";
+import UpdateCompany from "../../components/UpdateCompany/UpdateCompany";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const mq = window.matchMedia( "(max-width: 480px)" );
@@ -145,6 +148,7 @@ componentDidMount() {
                     path="/vendor-profile:id"
                     component={VendorProfileDashboardPage}
                   />
+                  
                   <Route path="/brand-invoice" component={InvoicePage} />
                   <Route path="/add-company" component={AddCompany} />
                   <Route path="/add-branch" component={AddBranch} />
@@ -156,6 +160,9 @@ componentDidMount() {
                   <Route path="/add-offer" component={AddOffer} />
                   <Route path="/add-alert" component={AddAlert} />
                   <Route path="/add-vendor" component={AddVendor} /> 
+                  <Route path="/update-vendor" component={UpdateVendor} /> 
+                  <Route path="/update-club" component={UpdateClub} /> 
+                  <Route path="/update-company" component={UpdateCompany} /> 
                   <Route component={NotFound}/>
                   {/* <Route path="/add-branch2" component={AddBranch} /> */}
                   {/* <Route path="/test" component={AddCompany} /> */}
