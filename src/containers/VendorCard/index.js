@@ -61,13 +61,13 @@ class VendorCard extends React.Component {
  
   render() {    
     const { image, name, link, fans, location, to, phone, status, email, HeadQuarter, isCompany, cardId, editLink } = this.props;
-    console.log(editLink)
+
     return (
       <Container>
         <Dropdown className="dropdown-list" overlay={
         <Menu className="dropdown-list-holder">
           <Menu.Item key="0">
-            <Link to ={{ pathname: `${editLink.pathname}`, vendorInfo :editLink.vendorInfo, }}>Edit</Link>
+            <Link to ={{ pathname: `${editLink.pathname}`, data : editLink.vendorInfo }}>Edit</Link>
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item key="1" onClick={() => this.showDeleteConfirm(cardId)}>

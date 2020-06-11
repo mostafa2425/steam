@@ -71,62 +71,6 @@ class CompanyPage extends React.Component {
               titleImage={UserAvatar}
             />
           </HeaderPageSection >
-          {/* <div className="grid-holder">
-          {[...Array(10)].map(card => 
-            <>
-            <div className="company-card">
-            <Dropdown overlay={menu} trigger={['click']}>
-              <MoreOutlined />
-            </Dropdown>
-            <div className="company-info">
-              <img src={Starbuck} alt="company"/>
-              <h4 className="name">Starbuck</h4>
-            </div>
-              <div className="active-tag">Active</div>
-              <div className="company-detailes">
-                <div>
-                  <h5>Email:</h5>
-                  <a href="mailto:info@tmakun.com">info@tmakun.com</a>
-                </div>
-                <div>
-                  <h5>Phone:</h5>
-                  <a href="tel:+966502074792">+966502074792</a>
-                </div>
-                <div>
-                  <h5>Location:</h5>
-                  <p>Riyadh</p>
-                </div>
-                <Link className="primary-fill" to="/vendors">View Vendors</Link>
-              </div>
-            </div>
-            <div className="company-card">
-            <Dropdown overlay={menu} trigger={['click']}>
-              <MoreOutlined />
-            </Dropdown>
-            <div className="company-info"> 
-              <img src={McDonald} alt="company"/>
-              <h4 className="name">McDonald's KSA</h4>
-            </div>
-              <div className="inactive-tag">Active</div>
-              <div className="company-detailes">
-                <div>
-                  <h5>Email:</h5>
-                  <a href="mailto:info@tmakun.com">info@tmakun.com</a>
-                </div>
-                <div>
-                  <h5>Phone:</h5>
-                  <a href="tel:+966502074792">+966502074792</a>
-                </div>
-                <div>
-                  <h5>Location:</h5>
-                  <p>Riyadh</p>
-                </div>
-                <Link className="primary-fill" to="/vendors">View Vendors</Link>
-              </div>
-            </div>
-            </>
-            )}
-            </div> */}
             {!this.state.loading ? 
           <>
           <div className="company-grid-holder">

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Input, InputNumber, Button, Select, Switch, message } from "antd";
+import { Form, Input, InputNumber, Button, Select, Switch, message, Spin } from "antd";
 import { Link } from "react-router-dom";
 import DropdownList from "../DropdownList";
 import UserAvatar from "../../images/avatar.jpg";
@@ -15,13 +15,33 @@ export default class UpdateCompany extends Component {
     this.state = {
       CompanyStutes : true,
       loadingBtn : false,
+      loading : true,
     }
   }
 
+  componentDidMount() {
+    if(this.props.location.data){
+      const {Name, NameLT, Phone, HeadQuarter, Enable, IdentityId,Email } = this.props.location.data;
+      this.formRef.current.setFieldsValue({
+        CompanyName: Name,
+        ArabicCompanyName: NameLT,
+        email: Email,
+        phone: Phone,
+        Location: HeadQuarter,
+        CompanyStutes: Enable,
+      })
+      this.setState({CompanyStutes : this.props.location.data.Enable, companyId : this.props.location.data.Id, loading:false })
+    }else{
+      this.props.history.push("/companies");
+    }
+  }
+  
   formRef = React.createRef();
 
   handelSubmit = (values, errors) => {
+    console.log(errors)
     this.setState({loadingBtn : true})
+    
         let data = {
         "Name":`${values.CompanyName}`,
         "NameLT":`${values.ArabicCompanyName}`,
@@ -30,24 +50,29 @@ export default class UpdateCompany extends Component {
         "HeadQuarter":`${values.Location}`,
         "Enable":this.state.CompanyStutes
     }
+    setTimeout(() => {
+      this.setState({loadingBtn : false})
+      message.success('company Updated successfully'); 
+    }, 2000)  
+    
 
-    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddCompany", {
-          method: "post",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data) 
-        })
-        .then( (response) => { 
-          this.setState({loadingBtn : false})
-          message.success('company added successfully'); 
-          this.formRef.current.resetFields();
-        })
-        .catch((error) => {
-          this.setState({loadingBtn : false})
-          message.error('There has been a problem with your fetch operation: ' + error.message);
-        });
+    // fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddCompany", {
+    //       method: "post",
+    //       headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'
+    //       },
+    //       body: JSON.stringify(data) 
+    //     })
+    //     .then( (response) => { 
+    //       this.setState({loadingBtn : false})
+    //       message.success('company added successfully'); 
+    //       this.formRef.current.resetFields();
+    //     })
+    //     .catch((error) => {
+    //       this.setState({loadingBtn : false})
+    //       message.error('There has been a problem with your fetch operation: ' + error.message);
+    //     });
   };
 
   onFinishFailed = (errorInfo) => {
@@ -62,6 +87,7 @@ export default class UpdateCompany extends Component {
     return (
       <Container>
         <PageContainer>
+          {/* {!this.state.loading ?  */}
           <div className="add-company-form">
             <HeaderPageSection>
               <DropdownList
@@ -150,7 +176,7 @@ export default class UpdateCompany extends Component {
                   </Select>
                 </Form.Item>
                 <Form.Item label="Enable" name="CompanyStutes">
-                  <Switch defaultChecked onChange={this.changeCompanyStutes} />
+                  <Switch checked={this.state.CompanyStutes} onChange={this.changeCompanyStutes} />
                 </Form.Item>
                 <div className="btn-action">
                   <Button
@@ -159,13 +185,14 @@ export default class UpdateCompany extends Component {
                     htmlType="submit"
                     loading = {this.state.loadingBtn}
                   >
-                    Submit
+                    Update
                   </Button>
                   <Button className="grayscale-fill xlg-btn">Cancel</Button>
                 </div>
               </Form>
             </div>
-          </div>
+          </div> 
+          {/* : <Spin />} */}
         </PageContainer>
       </Container>
     );
