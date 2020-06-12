@@ -52,7 +52,7 @@ class HomePage extends React.Component {
       if(response.ok) {
         response.json().then((data) => {
           let branches = data.model;
-          this.props.dispatch(setBranchesList(branches)) 
+          // this.props.dispatch(setBranchesList(branches)) 
         });
       } else {
         message.error('Network response was not ok.');

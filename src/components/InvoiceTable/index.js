@@ -119,7 +119,7 @@ class InvoiceTable extends React.Component {
           response.json().then((data) => {
             let branches = data.model;
             this.setState({branches, loading : false})
-            this.props.dispatch(setBranchesList(branches)) 
+            // this.props.dispatch(setBranchesList(branches)) 
           });
         } else {
           message.error('Network response was not ok.');
