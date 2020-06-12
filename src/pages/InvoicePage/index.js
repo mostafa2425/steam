@@ -26,7 +26,7 @@ class InvoicePage extends React.Component {
             />
           </HeaderPageSection>
           <PageSection>
-            <InvoiceTable />
+            <InvoiceTable isInvoices/>
           </PageSection>
         </PageContainer>
       </Container>

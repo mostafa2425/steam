@@ -14,23 +14,12 @@ import {
   AddBtn,
 } from './StyledComponents';
 
-import { Menu, Dropdown, message, Spin } from 'antd';
-import { MoreOutlined, MailOutlined, EnvironmentOutlined, PhoneOutlined } from '@ant-design/icons';
+import { Menu, Dropdown, message, Spin, Select } from 'antd';
+import { MoreOutlined, MailOutlined, PrinterOutlined, FormOutlined } from '@ant-design/icons';
 import InvoicePage from '../../pages/InvoicePage';
 import { connect } from 'react-redux';
 import { setBranchesList } from '../../Dashboard/store/actions';
 
-const menu = (
-  <Menu>
-    <Menu.Item key="0">
-      <a href="">Edit</a>
-    </Menu.Item>
-    <Menu.Divider />
-    <Menu.Item key="1">
-      <a href="">View</a>
-    </Menu.Item>
-  </Menu>
-);
 const columns = [
   {
     name: 'Record ID',
@@ -78,21 +67,6 @@ const columns = [
     sortable: true,
     cell: (values) => <p>{values.Type ? "true" : "false"}</p>
   },
-  // {
-  //   name: 'Branch ID',
-  //   selector: 'Id',
-  //   sortable: true,
-  // },
-  // {
-  //   name: 'City',
-  //   selector: 'VendorTypeName',
-  //   sortable: true,
-  // },
-  // {
-  //   name: 'Total orders',
-  //   selector: 'Id',
-  //   sortable: true,
-  // },
   {
     name: 'Statues',
     selector: 'Enable',
@@ -104,7 +78,7 @@ const columns = [
     selector: 'actions',
     sortable: true,
     right: true,
-    cell: () => <Link to="/invoice" style={{ textDecoration: 'none', display: 'flex' }}><button className="primary-fill" style={{ fontWeight: 'bold' }}>print</button></Link>,
+    cell : () => <div className="table-action"><Link to="/brand-invoice" className="mr-15"><FormOutlined /></Link><Link style={{ color:'#000'}} to="/invoice"><PrinterOutlined /></Link></div>
   },
 ];
 
@@ -115,9 +89,30 @@ class InvoiceTable extends React.Component {
     super(props);
     this.state = {
       branches : [],
+      vendors : [],
+      isFilterd : false
     }
   }
   componentDidMount() {
+    // eslint-disable-next-line no-lone-blocks
+    {this.props.isInvoices &&
+      fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then((response) => {
+        if(response.ok) {
+          response.json().then((data) => {
+            let vendors = data.model;
+            this.setState({vendors, loading : false})
+          });
+        } else {
+          message.error('Network response was not ok.');
+          this.setState({loading : false})
+        }
+      })
+      .catch((error) => {
+        this.setState({loading : false})
+        message.error('There has been a problem with your fetch operation: ' + error.message);
+      });
+  }
+  
     if(!this.props.brnachesList.length > 0){
       fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetBranches?Page=0').then((response) => {
         if(response.ok) {
@@ -138,6 +133,19 @@ class InvoiceTable extends React.Component {
     }else{
       this.setState({branches : this.props.brnachesList, loading : false})
     }
+
+  }
+
+  onChangeVendor = (value) => {
+    if(!this.state.isFilterd){
+      this.setState({orginalBranches : this.state.branches, isFilterd : true},() => {
+        let filter = this.state.branches.filter(branch => branch.VendorId ==  value);
+        this.setState({branches : filter})
+      })
+    }else{
+      let filter = this.state.orginalBranches.filter(branch => branch.VendorId ==  value);
+        this.setState({branches : filter})
+    }
   }
   
   render() {
@@ -145,15 +153,26 @@ class InvoiceTable extends React.Component {
     return (
       <Container className="invoice-page-wrapper">
         {!this.state.loading ? 
+        <>
+        {
+        this.props.isInvoices && 
+          <Select onChange={this.onChangeVendor} size="large" style={{width : "280px"}} placeholder="filter by vendor">
+          {this.state.vendors && this.state.vendors.map(vendor => <Select.Option value={`${vendor.Id}`}>{vendor.Name}</Select.Option>)}
+        </Select>
+        }
+        <h3>invoices</h3>
         <DataTable
-          title="Branches"
+          title={ this.props.isInvoices ? '' : 'Branches'}
+          // title={ this.props.isInvoices ? 'Invoices' : 'Branches'}
           columns={columns} 
           data={this.state.branches.length > 0 ? this.state.branches : []}
           striped
           pointerOnHover
           persistTableHead
           pagination
-        /> : <Spin />}
+        /> 
+        </>
+        : <Spin />}
         
       </Container>
     );

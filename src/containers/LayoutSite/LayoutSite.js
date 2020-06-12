@@ -37,6 +37,7 @@ import NotFound from "../../components/NotFound/NotFound";
 import UpdateVendor from "../../components/UpdateVendor/UpdateVendor";
 import UpdateClub from "../../components/UpdateClub/UpdateClub";
 import UpdateCompany from "../../components/UpdateCompany/UpdateCompany";
+import CompanyVendorPage from "../../pages/CompanyVendorPage";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const mq = window.matchMedia( "(max-width: 480px)" );
@@ -163,6 +164,7 @@ componentDidMount() {
                   <Route path="/update-vendor" component={UpdateVendor} /> 
                   <Route path="/update-club" component={UpdateClub} /> 
                   <Route path="/update-company" component={UpdateCompany} /> 
+                  <Route path="/company-vendor" component={CompanyVendorPage} /> 
                   <Route component={NotFound}/>
                   {/* <Route path="/add-branch2" component={AddBranch} /> */}
                   {/* <Route path="/test" component={AddCompany} /> */}

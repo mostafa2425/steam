@@ -328,7 +328,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   >
                     Update
                   </Button>
-                  <Button  className="grayscale-fill xlg-btn">Cancel</Button>
+                  <Link to="/vendors" className="grayscale-fill xlg-btn">Cancel</Link>
                 </div>
               </Form>
             </div> : <Spin />}

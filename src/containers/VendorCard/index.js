@@ -41,19 +41,99 @@ class VendorCard extends React.Component {
       });
   }
 
- showDeleteConfirm = (cardId) => {
+  deleteVendorCard = () => {
+    fetch(`http://native-001-site2.ctempurl.com/api/DeleteCompany?CompanyId=${1}`).then((response) => {
+      if(response.ok) {
+        response.json().then((data) => {
+          // this.setState({companies, loading : false})
+          message.success('company deleted successfully'); 
+        });
+      } else {
+        message.error('Network response was not ok.');
+        // this.setState({loading : false})
+      }
+    })
+    .catch((error) => {
+      this.setState({loading : false})
+      message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
+  }
+
+ showDeleteConfirm = (cardId, name) => {
     confirm({
-      title: 'Are you sure delete this task?',
+      title: `Are you sure delete ${name} ?`,
       icon: <ExclamationCircleOutlined />,
-      content: 'Some descriptions',
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
-      onOk() {
-        console.log('OK', cardId);
-      },
-      onCancel() {
-        console.log('Cancel', cardId);
+      onOk : () =>  {
+        console.log(this)
+        console.log(this.props)
+        if(this.props.isCompany){
+        fetch(`http://native-001-site2.ctempurl.com/api/DeleteCompany?CompanyId=${cardId}`)
+        .then((response) => {
+          console.log(response)
+          if(response.ok) {
+            response.json().then((data) => {
+              message.success('company deleted successfully'); 
+              setTimeout(() => {
+                window.location.reload();
+              }, 800)
+              
+            });
+          } else {
+            if(response.status === 400){
+              message.warning(`can't delete ${name} beacuse it has active venodrs, Please delete Vendors first`);
+            }else{
+              message.error('Network response was not ok.');
+            }
+          }
+        })
+        .catch((error) => {
+          this.setState({loading : false})
+          message.error('There has been a problem with your fetch operation: ' + error.message);
+        });
+      }else if(this.props.fans){
+        fetch(`http://native-001-site2.ctempurl.com/api/DeleteClub?ClubId=${cardId}`)
+        .then((response) => {
+          console.log(response)
+          if(response.ok) {
+            response.json().then((data) => {
+              message.success('club deleted successfully'); 
+              setTimeout(() => {
+                window.location.reload();
+              }, 800)
+              
+            });
+          } else {
+            message.error('Network response was not ok.');
+          }
+        })
+        .catch((error) => {
+          this.setState({loading : false})
+          message.error('There has been a problem with your fetch operation: ' + error.message);
+        });
+      }else{
+        fetch(`http://native-001-site2.ctempurl.com/api/DeleteVendor?VendorId=${cardId}`)
+        .then((response) => {
+          console.log(response)
+          if(response.ok) {
+            response.json().then((data) => {
+              message.success('vendor deleted successfully'); 
+              setTimeout(() => {
+                window.location.reload();
+              }, 800)
+              
+            });
+          } else {
+            message.error('Network response was not ok.');
+          }
+        })
+        .catch((error) => {
+          this.setState({loading : false})
+          message.error('There has been a problem with your fetch operation: ' + error.message);
+        }); 
+      }
       },
     });
   }
@@ -61,7 +141,6 @@ class VendorCard extends React.Component {
  
   render() {    
     const { image, name, link, fans, location, to, phone, status, email, HeadQuarter, isCompany, cardId, editLink } = this.props;
-
     return (
       <Container>
         <Dropdown className="dropdown-list" overlay={
@@ -70,7 +149,7 @@ class VendorCard extends React.Component {
             <Link to ={{ pathname: `${editLink.pathname}`, data : editLink.vendorInfo }}>Edit</Link>
           </Menu.Item>
           <Menu.Divider />
-          <Menu.Item key="1" onClick={() => this.showDeleteConfirm(cardId)}>
+          <Menu.Item key="1" onClick={() => this.showDeleteConfirm(cardId, name)}>
             <a>Delete</a>
           </Menu.Item>
         </Menu>} 
@@ -82,8 +161,8 @@ class VendorCard extends React.Component {
           <VendorImage className="card-img" src={ fans ? `http://native-001-site2.ctempurl.com/images/clubimages/${image}` : `http://native-001-site2.ctempurl.com/images/vendorimages/${image}`} alt="vendor" /> :  <VendorImage className="card-img" src={avatarPlaceholder} alt="vendor" /> : null
         }
           <FansTextContainer >
-            <VendorName>{name}</VendorName>
-            <VendorCountry>{HeadQuarter ? HeadQuarter : 'KSA'}</VendorCountry>
+            <VendorName>{ name}</VendorName>
+            { !isCompany && <VendorCountry>{HeadQuarter ? HeadQuarter : 'KSA'}</VendorCountry> }
             {status ? <VendorStatus style={{color : "#81b955"}}>Active</VendorStatus> : <VendorStatus>Not Active</VendorStatus>}
             
           </FansTextContainer>
@@ -105,7 +184,7 @@ class VendorCard extends React.Component {
           { location && (
             <ListingText>
               <TitleImage src={Location} alt="title" />
-              <Details>Riyadh</Details>
+              <Details>{HeadQuarter ? HeadQuarter : "KSA"}</Details>
             </ListingText>
           )}
           <ListingText>
@@ -113,9 +192,15 @@ class VendorCard extends React.Component {
           <Details> <a href="tel:+${phone}" style={{ color: '#969696'}}>{phone}</a> </Details>
           </ListingText>
         </ContantContainer>
-        <Link to={to}  style={{ textDecoration: 'none', display: 'flex' }}>
+        {isCompany ? 
+        <Link to ={{ pathname: `${to}`, companyId : cardId }}  style={{ textDecoration: 'none', display: 'flex' }}>
           <VeiwBotton>{link}</VeiwBotton>
         </Link>
+        : 
+        <Link to={to}  style={{ textDecoration: 'none', display: 'flex' }}> 
+          <VeiwBotton>{link}</VeiwBotton>
+        </Link>
+        }
       </Container>
     );
   }

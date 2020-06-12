@@ -88,14 +88,14 @@ export default class AddVendor extends Component {
     "Email":`${values.email}`,
     "Phone":`${values.phone}`,
     "Enable":this.state.vendorStutes,
-    "CompanyId":values.CompanyName,
+    "CompanyId": +values.CompanyName,
     "HeadQuarter": "Dammam",
     "Percentage":values.Commission,
-    "Industry":`${values.Indastry}`,
+    "VendorTypeId":`${values.Indastry}`,
     "Description":`${values.VendorDescription}`,
-    "Password":`123456`,
-    "ConfirmPassword":`123456`, 
     "Logo": this.state.imageUrl, 
+    "Password":values.password,
+    "ConfirmPassword": values.confirm, 
 }
 
 fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddVendor", {
@@ -110,7 +110,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
       console.log(response)
       this.setState({loadingBtn : false})
       message.success('vendor added successfully'); 
-      // this.formRef.current.resetFields();
+      this.formRef.current.resetFields();
     })
     .catch((error) => {
       this.setState({loadingBtn : false})
@@ -202,7 +202,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   ]}
                 >
                   <Select onChange={this.handleChangeCompany}>
-                      {this.state.companies && this.state.companies.map(company => <Select.Option value={`${company.Id}`}>{company.Name}</Select.Option>)}
+                      {this.state.companies && this.state.companies.map(company => <Select.Option value={company.Id}>{company.Name}</Select.Option>)}
                   </Select>
                 </Form.Item>
 
@@ -299,6 +299,45 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   <Input />
                 </Form.Item>
                 <Form.Item
+                  name="password"
+                  label="Password"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your password!",
+                    },
+                  ]}
+                  hasFeedback
+                >
+                  <Input.Password />
+                </Form.Item>
+
+                <Form.Item
+                  name="confirm"
+                  label="Confirm Password"
+                  dependencies={["password"]}
+                  hasFeedback
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please confirm your password!",
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(rule, value) {
+                        if (!value || getFieldValue("password") === value) {
+                          return Promise.resolve();
+                        }
+
+                        return Promise.reject(
+                          "The two passwords that you entered do not match!"
+                        );
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password />
+                </Form.Item>
+                <Form.Item
                   label="Vendor Indastry"
                   name="Indastry"
                   rules={[
@@ -309,7 +348,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   ]}
                 >
                   <Select>
-                  {this.state.vendorIndustry && this.state.vendorIndustry.map(type => <Select.Option value={`${type.Id}`}>{type.Name}</Select.Option>)}
+                  {this.state.vendorIndustry && this.state.vendorIndustry.map(type => <Select.Option value={type.Id}>{type.Name}</Select.Option>)}
                   </Select>
                 </Form.Item>
                 <Form.Item label="Enable" name="vendorStutes">
@@ -322,9 +361,9 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                     htmlType="submit"
                     loading = {this.state.loadingBtn}
                   >
-                    Submit
+                    Submit 
                   </Button>
-                  <Button  className="grayscale-fill xlg-btn">Cancel</Button>
+                  <Link to="/vendors" className="grayscale-fill xlg-btn">Cancel</Link>
                 </div>
               </Form>
             </div> : <Spin />}

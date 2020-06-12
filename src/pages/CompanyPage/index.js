@@ -76,17 +76,18 @@ class CompanyPage extends React.Component {
           <div className="company-grid-holder">
           {this.state.companies && this.state.companies.map(company =>
             <VendorCard 
-              name={company.Email}
+              name={company.Name}
               email = {company.Email}
               status={company.Enable}
               phone={company.Phone}
               HeadQuarter={company.HeadQuarter}
+              cardId ={company.Id}
               image={false} 
               link="VEIW VENDOR" 
               editLink={{ pathname: "/update-company", vendorInfo :company, }}
               isCompany
               location
-              to="/vendors"
+              to="/company-vendor"
             />
           )}
             </div>

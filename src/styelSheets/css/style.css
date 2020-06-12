@@ -605,6 +605,7 @@ ul::-webkit-scrollbar-thumb,
 }
 
 .add-company-form {
+  height: 100%;
   margin: 0 30px;
 }
 
@@ -707,6 +708,12 @@ ul::-webkit-scrollbar-thumb,
   color: #232323;
   margin-right: 20px;
   font-weight: normal;
+}
+
+@media only screen and (max-width: 767px) {
+  .add-company-form .ant-form-item .ant-form-item-label {
+    width: auto !important;
+  }
 }
 
 .add-company-form .ant-form-item .ant-form-item-control-input {
@@ -817,6 +824,17 @@ ul::-webkit-scrollbar-thumb,
   min-height: 75vh;
 }
 
+.invoice-page-wrapper > .ant-select-single ~ div > header {
+  display: none;
+}
+
+.invoice-page-wrapper h3 {
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 18px;
+  font-weight: 400;
+  margin-top: 25px;
+}
+
 .offer-page-wrapper {
   padding: 0 30px;
   padding-bottom: 100px;
@@ -825,6 +843,22 @@ ul::-webkit-scrollbar-thumb,
 
 .offer-page-wrapper > div {
   margin-top: 0;
+}
+
+.table-action {
+  cursor: auto;
+}
+
+.table-action a {
+  color: #81b955;
+  font-size: 16px;
+}
+
+.ant-select-selection-placeholder {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #232323;
 }
 
 .root-wrapper > section {

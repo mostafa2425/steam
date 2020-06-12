@@ -36,6 +36,7 @@ export default class AddBranch extends Component {
       },
       zoom: 11,
       branchStutes : true,
+      branchType : "false",
       // this.onMapClicked = this.onMapClicked.bind(this);
     }
   }
@@ -67,10 +68,13 @@ export default class AddBranch extends Component {
 
   formRef = React.createRef();
   componentDidMount() {
+    console.log(this.props.location)
+    this.props.location.vendorName && this.formRef.current.setFieldsValue({
+      vendorName :  this.props.location.vendorName
+    }) 
     if (navigator && navigator.geolocation) 
     { 
       navigator.geolocation.getCurrentPosition(pos => { 
-        console.log(443322, pos);
         var coords = pos.coords; this.setState({ center: { lat: coords.latitude, lng: coords.longitude } }); }); }
 
   }
@@ -139,6 +143,10 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
   changeBranchStutes = (value) => {
     this.setState({branchStutes : value})
   };
+  onChangeBranchType = (value) => {
+    console.log(value)
+    this.setState({branchType : value})
+  };
 
   render() {
     return (
@@ -161,6 +169,12 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 ref={this.formRef}
               >
                 <h4>Branch Info:</h4>
+                <Form.Item
+                  name="vendorName"
+                  label="vendor Name"
+                >
+                  <Input disabled/>
+                </Form.Item>
                 <Form.Item
                   name="BranchReference"
                   label="Branch Reference"
@@ -185,9 +199,25 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 >
                   <Input />
                 </Form.Item>
+                <Form.Item
+                  label="Branch Type"
+                  name="BranchType"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select branch Type",
+                    },
+                  ]}
+                >
+                  <Select defaultValue={this.state.branchType} onChange={this.onChangeBranchType}>
+                    <Select.Option value="true">online store</Select.Option> 
+                    <Select.Option value="false">physical store</Select.Option>
+                  </Select>
+                </Form.Item>
                 <Form.Item label="Enable" name="branchStutes">
                   <Switch defaultChecked onChange={this.changeBranchStutes} />
                 </Form.Item>
+                {this.state.branchType === "false" &&
                 <div className="map-wrapper">
                   <label>Branch Location</label>
                 <div style={{ height: '50vh', width: '100%' }}>
@@ -203,24 +233,9 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                         position={{ lat: this.state.center.lat, lng: this.state.center.lng }}
                     />
                 </this.CMap>
-                {/* <GoogleMap
-                  defaultZoom={8}
-                  defaultCenter={{ lat: this.state.center.lat, lng: this.state.center.lng }}
-                >
-                  <Marker position={{ lat: this.state.center.lat, lng: this.state.center.lng }} />}
-                </GoogleMap> */}
-                {/* <GoogleMapReact
-                  bootstrapURLKeys={{ key: "AIzaSyBh6FbV8FeEBGtnwkw1siI4XcpYEM7QyQQ" }}
-                  center ={this.state.center}
-                  defaultZoom={this.state.zoom}
-                  onDragend={this.centerMoved}
-                  // onGoogleApiLoaded={({ map, maps }) => this.renderMarkers(map, maps)}
-                  onClick={this.addMarker}
-                >
-                </GoogleMapReact> */}
-                  {/* <Marker lat={this.state.center.lat} lng={this.state.center.lng} /> */}
               </div>
               </div>
+               }
                 <h4>Branch Info:</h4>
                 <Form.Item
                   name="phone"
@@ -272,21 +287,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 >
                   <Input />
                 </Form.Item>
-                <Form.Item
-                  label="Branch Type"
-                  name="BranchType"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please select branch Type",
-                    },
-                  ]}
-                >
-                  <Select>
-                    <Select.Option value="true">online store</Select.Option>
-                    <Select.Option value="false">physical store</Select.Option>
-                  </Select>
-                </Form.Item>
+
                 <Form.Item
                   name="password"
                   label="Password"

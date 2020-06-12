@@ -87,7 +87,7 @@
 }
 
 .add-company-form {
-  // height: 100%;
+  height: 100%;
   // background-color: #fff;
   // box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
   // border-radius: 8px;
@@ -167,6 +167,9 @@
             color: #232323;
             margin-right: 20px;
             font-weight: normal;
+        }
+        @include mq("tablet"){
+          width: auto !important;
         }
     }
     .ant-form-item-control-input {
@@ -253,6 +256,19 @@
   margin: 0 30px !important;
   margin-bottom: 100px !important; 
   min-height: 75vh;
+  > .ant-select-single{
+    & ~ div{
+      > header{
+        display: none;
+      }
+    }
+  }
+  h3{
+    color: rgba(0,0,0,.87);
+    font-size: 18px;
+    font-weight: 400;
+    margin-top: 25px;
+  }
 }
 
 .offer-page-wrapper{
@@ -262,4 +278,18 @@
   > div{
     margin-top: 0;
   }
+}
+.table-action{
+  cursor: auto; 
+  a{
+    color: #81b955;
+    font-size: 16px;
+  }
+}
+
+.ant-select-selection-placeholder{
+  display: flex;
+    align-items: center;
+  font-size: 16px;
+  color: #232323;
 }

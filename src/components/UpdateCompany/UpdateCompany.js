@@ -41,8 +41,8 @@ export default class UpdateCompany extends Component {
   handelSubmit = (values, errors) => {
     console.log(errors)
     this.setState({loadingBtn : true})
-    
         let data = {
+        "Id": this.state.companyId,
         "Name":`${values.CompanyName}`,
         "NameLT":`${values.ArabicCompanyName}`,
         "Email":`${values.email}`,
@@ -50,29 +50,25 @@ export default class UpdateCompany extends Component {
         "HeadQuarter":`${values.Location}`,
         "Enable":this.state.CompanyStutes
     }
-    setTimeout(() => {
-      this.setState({loadingBtn : false})
-      message.success('company Updated successfully'); 
-    }, 2000)  
-    
+    console.log(data)
 
-    // fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddCompany", {
-    //       method: "post",
-    //       headers: {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json'
-    //       },
-    //       body: JSON.stringify(data) 
-    //     })
-    //     .then( (response) => { 
-    //       this.setState({loadingBtn : false})
-    //       message.success('company added successfully'); 
-    //       this.formRef.current.resetFields();
-    //     })
-    //     .catch((error) => {
-    //       this.setState({loadingBtn : false})
-    //       message.error('There has been a problem with your fetch operation: ' + error.message);
-    //     });
+    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditCompany", {
+          method: "post",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data) 
+        })
+        .then((response) => { 
+          this.setState({loadingBtn : false})
+          message.success('company Updated successfully'); 
+          this.props.history.push("/companies");
+        })
+        .catch((error) => {
+          this.setState({loadingBtn : false})
+          message.error('There has been a problem with your fetch operation: ' + error.message);
+        });
   };
 
   onFinishFailed = (errorInfo) => {
@@ -187,7 +183,7 @@ export default class UpdateCompany extends Component {
                   >
                     Update
                   </Button>
-                  <Button className="grayscale-fill xlg-btn">Cancel</Button>
+                  <Link to="/companies" className="grayscale-fill xlg-btn">Cancel</Link>
                 </div>
               </Form>
             </div>

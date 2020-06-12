@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button, Select, message, Input, Spin } from "antd";
+import { Form, Button, Select, message, Input, Spin, Upload } from "antd";
 import { DatePicker } from 'antd';
 import moment from 'moment';
 import { Link } from "react-router-dom";
@@ -10,20 +10,28 @@ import {
   Container,
   PageContainer,
 } from "./StyledComponents";
-function disabledDate(current) {
-    return current && current < moment().endOf('day');
-  }
+import { UploadOutlined } from '@ant-design/icons';
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
+    function disabledDate(current) {
+        return current && current < moment().endOf('day');
+      }
+      function getBase64(img, callback) {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(img);
+      };
 export default class AddAlert extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       vendors : null,
+      clubs : null,
       loading : true,
       StartDate : null,
       EndDate : null,
+      imageUrl : null,
     }
   }
 
@@ -81,11 +89,61 @@ export default class AddAlert extends Component {
       this.setState({loading : false})
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
+
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0').then((response) => {
+      if(response.ok) {
+        response.json().then((data) => {
+          let clubs = data.model;
+          this.setState({clubs, loading : false}) 
+        });
+      } else {
+        message.error('Network response was not ok.');
+        this.setState({loading : false})
+      }
+    })
+    .catch((error) => {
+      this.setState({loading : false})
+      message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
   }
 
   onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
+  onChangeimg = (info) => {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      getBase64(info.file.originFileObj, imageUrl =>{
+        let imageUrljpeg = imageUrl.replace("data:image/jpeg;base64,", "");
+        let imageUrlpng = imageUrljpeg.replace("data:image/png;base64,", "");
+        this.setState({
+          imageUrl : imageUrlpng,
+          loading: false,
+        })
+      }
+        
+      );
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  };
+
+
+  beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
+  }
 
 
   render() {
@@ -102,13 +160,41 @@ export default class AddAlert extends Component {
             </HeaderPageSection>
             {!this.state.loading ?
             <div className="form-holder">
-              <h2>Add Offer</h2>
+              <h2>Add Alert</h2>
               <Form
                 name="nest-messages"
                 onFinish={this.handelSubmit}
                 onFinishFailed={this.onFinishFailed}
                 ref={this.formRef}
               >
+                <Form.Item
+                  name="ClubLogo"
+                  label="Alert Logo"
+                  rules={[{ required: true, message: "Please input Club Logo!", }]}
+                >
+                  <Upload
+                  name ='file'
+                  action = 'https://www.mocky.io/v2/5cc8019d300000980a055e76' 
+                  onChange={this.onChangeimg} beforeUpload={this.beforeUpload}> 
+                  <Button>
+                    <UploadOutlined /> Click to Upload
+                  </Button>
+                </Upload>
+                </Form.Item>
+                <Form.Item
+                  label="Club Name"
+                  name="ClubName"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select Club",
+                    },
+                  ]}
+                >
+                  <Select placeholder="select Club">
+                  {this.state.clubs && this.state.clubs.map(club => <Select.Option value={`${club.Id}`}>{club.Name}</Select.Option>)}
+                  </Select>
+                </Form.Item>
                 <Form.Item
                   label="Vendor Name"
                   name="VendorName"
@@ -119,7 +205,7 @@ export default class AddAlert extends Component {
                     },
                   ]}
                 >
-                  <Select>
+                  <Select placeholder="select Vendor">
                   {this.state.vendors && this.state.vendors.map(vendor => <Select.Option value={`${vendor.Id}`}>{vendor.Name}</Select.Option>)}
                   </Select>
                 </Form.Item>   

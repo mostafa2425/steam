@@ -64,8 +64,8 @@ class VendorProfileDashboardPage extends React.Component {
         
         <PageContainer className="vendor-profile-wrapper">
           <HeaderPageSection>
-          <Link to="/add-branch" style={{ textDecoration: 'none', display: 'flex' }}>
-            <button className="primary-fill">Add Branch</button>
+          <Link to={{pathname : "/add-branch", vendorName : "vendorName"}} style={{ textDecoration: 'none', display: 'flex' }}>
+            <button className="primary-fill">Add Branch</button> 
           </Link>
             <DropdownList 
               title="user name"
@@ -97,10 +97,11 @@ class VendorProfileDashboardPage extends React.Component {
               transparent
             />
             <SmallCard
-              title="Invouces"
+              title="invoices"
               image={Invouces}
               number="5"
               transparent
+              isInvoice
             />
             <SmallCard
               title="Active Beanches"

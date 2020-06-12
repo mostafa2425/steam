@@ -162,7 +162,7 @@ export default class AddCompany extends Component {
                   >
                     Submit
                   </Button>
-                  <Button className="grayscale-fill xlg-btn">Cancel</Button>
+                  <Link to="/companies" className="grayscale-fill xlg-btn">Cancel</Link>
                 </div>
               </Form>
             </div>
