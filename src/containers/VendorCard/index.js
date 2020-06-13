@@ -67,8 +67,6 @@ class VendorCard extends React.Component {
       okType: 'danger',
       cancelText: 'No',
       onOk : () =>  {
-        console.log(this)
-        console.log(this.props)
         if(this.props.isCompany){
         fetch(`http://native-001-site2.ctempurl.com/api/DeleteCompany?CompanyId=${cardId}`)
         .then((response) => {
@@ -140,7 +138,7 @@ class VendorCard extends React.Component {
 
  
   render() {    
-    const { image, name, link, fans, location, to, phone, status, email, HeadQuarter, isCompany, cardId, editLink } = this.props;
+    const { image, name, link, fans, location, to, phone, status, email, HeadQuarter, isCompany, cardId, editLink, league } = this.props;
     return (
       <Container>
         <Dropdown className="dropdown-list" overlay={
@@ -162,7 +160,7 @@ class VendorCard extends React.Component {
         }
           <FansTextContainer >
             <VendorName>{ name}</VendorName>
-            { !isCompany && <VendorCountry>{HeadQuarter ? HeadQuarter : 'KSA'}</VendorCountry> }
+            { !isCompany && ( fans ? <VendorCountry>{league == 1 ? "First Division" : "second Division"}</VendorCountry> : <VendorCountry>{HeadQuarter ? HeadQuarter : 'KSA'}</VendorCountry> )}
             {status ? <VendorStatus style={{color : "#81b955"}}>Active</VendorStatus> : <VendorStatus>Not Active</VendorStatus>}
             
           </FansTextContainer>

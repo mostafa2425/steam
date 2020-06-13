@@ -49,10 +49,9 @@ class CompanyVendorPage extends React.Component {
 
     return (
       <Container >
-        
         <PageContainer className="vendor-page-wrapper">
           <HeaderPageSection>
-          <Link to="/add-vendor" style={{ textDecoration: 'none', display: 'flex' }}>
+          <Link to = {{ pathname: "/add-vendor", companyVendorId : this.props.location.companyId }} style={{ textDecoration: 'none', display: 'flex' }}>
             <button className="primary-fill">Add Vendor</button> 
           </Link>
             <DropdownList 
@@ -75,7 +74,6 @@ class CompanyVendorPage extends React.Component {
             phone={vendor.Phone}
             cardId ={vendor.Id}
             editLink={{ pathname: "/update-vendor", vendorInfo :vendor, }}
-            // editLink={`/update-vendor`}
             location
             to={`/vendor-profile:${vendor.Id}`}
             />)}  

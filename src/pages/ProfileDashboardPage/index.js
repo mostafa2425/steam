@@ -12,6 +12,7 @@ import Commission from '../../images/commission.png'
 import CompanyLogo from '../../images/al-hilal.png'
 import Email from '../../images/email.png'
 import Phone from '../../images/phone.png'
+import placeholderImage from '../../images/users.png'
 import { Spin, message  } from "antd";
 import {
   Container,
@@ -88,6 +89,12 @@ class ProfileDashboardPage extends React.Component {
               number="14.6 K"
               transparent
             />
+            <SmallCard
+              title="register users"
+              image={placeholderImage}
+              number="3 K"
+              transparent
+            /> 
             <SmallCard
               title="Club Commission"
               image={Commission}

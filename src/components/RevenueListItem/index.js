@@ -23,7 +23,7 @@ console.log(this.props.card)
       <Container className="revenue-holder">
         <ListingNumber>{this.props.index + 1}</ListingNumber>
         <VendorImage src={this.props.type === "club" ? club1 : Vendor} alt="vendor" />
-        {this.props.type === "club" ? <Progress className="progress-holder" percent={Commission} format={percent => `${Commission} K`} /> : 
+        {this.props.type === "club" ? <Progress className="progress-holder" percent={Commission} format={percent => `${Number.isInteger(Commission) ? Commission : Commission.toFixed(2)} K`} /> : 
         <VendorTextContainer className="revenue-name">
           <VendorName >{Name}</VendorName>
           <VendorCompanyName> {Name}</VendorCompanyName>  

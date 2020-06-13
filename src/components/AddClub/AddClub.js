@@ -37,9 +37,9 @@ export default class AddClub extends Component {
     let data = {
     "Name":`${values.ClubName}`,
     "NameLT":`${values.ArabicClubName}`,
-    "ClubTypeId":1,
+    "ClubTypeId": values.League,
     "Email":`${values.email}`,
-    "Phone":`${values.phone}`,
+    "Phone":`${values.phone}`, 
     "Enable":this.state.clubStutes,
     "Logo": this.state.imageUrl, 
 }
@@ -57,6 +57,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
       this.setState({loadingBtn : false})
       message.success('club added successfully'); 
       this.formRef.current.resetFields();
+      this.setState({imageUrl : null, })
     })
     .catch((error) => {
       this.setState({loadingBtn : false})
@@ -144,6 +145,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 <Form.Item
                   name="ClubLogo"
                   label="Club Logo"
+                  // className="mb-0"
                   rules={[{ required: true, message: "Please input Club Logo!", }]}
                 >
                   <Upload
@@ -154,6 +156,23 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                     <UploadOutlined /> Click to Upload
                   </Button>
                 </Upload>
+                </Form.Item>
+                <Form.Item
+                  label="League Division"
+                  name="League"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please club league division",
+                    },
+                  ]}
+                >
+                  <Select>
+                      {/* <Select.Option value={1}>دوري الدرجة الأولى للمحترفين </Select.Option>
+                      <Select.Option value={2}>دوري الدرجة الثانية</Select.Option> */}
+                      <Select.Option value={1}>First Division</Select.Option>
+                      <Select.Option value={2}>Second Division</Select.Option>
+                  </Select>
                 </Form.Item>
                 <Form.Item
                   name="Commission"

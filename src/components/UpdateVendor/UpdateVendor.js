@@ -39,21 +39,39 @@ export default class UpdateVendor extends Component {
       imageUrl : null,
       companies : null,
       vendorIndustry : null,
+      vendorID : null
     }
   }
 
   formRef = React.createRef();
+
   componentDidMount() {
-    console.log(this.props)
-    if(this.props.location.vendorInfo){
-      
+    if(this.props.location.data){
+      const {Name, NameLT, Phone, Enable, Email, Description, Password, ConfirmPassword, Percentage, Id } = this.props.location.data;
+      this.formRef.current.setFieldsValue({
+        VendorName: Name,
+        ArabicVendorName: NameLT,
+        email: Email,
+        phone: Phone,
+        VendorDescription: Description,
+        CompanyStutes: Enable,
+        Commission : Percentage,
+        password : Password,
+        confirm : ConfirmPassword, 
+      })
+      this.setState({CompanyStutes : this.props.location.data.Enable, vendorID : Id })
+    }else{
+      this.props.history.push("/vendors");
     }
+
     if(!this.props.isFromCompany){
     fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let companies = data.model;
-          this.setState({companies, loading : false})
+          this.setState({companies, loading : false}, () => {
+            this.formRef.current.setFieldsValue({CompanyName: this.props.location.data && this.props.location.data.CompanyId,})
+          })
         });
       } else {
         message.error('Network response was not ok.');
@@ -62,14 +80,16 @@ export default class UpdateVendor extends Component {
     })
     .catch((error) => {
       this.setState({loading : false})
-      // message.error('There has been a problem with your fetch operation: ' + error.message);
+      message.error('There has been a problem with your fetch operation: ' + error.message);
     });
 
     fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendorTypes').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let vendorIndustry = data.model;
-          this.setState({vendorIndustry, loading : false})
+          this.setState({vendorIndustry, loading : false}, () => {
+            this.formRef.current.setFieldsValue({Indastry: this.props.location.data && this.props.location.data.VendorTypeId})
+          })
         });
       } else {
         message.error('Network response was not ok.');
@@ -78,7 +98,7 @@ export default class UpdateVendor extends Component {
     })
     .catch((error) => {
       this.setState({loading : false})
-      // message.error('There has been a problem with your fetch operation: ' + error.message);
+      message.error('There has been a problem with your fetch operation: ' + error.message);
     });
   }
   }
@@ -87,22 +107,22 @@ export default class UpdateVendor extends Component {
     console.log(values)
     this.setState({loadingBtn : true})
     let data = {
+    "Id": this.state.vendorID,
     "Name":`${values.VendorName}`,
     "NameLT":`${values.ArabicVendorName}`,
     "Email":`${values.email}`,
     "Phone":`${values.phone}`,
-    "Enable":this.state.vendorStutes,
-    "CompanyId":values.CompanyName,
-    "HeadQuarter": "Dammam",
+    "Enable": this.state.vendorStutes,
+    "CompanyId": +values.CompanyName,
     "Percentage":values.Commission,
-    "Industry":`${values.Indastry}`,
+    "VendorTypeId": values.Indastry,
     "Description":`${values.VendorDescription}`,
-    "Password":`123456`,
-    "ConfirmPassword":`123456`, 
+    "Password":values.password,
+    "ConfirmPassword": values.confirm,
     "Logo": this.state.imageUrl, 
 }
 
-fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddVendor", {
+fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditVendor", {
       method: "post",
       headers: {
         'Accept': 'application/json',
@@ -113,8 +133,8 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     .then( (response) => { 
       console.log(response)
       this.setState({loadingBtn : false})
-      message.success('vendor added successfully'); 
-      // this.formRef.current.resetFields();
+      message.success('vendor Updated successfully'); 
+      this.props.history.push("/vendors");
     })
     .catch((error) => {
       this.setState({loadingBtn : false})
@@ -130,9 +150,9 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     this.setState({vendorStutes : value})
   };
 
-  handleChangeCompany = (value) => {
-    this.setState({vendorStutes : value})
-  };
+  // handleChangeCompany = (value) => {
+  //   this.setState({vendorStutes : value})
+  // };
 
   onChangeimg = (info) => {
     if (info.file.status !== 'uploading') {
@@ -198,6 +218,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 <Form.Item
                   label="Company Name"
                   name="CompanyName"
+                  
                   rules={[
                     {
                       required: true,
@@ -205,8 +226,8 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                     },
                   ]}
                 >
-                  <Select onChange={this.handleChangeCompany}>
-                      {this.state.companies && this.state.companies.map(company => <Select.Option value={`${company.Id}`}>{company.Name}</Select.Option>)}
+                  <Select disabled>
+                      {this.state.companies && this.state.companies.map(company => <Select.Option value={company.Id}>{company.Name}</Select.Option>)}
                   </Select>
                 </Form.Item>
 
@@ -229,7 +250,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 <Form.Item
                   name="VendorLogo"
                   label="Vendor Logo"
-                  rules={[{ required: true, message: "Please input Vendor Logo!", }]}
+                  // rules={[{ required: true, message: "Please input Vendor Logo!", }]}
                 >
                   <Upload onChange={this.onChangeimg}  
                       name ='file'
@@ -303,6 +324,45 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   <Input />
                 </Form.Item>
                 <Form.Item
+                  name="password"
+                  label="Password"
+                  rules={[
+                    // {
+                    //   required: true,
+                    //   message: "Please input your password!",
+                    // },
+                  ]}
+                  hasFeedback
+                >
+                  <Input.Password />
+                </Form.Item>
+
+                <Form.Item
+                  name="confirm"
+                  label="Confirm Password"
+                  dependencies={["password"]}
+                  hasFeedback
+                  rules={[
+                    // {
+                    //   required: true,
+                    //   message: "Please confirm your password!",
+                    // },
+                    ({ getFieldValue }) => ({
+                      validator(rule, value) {
+                        if (!value || getFieldValue("password") === value) {
+                          return Promise.resolve();
+                        }
+
+                        return Promise.reject(
+                          "The two passwords that you entered do not match!"
+                        );
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password />
+                </Form.Item>
+                <Form.Item
                   label="Vendor Indastry"
                   name="Indastry"
                   rules={[
@@ -313,11 +373,11 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   ]}
                 >
                   <Select>
-                  {this.state.vendorIndustry && this.state.vendorIndustry.map(type => <Select.Option value={`${type.Id}`}>{type.Name}</Select.Option>)}
+                  {this.state.vendorIndustry && this.state.vendorIndustry.map(type => <Select.Option value={type.Id}>{type.Name}</Select.Option>)}
                   </Select>
                 </Form.Item>
                 <Form.Item label="Enable" name="vendorStutes">
-                  <Switch defaultChecked onChange={this.changeVendorStutes} />
+                  <Switch checked={this.state.vendorStutes} onChange={this.changeVendorStutes} />
                 </Form.Item>
                 <div className="btn-action">
                   <Button

@@ -24,7 +24,7 @@ import {
   Container,
   PageContainer,
 } from "./StyledComponents";
-export default class AddBranch extends Component { 
+export default class UpdateBranch extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,7 +35,6 @@ export default class AddBranch extends Component {
       zoom: 11,
       branchStutes : true,
       branchType : "false",
-      vendorId : null
     }
   }
 
@@ -51,6 +50,7 @@ export default class AddBranch extends Component {
       this.setState({
           position: location
       })
+      console.log(this.state.position);
   }
 
     CMap = withScriptjs(withGoogleMap(props =>
@@ -65,28 +65,43 @@ export default class AddBranch extends Component {
 
   formRef = React.createRef();
   componentDidMount() {
-    if(this.props.location.vendorId){
-    this.props.location.vendorName && this.formRef.current.setFieldsValue({
-      vendorName :  this.props.location.vendorName
-    })
-    this.props.location.vendorId && this.setState({vendorId : this.props.location.vendorId})
-    if (navigator && navigator.geolocation){ 
-      navigator.geolocation.getCurrentPosition(pos => { 
-        var coords = pos.coords; this.setState({ center: { lat: coords.latitude, lng: coords.longitude } }); }); }
-  }else{
-    this.props.history.push("/vendors");
-  }
-  }
+    // console.log(this.props.location.data)
+    const {Name, NameLT, Phone, Enable, Email, Latitude, Longitude, Password, ConfirmPassword, type, VendorId } = this.props.location.data;
+
+    if(this.props.location.data){
+      this.props.location.vendorName && this.formRef.current.setFieldsValue({
+        vendorName :  this.props.location.vendorName
+      })
+      if(Longitude){
+        this.setState({ center: { lat: Latitude, lng: Longitude } });
+      }else{
+        if (navigator && navigator.geolocation){ 
+          navigator.geolocation.getCurrentPosition(pos => { 
+          var coords = pos.coords; this.setState({ center: { lat: coords.latitude, lng: coords.longitude } }); }); }
+        }
+        this.formRef.current.setFieldsValue({
+          BranchReference: Name,
+          ArabicBranchReference: NameLT,
+          email: Email,
+          phone: Phone,
+          BranchType : type,
+          password : Password,
+          confirm : ConfirmPassword,
+        })
+        this.setState({Enable : Enable})
+      }
+    }
 
   handelSubmit = (values, errors) => {
     this.setState({loadingBtn : true})
     let data = {
+    "Id":34,
     "Name":`${values.BranchReference}`,
     "NameLT":`${values.ArabicBranchReference}`,
     "Email":`${values.email}`,
     "Phone":`${values.phone}`,
     "Enable":this.state.branchStutes,
-    "VendorId": +this.state.vendorId,
+    "VendorId":1,
     "Longitude":this.state.center.lng,
     "Latitude":this.state.center.lat,
     "type" : values.BranchType,
@@ -94,7 +109,7 @@ export default class AddBranch extends Component {
     "ConfirmPassword": values.confirm, 
 }
 
-fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddBranch", {
+fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditBranch", {
       method: "post",
       headers: {
         'Accept': 'application/json',
@@ -104,8 +119,8 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     })
     .then( (response) => { 
       this.setState({loadingBtn : false})
-      message.success("branch added successfully");
-      this.formRef.current.resetFields(); 
+      message.success("branch Updated successfully");
+      this.props.history.push("/vendors");
     })
     .catch((error) => {
       this.setState({loadingBtn : false})

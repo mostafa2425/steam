@@ -50,7 +50,6 @@ export default class UpdateCompany extends Component {
         "HeadQuarter":`${values.Location}`,
         "Enable":this.state.CompanyStutes
     }
-    console.log(data)
 
     fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditCompany", {
           method: "post",
@@ -61,8 +60,8 @@ export default class UpdateCompany extends Component {
           body: JSON.stringify(data) 
         })
         .then((response) => { 
-          this.setState({loadingBtn : false})
           message.success('company Updated successfully'); 
+          this.setState({loadingBtn : false})
           this.props.history.push("/companies");
         })
         .catch((error) => {

@@ -30,6 +30,7 @@ class VendorProfileDashboardPage extends React.Component {
     super(props);
     this.state = {
       branches : [],
+      vendorId : null
     }
   }
   componentDidMount() {
@@ -54,17 +55,18 @@ class VendorProfileDashboardPage extends React.Component {
     this.setState({branches : this.props.brnachesList, loading : false})
   }
   console.log("in dashboard vendor and club")
-  console.log(this.props.match && this.props.match.params.id)
-  console.log(this.props)
+  if(this.props.match){
+    let vendorId = this.props.match.params.id.replace(":" , "");
+    this.setState({vendorId})
+  }
   }
   render() {
     
     return (
       <Container>
-        
         <PageContainer className="vendor-profile-wrapper">
           <HeaderPageSection>
-          <Link to={{pathname : "/add-branch", vendorName : "vendorName"}} style={{ textDecoration: 'none', display: 'flex' }}>
+          <Link to={{pathname : "/add-branch", vendorName : "vendorName", vendorId : this.state.vendorId}} style={{ textDecoration: 'none', display: 'flex' }}>
             <button className="primary-fill">Add Branch</button> 
           </Link>
             <DropdownList 

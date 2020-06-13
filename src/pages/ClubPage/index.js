@@ -70,6 +70,7 @@ class ClubPage extends React.Component {
               status={club.Enable}
               phone={club.Phone}
               cardId ={club.Id}
+              league ={club.ClubTypeId}
               link="VEIW DASHBORD"
               fans
               editLink={{ pathname: "/update-club", vendorInfo :club, }}

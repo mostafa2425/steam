@@ -39,6 +39,7 @@ export default class AddVendor extends Component {
       imageUrl : null,
       companies : null,
       vendorIndustry : null,
+      companyVendorId : null
     }
   }
 
@@ -49,6 +50,13 @@ export default class AddVendor extends Component {
       if(response.ok) {
         response.json().then((data) => {
           let companies = data.model;
+          if(this.props.location.companyVendorId){
+            this.setState({ companyVendorId : this.props.location.companyVendorId}, () => {
+              this.formRef.current.setFieldsValue({
+                CompanyName : this.props.location.companyVendorId
+              })
+            })
+          }
           this.setState({companies, loading : false})
         });
       } else {
@@ -58,7 +66,7 @@ export default class AddVendor extends Component {
     })
     .catch((error) => {
       this.setState({loading : false})
-      // message.error('There has been a problem with your fetch operation: ' + error.message);
+      message.error('There has been a problem with your fetch operation: ' + error.message);
     });
 
     fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendorTypes').then((response) => {
@@ -74,9 +82,10 @@ export default class AddVendor extends Component {
     })
     .catch((error) => {
       this.setState({loading : false})
-      // message.error('There has been a problem with your fetch operation: ' + error.message);
+      message.error('There has been a problem with your fetch operation: ' + error.message);
     });
   }
+  
   }
 
   handelSubmit = (values, errors) => {
@@ -89,13 +98,12 @@ export default class AddVendor extends Component {
     "Phone":`${values.phone}`,
     "Enable":this.state.vendorStutes,
     "CompanyId": +values.CompanyName,
-    "HeadQuarter": "Dammam",
     "Percentage":values.Commission,
-    "VendorTypeId":`${values.Indastry}`,
+    "VendorTypeId": values.Indastry,
     "Description":`${values.VendorDescription}`,
-    "Logo": this.state.imageUrl, 
     "Password":values.password,
     "ConfirmPassword": values.confirm, 
+    "Logo": this.state.imageUrl, 
 }
 
 fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddVendor", {
@@ -126,9 +134,9 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     this.setState({vendorStutes : value})
   };
 
-  handleChangeCompany = (value) => {
-    this.setState({vendorStutes : value})
-  };
+  // handleChangeCompany = (value) => {
+  //   this.setState({vendorStutes : value})
+  // };
 
   onChangeimg = (info) => {
     if (info.file.status !== 'uploading') {
@@ -184,16 +192,11 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 onFinishFailed={this.onFinishFailed}
                 ref={this.formRef}
               >
-                {/* <Form.Item
-                  name="CompanyName"
-                  label="Company Name"
-                >
-                  <Input disabled defaultValue="McDonald's" />
-                </Form.Item> */}
 
                 <Form.Item
                   label="Company Name"
                   name="CompanyName"
+                  
                   rules={[
                     {
                       required: true,
@@ -201,7 +204,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                     },
                   ]}
                 >
-                  <Select onChange={this.handleChangeCompany}>
+                  <Select disabled= {!!this.state.companyVendorId}> 
                       {this.state.companies && this.state.companies.map(company => <Select.Option value={company.Id}>{company.Name}</Select.Option>)}
                   </Select>
                 </Form.Item>

@@ -38,25 +38,44 @@ export default class UpdateClub extends Component {
       imageUrl : null,
       companies : null,
       vendorIndustry : null,
+      clubId : null
     }
   }
 
   formRef = React.createRef();
 
-  handelSubmit = (values, errors) => {
-    console.log(values)
+  componentDidMount() {
+    if(this.props.location.data){
+      const {Name, NameLT, Phone, HeadQuarter, Enable, IdentityId,Email, Commission, ClubTypeId } = this.props.location.data;
+      this.formRef.current.setFieldsValue({
+        ClubName: Name,
+        ArabicClubName: NameLT,
+        email: Email,
+        phone: Phone,
+        League : ClubTypeId,
+        Commission : Commission ? Commission : 0
+      })
+      this.setState({clubStutes : this.props.location.data.Enable, clubId : this.props.location.data.Id, loading:false })
+    }else{
+      this.props.history.push("/clubs");
+    }
+  }
+
+  handelSubmit = (values) => {
     this.setState({loadingBtn : true})
     let data = {
+      "Id":this.state.clubId,
     "Name":`${values.ClubName}`,
     "NameLT":`${values.ArabicClubName}`,
-    "ClubTypeId":1,
+    "ClubTypeId": values.League,
     "Email":`${values.email}`,
     "Phone":`${values.phone}`,
+    // "Commission":`${values.Commission}`,
     "Enable":this.state.clubStutes,
-    "Logo": this.state.imageUrl, 
+    "Logo": this.state.imageUrl ? this.state.imageUrl : "", 
 }
 
-fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddClub", {
+fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditClub", {
       method: "post",
       headers: {
         'Accept': 'application/json',
@@ -65,10 +84,14 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
       body: JSON.stringify(data) 
     })
     .then( (response) => { 
-      console.log(response)
-      this.setState({loadingBtn : false})
-      message.success('club added successfully'); 
-      this.formRef.current.resetFields();
+      if(response.ok) {
+        message.success('club Updated successfully'); 
+        this.setState({loadingBtn : false})
+        this.props.history.push("/clubs");
+      } else {
+        message.error('Network response was not ok.');
+        this.setState({loadingBtn : false}) 
+      }
     })
     .catch((error) => {
       this.setState({loadingBtn : false})
@@ -156,7 +179,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 <Form.Item
                   name="ClubLogo"
                   label="Club Logo"
-                  rules={[{ required: true, message: "Please input Club Logo!", }]}
+                  // rules={[{ required: true, message: "Please input Club Logo!", }]}
                 >
                   <Upload
                   name ='file'
@@ -166,6 +189,21 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                     <UploadOutlined /> Click to Upload
                   </Button>
                 </Upload>
+                </Form.Item>
+                <Form.Item
+                  label="League Division"
+                  name="League"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please club league division",
+                    },
+                  ]}
+                >
+                  <Select>
+                      <Select.Option value={1}>First Division</Select.Option>
+                      <Select.Option value={2}>Second Division</Select.Option>
+                  </Select>
                 </Form.Item>
                 <Form.Item
                   name="Commission"
@@ -220,7 +258,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   <Input />
                 </Form.Item>
                 <Form.Item label="Enable" name="clubStutes">
-                  <Switch defaultChecked onChange={this.changeClubStutes} />
+                  <Switch checked={this.state.clubStutes} onChange={this.changeClubStutes} />
                 </Form.Item>
                 <div className="btn-action">
                   <Button

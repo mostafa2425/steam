@@ -720,6 +720,12 @@ ul::-webkit-scrollbar-thumb,
   width: fit-content;
 }
 
+@media only screen and (max-width: 575px) {
+  .add-company-form .ant-form-item .ant-form-item-control-input {
+    width: 100%;
+  }
+}
+
 .add-company-form .ant-form-item .ant-form-item-control-input .ant-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-input-number-input, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker-range, .add-company-form .ant-form-item .ant-form-item-control-input .ant-picker {
   width: 600px;
   padding: 13px;
@@ -859,6 +865,10 @@ ul::-webkit-scrollbar-thumb,
   align-items: center;
   font-size: 16px;
   color: #232323;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
 }
 
 .root-wrapper > section {
@@ -1101,6 +1111,7 @@ ul::-webkit-scrollbar-thumb,
   color: #000;
   font-weight: bold;
   font-size: 17px;
+  width: 50px;
 }
 
 .ant-progress-inner {

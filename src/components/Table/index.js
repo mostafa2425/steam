@@ -54,7 +54,7 @@ const columns = [
     maxWidth : "100px",
     sortable: true,
     right: true,
-    cell : () => <div className="table-action"><Link to="/add-branch" className=""><FormOutlined /></Link></div>
+    cell : (value) => <div className="table-action"><Link to={{ pathname : "/add-branch", data : value}} className=""><FormOutlined /></Link></div>
   },
 
 ];

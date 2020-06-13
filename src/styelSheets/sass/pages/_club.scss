@@ -174,6 +174,9 @@
     }
     .ant-form-item-control-input {
         width: fit-content;
+        @include mq("phablet"){
+          width: 100%;
+      }
         .ant-input, .ant-input-number-input, .ant-picker-range,.ant-picker {
         width: 600px;
         padding: 13px;
@@ -292,4 +295,8 @@
     align-items: center;
   font-size: 16px;
   color: #232323;
+}
+
+.mb-0{
+  margin-bottom: 0 !important;
 }
