@@ -38,6 +38,7 @@ import UpdateVendor from "../../components/UpdateVendor/UpdateVendor";
 import UpdateClub from "../../components/UpdateClub/UpdateClub";
 import UpdateCompany from "../../components/UpdateCompany/UpdateCompany";
 import CompanyVendorPage from "../../pages/CompanyVendorPage";
+import UpdateBranch from "../../components/UpdateBranch/UpdateBranch";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const mq = window.matchMedia( "(max-width: 480px)" );
@@ -153,6 +154,7 @@ componentDidMount() {
                   <Route path="/brand-invoice" component={InvoicePage} />
                   <Route path="/add-company" component={AddCompany} />
                   <Route path="/add-branch" component={AddBranch} />
+                  <Route path="/update-branch" component={UpdateBranch} />
                   {/* <Route path="/add-clubb" component={AddClubPage} /> */}
                   <Route path="/add-club" component={AddClub} /> 
                   <Route path="/invoice" component={PrintPage} /> 

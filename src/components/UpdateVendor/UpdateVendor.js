@@ -71,6 +71,7 @@ export default class UpdateVendor extends Component {
           let companies = data.model;
           this.setState({companies, loading : false}, () => {
             this.formRef.current.setFieldsValue({CompanyName: this.props.location.data && this.props.location.data.CompanyId,})
+            console.log(this.props.location.data)
           })
         });
       } else {
@@ -208,13 +209,6 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 onFinishFailed={this.onFinishFailed}
                 ref={this.formRef}
               >
-                {/* <Form.Item
-                  name="CompanyName"
-                  label="Company Name"
-                >
-                  <Input disabled defaultValue="McDonald's" />
-                </Form.Item> */}
-
                 <Form.Item
                   label="Company Name"
                   name="CompanyName"

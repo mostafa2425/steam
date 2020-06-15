@@ -40,7 +40,15 @@ class VendorProfileDashboardPage extends React.Component {
       if(response.ok) {
         response.json().then((data) => {
           let branches = data.model;
-          this.setState({branches, loading : false})
+          this.setState({branches, loading : false}, () => {
+            if(this.props.match){
+              let vendorId = this.props.match.params.id.replace(":" , "");
+                this.setState({vendorId})
+                let filterdBranches = this.state.branches.filter(branch => branch.VendorId === +vendorId)
+                console.log(filterdBranches)
+                this.setState({ branches : filterdBranches})  
+              }
+          })
         });
       } else {
         message.error('Network response was not ok.');
@@ -55,10 +63,6 @@ class VendorProfileDashboardPage extends React.Component {
     this.setState({branches : this.props.brnachesList, loading : false})
   }
   console.log("in dashboard vendor and club")
-  if(this.props.match){
-    let vendorId = this.props.match.params.id.replace(":" , "");
-    this.setState({vendorId})
-  }
   }
   render() {
     

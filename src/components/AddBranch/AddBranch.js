@@ -35,7 +35,8 @@ export default class AddBranch extends Component {
       zoom: 11,
       branchStutes : true,
       branchType : "false",
-      vendorId : null
+      vendorId : null,
+      vendors : null
     }
   }
 
@@ -65,17 +66,36 @@ export default class AddBranch extends Component {
 
   formRef = React.createRef();
   componentDidMount() {
-    if(this.props.location.vendorId){
-    this.props.location.vendorName && this.formRef.current.setFieldsValue({
-      vendorName :  this.props.location.vendorName
+    console.log(this.props.location)
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then((response) => {
+      if(response.ok) {
+        response.json().then((data) => {
+          let vendors = data.model;
+          this.setState({vendors, loading : false}, () => {
+            this.formRef.current.setFieldsValue({VendorName: this.props.location.vendorId && this.props.location.vendorId,}) 
+          })
+        });
+      } else {
+        message.error('Network response was not ok.');
+        this.setState({loading : false})
+      }
     })
-    this.props.location.vendorId && this.setState({vendorId : this.props.location.vendorId})
+    .catch((error) => {
+      this.setState({loading : false})
+      message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
+    // if(this.props.location.vendorId){
+    // this.props.location.vendorName && this.formRef.current.setFieldsValue({
+    //   vendorName :  this.props.location.vendorName
+    // })
+    // this.props.location.vendorId && this.setState({vendorId : this.props.location.vendorId})
     if (navigator && navigator.geolocation){ 
       navigator.geolocation.getCurrentPosition(pos => { 
         var coords = pos.coords; this.setState({ center: { lat: coords.latitude, lng: coords.longitude } }); }); }
-  }else{
-    this.props.history.push("/vendors");
-  }
+  // }
+  // else{
+  //   this.props.history.push("/vendors");
+  // }
   }
 
   handelSubmit = (values, errors) => {
@@ -86,7 +106,7 @@ export default class AddBranch extends Component {
     "Email":`${values.email}`,
     "Phone":`${values.phone}`,
     "Enable":this.state.branchStutes,
-    "VendorId": +this.state.vendorId,
+    "VendorId": values.VendorName, 
     "Longitude":this.state.center.lng,
     "Latitude":this.state.center.lat,
     "type" : values.BranchType,
@@ -151,11 +171,19 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
               >
                 <h4>Branch Info:</h4>
                 <Form.Item
-                  name="vendorName"
-                  label="vendor Name"
+                  label="Vendor Name"
+                  name="VendorName"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select Vendor",
+                    },
+                  ]}
                 >
-                  <Input disabled/>
-                </Form.Item>
+                  <Select placeholder="select Vendor">
+                  {this.state.vendors && this.state.vendors.map(vendor => <Select.Option value={`${vendor.Id}`}>{vendor.Name}</Select.Option>)}
+                  </Select>
+                </Form.Item>  
                 <Form.Item
                   name="BranchReference"
                   label="Branch Reference"

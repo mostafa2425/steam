@@ -35,6 +35,7 @@ export default class UpdateBranch extends Component {
       zoom: 11,
       branchStutes : true,
       branchType : "false",
+      VendorId : null
     }
   }
 
@@ -65,10 +66,10 @@ export default class UpdateBranch extends Component {
 
   formRef = React.createRef();
   componentDidMount() {
-    // console.log(this.props.location.data)
-    const {Name, NameLT, Phone, Enable, Email, Latitude, Longitude, Password, ConfirmPassword, type, VendorId } = this.props.location.data;
-
+    
     if(this.props.location.data){
+      console.log(this.props.location.data)
+      const {Name, NameLT, Phone, Enable, Email, Latitude, Longitude, Password, ConfirmPassword, Type, VendorId, VendorTypeName, Id } = this.props.location.data;
       this.props.location.vendorName && this.formRef.current.setFieldsValue({
         vendorName :  this.props.location.vendorName
       })
@@ -80,28 +81,31 @@ export default class UpdateBranch extends Component {
           var coords = pos.coords; this.setState({ center: { lat: coords.latitude, lng: coords.longitude } }); }); }
         }
         this.formRef.current.setFieldsValue({
+          vendorName: VendorTypeName,
           BranchReference: Name,
           ArabicBranchReference: NameLT,
           email: Email,
           phone: Phone,
-          BranchType : type,
+          BranchType : `${Type}`, 
           password : Password,
           confirm : ConfirmPassword,
         })
-        this.setState({Enable : Enable})
+        this.setState({Enable : Enable, VendorId ,branchId : Id, branchType : Type}) 
+      }else{
+        this.props.history.push("/vendors");
       }
     }
 
   handelSubmit = (values, errors) => {
     this.setState({loadingBtn : true})
     let data = {
-    "Id":34,
+    "Id": this.state.branchId,
     "Name":`${values.BranchReference}`,
     "NameLT":`${values.ArabicBranchReference}`,
     "Email":`${values.email}`,
     "Phone":`${values.phone}`,
     "Enable":this.state.branchStutes,
-    "VendorId":1,
+    "VendorId": this.state.VendorId,
     "Longitude":this.state.center.lng,
     "Latitude":this.state.center.lat,
     "type" : values.BranchType,
@@ -157,7 +161,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
               />
             </HeaderPageSection>
             <div className="form-holder">
-              <h2>Add Branch</h2>
+              <h2>Update Branch</h2>
               <Form
                 name="nest-messages"
                 onFinish={this.handelSubmit}
@@ -198,6 +202,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 <Form.Item
                   label="Branch Type"
                   name="BranchType"
+                  // initialValue = {this.status.branchType}
                   rules={[
                     {
                       required: true,
@@ -205,16 +210,16 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                     },
                   ]}
                 >
-                  <Select defaultValue={this.state.branchType} onChange={this.onChangeBranchType}>
+                  <Select  onChange={this.onChangeBranchType}>
                     <Select.Option value="true">online store</Select.Option> 
-                    <Select.Option value="false">physical store</Select.Option>
+                    <Select.Option value="false">physical store</Select.Option> 
                   </Select>
                 </Form.Item>
                 <Form.Item label="Enable" name="branchStutes">
-                  <Switch defaultChecked onChange={this.changeBranchStutes} />
+                  <Switch checked={this.state.branchStutes} onChange={this.changeBranchStutes} />
                 </Form.Item>
                 {this.state.branchType === "false" &&
-                <div className="map-wrapper">
+                <div className="map-wrapper"> 
                   <label>Branch Location</label>
                 <div style={{ height: '50vh', width: '100%' }}>
                 <this.CMap
@@ -304,10 +309,10 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   dependencies={["password"]}
                   hasFeedback
                   rules={[
-                    {
-                      required: true,
-                      message: "Please confirm your password!",
-                    },
+                    // {
+                    //   required: true,
+                    //   message: "Please confirm your password!",
+                    // },
                     ({ getFieldValue }) => ({
                       validator(rule, value) {
                         if (!value || getFieldValue("password") === value) {
