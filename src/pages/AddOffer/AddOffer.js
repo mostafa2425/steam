@@ -45,8 +45,8 @@ export default class AddOffer extends Component {
     console.log(values)
     this.setState({loadingBtn : true})
     let data = {
-      "VendorId":1,
-	    "ClubId":1,
+      "VendorId": values.VendorName,
+	    "ClubId": values.ClubName, 
       "Description":`${values.OfferDescription}`,
       "DescriptionLT":`${values.OfferDescriptionAr}`,
       "StartDate": this.state.StartDate,

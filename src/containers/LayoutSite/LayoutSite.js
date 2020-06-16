@@ -39,6 +39,7 @@ import UpdateClub from "../../components/UpdateClub/UpdateClub";
 import UpdateCompany from "../../components/UpdateCompany/UpdateCompany";
 import CompanyVendorPage from "../../pages/CompanyVendorPage";
 import UpdateBranch from "../../components/UpdateBranch/UpdateBranch";
+import UpdateInvoice from "../../pages/UpdateInvoice/UpdateInvoice";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const mq = window.matchMedia( "(max-width: 480px)" );
@@ -158,6 +159,7 @@ componentDidMount() {
                   {/* <Route path="/add-clubb" component={AddClubPage} /> */}
                   <Route path="/add-club" component={AddClub} /> 
                   <Route path="/invoice" component={PrintPage} /> 
+                  <Route path="/update-invoice" component={UpdateInvoice} />
                   <Route path="/offers" component={OffersPage} />
                   <Route path="/alerts" component={AlertsPage} />
                   <Route path="/add-offer" component={AddOffer} />

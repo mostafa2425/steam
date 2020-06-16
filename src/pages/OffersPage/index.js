@@ -72,6 +72,7 @@ class OffersPage extends React.Component {
                 popup
                 localizer={this.localizer}
                 events={this.state.offers}
+                onSelectEvent={(event) =>console.log(event)}
                 startAccessor="start"
                 endAccessor="end"
                 style={{height: '800px', width: '100%', marginTop: '50px'}}
