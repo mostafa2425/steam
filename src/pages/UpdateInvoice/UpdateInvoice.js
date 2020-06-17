@@ -21,59 +21,63 @@ export default class UpdateInvoice extends Component {
   formRef = React.createRef();
 
   componentDidMount() {
-    // if(this.props.location.data){
-    //   const {Name, NameLT, Phone, HeadQuarter, Enable, IdentityId,Email, Commission, ClubTypeId } = this.props.location.data;
-    //   this.formRef.current.setFieldsValue({
-    //     ClubName: Name,
-    //     ArabicClubName: NameLT,
-    //     email: Email,
-    //     phone: Phone,
-    //     League : ClubTypeId,
-    //     Commission : Commission ? Commission : 0
-    //   })
-    //   this.setState({clubStutes : this.props.location.data.Enable, clubId : this.props.location.data.Id, loading:false })
-    // }else{
-    //   this.props.history.push("/clubs");
-    // }
+    if(this.props.location.data){
+      console.log(this.props.location.data)
+      const {Name, NameLT, Phone, VendorTypeName, Enable, IdentityId,Email, Commission, Id } = this.props.location.data;
+      this.formRef.current.setFieldsValue({
+        InvoiceID: Id,
+        VendorName: VendorTypeName,
+        AmountDue: 1000,
+        paidAmount: 500,
+        Commission : Commission ? Commission : 0
+      })
+      this.setState({clubStutes : this.props.location.data.Enable, clubId : this.props.location.data.Id, loading:false })
+    }else{
+      this.props.history.push("/brand-invoice");
+    }
   }
 
-  handelSubmit = (values) => {
-    this.setState({loadingBtn : true})
-    let data = {
-      "Id":this.state.clubId,
-    "Name":`${values.ClubName}`,
-    "NameLT":`${values.ArabicClubName}`,
-    "ClubTypeId": values.League,
-    "Email":`${values.email}`,
-    "Phone":`${values.phone}`,
-    // "Commission":`${values.Commission}`,
-    "Enable":this.state.clubStutes,
-    "Logo": this.state.imageUrl ? this.state.imageUrl : "", 
-}
+  handelSubmit = () => {
+    this.props.history.push("/brand-invoice");
+  }
 
-fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditClub", {
-      method: "post",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data) 
-    })
-    .then( (response) => { 
-      if(response.ok) {
-        message.success('club Updated successfully'); 
-        this.setState({loadingBtn : false})
-        this.props.history.push("/clubs");
-      } else {
-        message.error('Network response was not ok.');
-        this.setState({loadingBtn : false}) 
-      }
-    })
-    .catch((error) => {
-      this.setState({loadingBtn : false})
-      message.error('There has been a problem with your fetch operation: ' + error.message);
-    });
-  };
+//   handelSubmit = (values) => {
+//     this.setState({loadingBtn : true})
+//     let data = {
+//       "Id":this.state.clubId,
+//     "Name":`${values.ClubName}`,
+//     "NameLT":`${values.ArabicClubName}`,
+//     "ClubTypeId": values.League,
+//     "Email":`${values.email}`,
+//     "Phone":`${values.phone}`,
+//     // "Commission":`${values.Commission}`,
+//     "Enable":this.state.clubStutes,
+//     "Logo": this.state.imageUrl ? this.state.imageUrl : "", 
+// }
+
+// fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditClub", {
+//       method: "post",
+//       headers: {
+//         'Accept': 'application/json',
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify(data) 
+//     })
+//     .then( (response) => { 
+//       if(response.ok) {
+//         message.success('club Updated successfully'); 
+//         this.setState({loadingBtn : false})
+//         this.props.history.push("/clubs");
+//       } else {
+//         message.error('Network response was not ok.');
+//         this.setState({loadingBtn : false}) 
+//       }
+//     })
+//     .catch((error) => {
+//       this.setState({loadingBtn : false})
+//       message.error('There has been a problem with your fetch operation: ' + error.message);
+//     });
+//   };
 
   render() {
     return (
@@ -100,7 +104,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   
                   rules={[{ required: true, message: "Please input Invoice ID!",}]}
                 >
-                  <Input />
+                  <Input disabled/>
                 </Form.Item>
                 <Form.Item
                   name="VendorName"
@@ -108,7 +112,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   
                   rules={[{ required: true, message: "Please input Vendor Name!",}]}
                 >
-                  <Input />
+                  <Input disabled/>
                 </Form.Item>
                 <Form.Item
                   name="AmountDue"
@@ -116,7 +120,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   
                   rules={[{ required: true, message: "Please input Vendor Amount Due!",}]}
                 >
-                  <Input />
+                  <Input disabled/>
                 </Form.Item>
                 <Form.Item
                   name="paidAmount"
@@ -124,7 +128,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   
                   rules={[{ required: true, message: "Please input Invoice paid Amount!",}]}
                 >
-                  <Input />
+                  <Input disabled/>
                 </Form.Item>
                 <Form.Item
                   name="payAmount"

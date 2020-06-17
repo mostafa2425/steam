@@ -78,7 +78,7 @@ const columns = [
     selector: 'actions',
     sortable: true,
     right: true,
-    cell : () => <div className="table-action"><Link to="/update-invoice" className="mr-15"><FormOutlined /></Link><Link style={{ color:'#000'}} to="/invoice"><PrinterOutlined /></Link></div>
+    cell : (value) => <div className="table-action"><Link to={{ pathname : "/update-invoice", data : value}} className="mr-15"><FormOutlined /></Link><Link style={{ color:'#000'}} to="/invoice"><PrinterOutlined /></Link></div>
   },
 ];
 

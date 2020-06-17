@@ -4,27 +4,40 @@ import {
   Container,
 } from './StyledComponents';
 import { Link } from 'react-router-dom';
-import { MoreOutlined, MailOutlined, PrinterOutlined, FormOutlined } from '@ant-design/icons';
+import { DeleteFilled, FormOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Modal, message } from 'antd';
+const { confirm } = Modal;
 
-// DeletedAt: null
-// DeviceId: null
-// Email: "t33333est@gmail.com"
-// Enable: false
-// Id: 30
-// IdentityId: "65588e45-f8de-49b4-821d-32f3ce9cb61a"
-// Latitude: 29.3471842
-// LocalId: null
-// Logo: "starbucks.png"
-// Longitude: 30.867465199999998
-// Name: "weeeeeeeeeeeeeeee"
-// NameLT: "wewewe"
-// Phone: "322323"
-// RegisterationDate: "2020-06-06T22:39:08.711899"
-// Token: null
-// Type: false
-// VendorId: 1
-// VendorTypeName: "starbucks"
-// VendorTypeNameLT: "ستاربكس"
+function showDeleteConfirm(branchID, branchName, value){
+  console.log(value)
+  confirm({
+    title: `Are you sure delete ${branchName} ?`,
+    icon: <ExclamationCircleOutlined />,
+    okText: 'Yes',
+    okType: 'danger',
+    cancelText: 'No',
+    onOk : () =>  {
+      fetch(`http://native-001-site2.ctempurl.com/api/DeleteBranch?BranchId=${branchID}`)
+      .then((response) => {
+        if(response.ok) {
+          response.json().then((data) => {
+            message.success('branch deleted successfully'); 
+            setTimeout(() => {
+              window.location.reload();
+            }, 800)
+            
+          });
+        } else {
+          message.error('Network response was not ok.');
+        }
+      })
+      .catch((error) => {
+        this.setState({loading : false})
+        message.error('There has been a problem with your fetch operation: ' + error.message);
+      });
+    },
+  });
+}
 const columns = [
   {
     name: 'Branch ID',
@@ -33,7 +46,7 @@ const columns = [
   },
   {
     name: 'Reference Name',
-    selector: 'VendorTypeName',
+    selector: 'Name', 
     sortable: true,
   },
   {
@@ -51,10 +64,10 @@ const columns = [
   {
     name: 'Actions',
     selector: 'actions',
-    maxWidth : "100px",
+    maxWidth : "100px", 
     sortable: true,
     right: true,
-    cell : (value) => <div className="table-action"><Link to={{ pathname : "/update-branch", data : value}} className=""><FormOutlined /></Link></div>
+    cell : (value) => <div className="table-action"><DeleteFilled onClick={() => showDeleteConfirm(value.Id, value.Name, value)} className="mr-10" style={{fontSize : '16px', color : "#d83025", cursor : 'pointer'}} /><Link to={{ pathname : "/update-branch", data : value}} className=""><FormOutlined /></Link></div>
   },
 
 ];

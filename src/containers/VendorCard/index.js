@@ -25,7 +25,7 @@ import {
   VendorContainer,
 } from './StyledComponents';
 import { Menu, Dropdown, message, Modal } from 'antd';
-import { MoreOutlined, MailOutlined, EnvironmentOutlined, SettingOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { SettingOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 const { confirm } = Modal;
 class VendorCard extends React.Component {
   state = {};
