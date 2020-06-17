@@ -51,6 +51,7 @@ export default class AddOffer extends Component {
       "DescriptionLT":`${values.OfferDescriptionAr}`,
       "StartDate": this.state.StartDate,
       "EndDate": this.state.EndDate,
+      "BannerImage": this.state.imageUrl,
   }
   fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddOffer", {
       method: "post",
@@ -116,7 +117,8 @@ export default class AddOffer extends Component {
     if (info.file.status === 'done') {
       getBase64(info.file.originFileObj, imageUrl =>{
         let imageUrljpeg = imageUrl.replace("data:image/jpeg;base64,", "");
-        let imageUrlpng = imageUrljpeg.replace("data:image/png;base64,", "");
+        let imageUrlpeg = imageUrljpeg.replace("data:image/jpg;base64,", "");
+        let imageUrlpng = imageUrlpeg.replace("data:image/png;base64,", "");  
         this.setState({
           imageUrl : imageUrlpng,
           loading: false,
@@ -132,7 +134,7 @@ export default class AddOffer extends Component {
 
 
   beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg';
     if (!isJpgOrPng) {
       message.error('You can only upload JPG/PNG file!');
     }
