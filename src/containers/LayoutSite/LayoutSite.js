@@ -15,6 +15,7 @@ import OffersPage from "../../pages/OffersPage";
 import AlertsPage from "../../pages/AlertsPage";
 import AddOfferPage from "../../pages/AddOfferPage";
 import AddAlertPage from "../../pages/AddAlertPage"; 
+import history from "../../history"; 
 import Logo from '../../images/logow.png'
 import { Layout, Menu, Spin  } from "antd";
 import {
@@ -40,10 +41,12 @@ import UpdateCompany from "../../components/UpdateCompany/UpdateCompany";
 import CompanyVendorPage from "../../pages/CompanyVendorPage";
 import UpdateBranch from "../../components/UpdateBranch/UpdateBranch";
 import UpdateInvoice from "../../pages/UpdateInvoice/UpdateInvoice";
+import UpdateOffer from "../../pages/UpdateOffer/UpdateOffer";
+
+import { createBrowserHistory } from "history";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const mq = window.matchMedia( "(max-width: 480px)" );
-
 
 export default class LayoutSite extends Component {
   state = {
@@ -66,7 +69,7 @@ componentDidMount() {
   
   render() {
     return (
-      <Router>
+      <Router history={history}> 
         <Switch>
           <Layout>
             <Content className="root-wrapper">
@@ -148,7 +151,7 @@ componentDidMount() {
                     component={ProfileDashboardPage}
                   />
                   <Route
-                    path="/vendor-profile:id"
+                    path="/vendor-profile/:id"
                     component={VendorProfileDashboardPage}
                   />
                   
@@ -163,6 +166,7 @@ componentDidMount() {
                   <Route path="/offers" component={OffersPage} />
                   <Route path="/alerts" component={AlertsPage} />
                   <Route path="/add-offer" component={AddOffer} />
+                  <Route path="/update-offer" component={UpdateOffer} />
                   <Route path="/add-alert" component={AddAlert} />
                   <Route path="/add-vendor" component={AddVendor} /> 
                   <Route path="/update-vendor" component={UpdateVendor} /> 

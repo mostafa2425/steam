@@ -27,12 +27,12 @@ class OffersPage extends React.Component {
   }
 
   componentDidMount() {
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetOffers?Page=0').then((response) => {
+    fetch('http://native-001-site2.ctempurl.com/api/GetOffers?Page=0').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let offers = data.model;
-          let calenderOffer = []; 
-         offers.map(offer => calenderOffer.push({title : offer.Description, start : moment(offer.StartDate).format('L'), end : moment(offer.EndDate).format('L')}))
+          let calenderOffer = [];
+         offers.map(offer => calenderOffer.push({Id : offer.Id, VendorId : offer.VendorId, ClubId : offer.ClubId, BannerImage : offer.BannerImage, title : offer.Description, titleAr : offer.DescriptionLT, start : moment(offer.StartDate).format('L'), end : moment(offer.EndDate).format('L')}))
          this.setState({offers : calenderOffer, loading : false})
         });
       } else {
@@ -47,6 +47,12 @@ class OffersPage extends React.Component {
   }
   
   localizer = momentLocalizer(moment)
+
+  onOfferSelect = (e) => {
+    console.log(e)
+    // this.props.history.push("/update-offer");
+    this.props.history.push({pathname: '/update-offer', data: e});
+  }
 
   render() {
 
@@ -72,7 +78,7 @@ class OffersPage extends React.Component {
                 popup
                 localizer={this.localizer}
                 events={this.state.offers}
-                onSelectEvent={(event) =>console.log(event)}
+                onSelectEvent={this.onOfferSelect}
                 startAccessor="start"
                 endAccessor="end"
                 style={{height: '800px', width: '100%', marginTop: '50px'}}

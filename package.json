@@ -8,6 +8,7 @@
     "apexcharts": "^3.10.1",
     "axios": "^0.19.2",
     "google-map-react": "^1.1.7",
+    "history": "^5.0.0",
     "moment": "^2.24.0",
     "moment-range": "^4.0.2",
     "prop-types": "^15.7.2",

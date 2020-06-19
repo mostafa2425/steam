@@ -14,6 +14,7 @@ import Active from '../../images/active.png'
 import CompanyLogo from '../../images/logo-png.png'
 import Email from '../../images/email.png'
 import Phone from '../../images/phone.png'
+import Moment from 'moment'
 import {
   Container,
   PageContainer,
@@ -30,38 +31,39 @@ class VendorProfileDashboardPage extends React.Component {
     super(props);
     this.state = {
       branches : [],
-      vendorId : null
+      vendorId : null,
+      VendorInfo : null,
     }
   }
   componentDidMount() {
-    
-    if(!this.props.brnachesList.length > 0){
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetBranches?Page=0').then((response) => {
-      if(response.ok) {
-        response.json().then((data) => {
-          let branches = data.model;
-          this.setState({branches, loading : false}, () => {
-            if(this.props.match){
-              let vendorId = this.props.match.params.id.replace(":" , "");
-                this.setState({vendorId})
-                let filterdBranches = this.state.branches.filter(branch => branch.VendorId === +vendorId)
-                console.log(filterdBranches)
-                this.setState({ branches : filterdBranches})  
-              }
+    if(this.props.match){
+      let vendorId = +this.props.match.params.id.replace(":" , "");
+        this.setState({vendorId}, () => {
+          fetch(`http://native-001-site2.ctempurl.com/api/GetVendorStatistics?VendorId=${vendorId}`).then((response) => {
+            if(response.ok) {
+              response.json().then((data) => {
+                let VendorInfo = data.model;
+                console.log(VendorInfo)
+                
+                this.setState({VendorInfo, loading : false})
+                // this.setState({branches, loading : false}, () => {
+                // })
+              });
+            } else {
+              message.error('Network response was not ok.');
+              this.setState({loading : false})
+            }
           })
-        });
-      } else {
-        message.error('Network response was not ok.');
-        this.setState({loading : false})
+          .catch((error) => {
+            this.setState({loading : false})
+            message.error('There has been a problem with your fetch operation: ' + error.message);
+          });
+        })
+        // let filterdBranches = this.state.branches.filter(branch => branch.VendorId === +vendorId)
+        // console.log(filterdBranches)
+        // this.setState({ branches : filterdBranches})  
       }
-    })
-    .catch((error) => {
-      this.setState({loading : false})
-      message.error('There has been a problem with your fetch operation: ' + error.message);
-    });
-  }else{
-    this.setState({branches : this.props.brnachesList, loading : false})
-  }
+
   console.log("in dashboard vendor and club")
   }
   render() {
@@ -83,36 +85,37 @@ class VendorProfileDashboardPage extends React.Component {
           <>
           <InformationPageSection>
             <ComponyProfile 
-              name="Dunkin Donuts"
-              email="hithere@hello.net"
+              name={this.state.VendorInfo && this.state.VendorInfo.Vendor.Name}
+              email={this.state.VendorInfo && this.state.VendorInfo.Vendor.Email}
+              active={this.state.VendorInfo && this.state.VendorInfo.Vendor.Enable}
               emailIcon={Email}
-              phone="0554327899"
+              phone={this.state.VendorInfo && this.state.VendorInfo.Vendor.Phone}
               phoneIcon={Phone}
-              image={CompanyLogo}
+              image={this.state.VendorInfo && `http://native-001-site2.ctempurl.com/images/vendorimages/${this.state.VendorInfo.Vendor.Logo}`} 
             />
             <SmallCard
               title="Total Orders"
               image={Orders}
-              number="100K"
+              number= {this.state.VendorInfo && this.state.VendorInfo.TotalOrders}
               transparent
             />
             <SmallCard
               title="Amount due"
               image={Profit}
-              number="14.6 K"
+              number={this.state.VendorInfo && this.state.VendorInfo.TotalAmount}
               transparent
             />
             <SmallCard
               title="invoices"
               image={Invouces}
-              number="5"
+              number={this.state.VendorInfo && this.state.VendorInfo.TotalInvoices}
               transparent
               isInvoice
             />
             <SmallCard
               title="Active Beanches"
               image={Active}
-              number="3"
+              number={this.state.VendorInfo && this.state.VendorInfo.ActiveBranchesCount}
               transparent
             />
           </InformationPageSection>
@@ -120,10 +123,12 @@ class VendorProfileDashboardPage extends React.Component {
             <BarChart 
               height={200}
               title="Daily Sales"
+              orderCount={this.state.VendorInfo && this.state.VendorInfo.BarCharts.map(order => order.OrderCount)}
+              orderDay={this.state.VendorInfo && this.state.VendorInfo.BarCharts.map(order => Moment(order.Day).format('L'))}
             />
           </PageSection>
           <PageSection>
-            <TableComponent data={this.state.branches.length > 0 && this.state.branches} />
+            <TableComponent data={this.state.VendorInfo ? this.state.VendorInfo.Branches : []} /> 
           </PageSection>
           </>
         : <Spin />}

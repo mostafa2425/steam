@@ -25,7 +25,7 @@ class ClubPage extends React.Component {
     } 
   }
   componentDidMount() {
-    fetch('https://cors-anywhere.herokuapp.com/https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0').then((response) => {
+    fetch('http://native-001-site2.ctempurl.com/api/GetClubs?Page=0').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let clubs = data.model;

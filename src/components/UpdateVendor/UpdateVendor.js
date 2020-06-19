@@ -71,7 +71,6 @@ export default class UpdateVendor extends Component {
           let companies = data.model;
           this.setState({companies, loading : false}, () => {
             this.formRef.current.setFieldsValue({CompanyName: this.props.location.data && this.props.location.data.CompanyId,})
-            console.log(this.props.location.data)
           })
         });
       } else {

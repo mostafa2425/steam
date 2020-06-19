@@ -68,7 +68,6 @@ export default class UpdateBranch extends Component {
   componentDidMount() {
     
     if(this.props.location.data){
-      console.log(this.props.location.data)
       const {Name, NameLT, Phone, Enable, Email, Latitude, Longitude, Password, ConfirmPassword, Type, VendorId, VendorTypeName, Id } = this.props.location.data;
       this.props.location.vendorName && this.formRef.current.setFieldsValue({
         vendorName :  this.props.location.vendorName
