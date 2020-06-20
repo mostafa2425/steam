@@ -18,11 +18,11 @@ class RevenueListItem extends React.Component {
 
   render() {
 console.log(this.props.card)
-    const {Name, TotalAmount, Commission} = this.props.card
+    const {Name, TotalAmount, Commission, ClubImage} = this.props.card
     return (
       <Container className="revenue-holder">
         <ListingNumber>{this.props.index + 1}</ListingNumber>
-        <VendorImage src={this.props.type === "club" ? club1 : Vendor} alt="vendor" />
+        <VendorImage src={this.props.type === "club" ? `http://native-001-site2.ctempurl.com/images/clubimages/${ClubImage}` : Vendor} alt="vendor" />
         {this.props.type === "club" ? <Progress className="progress-holder" percent={Commission} format={percent => `${Number.isInteger(Commission) ? Commission : Commission.toFixed(2)} K`} /> : 
         <VendorTextContainer className="revenue-name">
           <VendorName >{Name}</VendorName>

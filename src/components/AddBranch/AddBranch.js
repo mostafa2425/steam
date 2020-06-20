@@ -36,7 +36,8 @@ export default class AddBranch extends Component {
       branchStutes : true,
       branchType : "false",
       vendorId : null,
-      vendors : null
+      vendors : null,
+      selectLoading : true
     }
   }
 
@@ -72,7 +73,11 @@ export default class AddBranch extends Component {
         response.json().then((data) => {
           let vendors = data.model;
           this.setState({vendors, loading : false}, () => {
-            this.formRef.current.setFieldsValue({VendorName: this.props.location.vendorId && this.props.location.vendorId,}) 
+            setTimeout(() => {
+              this.formRef.current.setFieldsValue({VendorName: this.props.location.vendorId && this.props.location.vendorId,}) 
+              this.setState({selectLoading : false}) 
+            }, 400) 
+            
           })
         });
       } else {
@@ -180,8 +185,8 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                     },
                   ]}
                 >
-                  <Select placeholder="select Vendor">
-                  {this.state.vendors && this.state.vendors.map(vendor => <Select.Option value={`${vendor.Id}`}>{vendor.Name}</Select.Option>)}
+                  <Select loading={this.state.selectLoading} placeholder="select Vendor">
+                  {this.state.vendors && this.state.vendors.map(vendor => <Select.Option value={vendor.Id}>{vendor.Name}</Select.Option>)}
                   </Select>
                 </Form.Item>  
                 <Form.Item

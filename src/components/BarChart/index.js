@@ -32,7 +32,7 @@ class BarChart extends React.Component {
           }
         },
         xaxis: {
-          categories: this.props.orderDay ? this.props.orderDay : ["1Feb","2Feb","3Feb","4Feb",],
+          categories: this.props.orderDay ? this.props.orderDay : [],
           position: 'bottom',
           labels: {
             offsetY: 0,
@@ -93,7 +93,7 @@ class BarChart extends React.Component {
       },
       series: [{
         name: 'Inflation',
-        data: this.props.orderCount ? this.props.orderCount : [10,20,14,30]
+        data: this.props.orderCount ? this.props.orderCount : []
       }],
     }
   }

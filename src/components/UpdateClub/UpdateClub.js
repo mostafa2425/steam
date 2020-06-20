@@ -46,14 +46,14 @@ export default class UpdateClub extends Component {
 
   componentDidMount() {
     if(this.props.location.data){
-      const {Name, NameLT, Phone, HeadQuarter, Enable, IdentityId,Email, Commission, ClubTypeId } = this.props.location.data;
+      const {Name, NameLT, Phone, HeadQuarter, Enable, IdentityId,Email, Percentage, ClubTypeId } = this.props.location.data;
       this.formRef.current.setFieldsValue({
         ClubName: Name,
         ArabicClubName: NameLT,
         email: Email,
         phone: Phone,
-        League : ClubTypeId,
-        Commission : Commission ? Commission : 0
+        League : ClubTypeId, 
+        Percentage : Percentage ? Percentage : 0
       })
       this.setState({clubStutes : this.props.location.data.Enable, clubId : this.props.location.data.Id, loading:false })
     }else{
@@ -70,7 +70,7 @@ export default class UpdateClub extends Component {
     "ClubTypeId": values.League,
     "Email":`${values.email}`,
     "Phone":`${values.phone}`,
-    // "Commission":`${values.Commission}`,
+    // "Percentage":`${values.Percentage}`,
     "Enable":this.state.clubStutes,
     "Logo": this.state.imageUrl ? this.state.imageUrl : "", 
 }
@@ -164,7 +164,6 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 <Form.Item
                   name="ClubName"
                   label="Club Name"
-                  
                   rules={[{ required: true, message: "Please input Club Name!",}]}
                 >
                   <Input />
@@ -206,9 +205,9 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   </Select>
                 </Form.Item>
                 <Form.Item
-                  name="Commission"
-                  label="Club Commission Percentage"
-                  rules={[{ required: true, message: "Please input Club Commission", }]}
+                  name="Percentage"
+                  label="Club Percentage Percentage"
+                  rules={[{ required: true, message: "Please input Club Percentage", }]}
                 >
                   <InputNumber
                     defaultValue={100}

@@ -213,7 +213,7 @@ export default class AddOffer extends Component {
                 <Form.Item name="range-picker" label="RangePicker">
                     <RangePicker showTime={{ format: 'HH:mm' }} disabledDate={disabledDate} onChange={this.onChangeDateRange} />
                 </Form.Item> 
-
+ 
                 <Form.Item
                   name="OfferDescription"
                   label="Offer Description"
@@ -244,7 +244,7 @@ export default class AddOffer extends Component {
                   >
                     Submit
                   </Button>
-                  <Button className="grayscale-fill xlg-btn">Cancel</Button>
+                  <Link to="/Offers" className="grayscale-fill xlg-btn">Cancel</Link>
                 </div>
               </Form>
             </div> : <Spin />}

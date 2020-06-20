@@ -45,4 +45,5 @@ export const VendorImage = styled.img`
   height: 45px;
   width: 45px;
   margin: 0 20px;
+  object-fit: contain;
 `;

@@ -43,13 +43,16 @@ export default class UpdateOffer extends Component {
     console.log(this.formRef)
     if(this.props.history.location.data){
     const { Id, ClubId, VendorId, end, start, title, titleAr } = this.props.history.location.data;
+    console.log(start)
+    console.log(end)
     fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let vendors = data.model;
           this.setState({vendors, Id, StartDate : start, EndDate : end}, () => {
             setTimeout(() => {
-              this.formRef.current.setFieldsValue({VendorName : VendorId, OfferDescription : title, OfferDescriptionAr : titleAr, rangePicker : [moment(start, dateFormat), moment(end, dateFormat)] }); 
+              this.formRef.current.setFieldsValue({VendorName : VendorId, OfferDescription : title, OfferDescriptionAr : titleAr }); 
+              // rangePicker : [moment(`${start}`, dateFormat), moment(`${end}`, dateFormat)] 
               this.setState({loading : false}) 
             }, 1000)
             
@@ -212,7 +215,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 <Form.Item
                   name="ClubLogo"
                   label="Offer Logo"
-                  rules={[{ required: true, message: "Please input Club Logo!", }]}
+                  // rules={[{ required: true, message: "Please input Club Logo!", }]}
                 >
                   <Upload
                   name ='file'
@@ -250,10 +253,11 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   <Select placeholder="select Vendor">
                   {this.state.vendors && this.state.vendors.map(vendor => <Select.Option value={vendor.Id}>{vendor.Name}</Select.Option>)}
                   </Select>
-                </Form.Item>   
-
+                </Form.Item>
                 <Form.Item name="rangePicker" label="RangePicker">
-                    <RangePicker showTime={{ format: 'HH:mm' }} disabledDate={disabledDate} onChange={this.onChangeDateRange} />
+                    <RangePicker showTime={{ format: 'HH:mm' }} 
+                    disabledDate={disabledDate} onChange={this.onChangeDateRange} 
+                    defaultValue={[moment(this.state.StartDate && this.state.StartDate), moment(this.state.EndDate && this.state.EndDate)]} />
                 </Form.Item> 
 
                 <Form.Item
@@ -287,7 +291,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   >
                     Submit
                   </Button>
-                  <Button className="grayscale-fill xlg-btn">Cancel</Button>
+                  <Link to="/Offers" className="grayscale-fill xlg-btn">Cancel</Link>
                 </div>
               </Form>
             </div> : <Spin />}

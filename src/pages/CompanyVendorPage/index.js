@@ -75,7 +75,7 @@ class CompanyVendorPage extends React.Component {
             cardId ={vendor.Id}
             editLink={{ pathname: "/update-vendor", vendorInfo :vendor, }}
             location
-            to={`/vendor-profile:${vendor.Id}`}
+            to={`/vendor-profile/:${vendor.Id}`} 
             />)}  
             </div>
             : <Result
