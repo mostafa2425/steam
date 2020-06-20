@@ -289,7 +289,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                     htmlType="submit"
                     loading={this.state.loadingBtn}
                   >
-                    Submit
+                    Update
                   </Button>
                   <Link to="/Offers" className="grayscale-fill xlg-btn">Cancel</Link>
                 </div>

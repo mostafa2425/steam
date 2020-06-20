@@ -223,9 +223,9 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                     },
                   ]}
                 >
-                  <Select defaultValue={this.state.branchType} onChange={this.onChangeBranchType}>
+                  <Select value={this.state.branchType} onChange={this.onChangeBranchType}>
                     <Select.Option value="true">online store</Select.Option> 
-                    <Select.Option value="false">physical store</Select.Option>
+                    <Select.Option value="false">physical store</Select.Option> 
                   </Select>
                 </Form.Item>
                 <Form.Item label="Enable" name="branchStutes">
