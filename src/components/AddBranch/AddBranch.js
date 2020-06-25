@@ -211,6 +211,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                     },
                   ]}
                 >
+                
                   <Input />
                 </Form.Item>
                 <Form.Item
@@ -218,7 +219,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   name="BranchType"
                   rules={[
                     {
-                      required: true,
+                      required: true, 
                       message: "Please select branch Type",
                     },
                   ]}
