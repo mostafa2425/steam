@@ -70,6 +70,7 @@ class ClubPage extends React.Component {
               status={club.Enable}
               phone={club.Phone}
               cardId ={club.Id}
+              activeUser = {club.ActiveUsers}
               league ={club.ClubTypeId}
               link="VEIW DASHBORD"
               fans

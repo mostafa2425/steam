@@ -69,8 +69,8 @@ export default class UpdateClub extends Component {
     "NameLT":`${values.ArabicClubName}`,
     "ClubTypeId": values.League,
     "Email":`${values.email}`,
-    "Phone":`${values.phone}`,
-    // "Percentage":`${values.Percentage}`,
+    "Phone":`${values.phone}`, 
+    "Percentage": values.Percentage,
     "Enable":this.state.clubStutes,
     "Logo": this.state.imageUrl ? this.state.imageUrl : "", 
 }

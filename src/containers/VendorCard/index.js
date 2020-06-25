@@ -138,7 +138,7 @@ class VendorCard extends React.Component {
 
  
   render() {    
-    const { image, name, link, fans, location, to, phone, status, email, HeadQuarter, isCompany, cardId, editLink, league } = this.props;
+    const { image, name, link, fans, location, to, phone, status, email, HeadQuarter, isCompany, cardId, editLink, league, activeUser } = this.props;
     return (
       <Container>
         <Dropdown className="dropdown-list" overlay={
@@ -169,7 +169,7 @@ class VendorCard extends React.Component {
           <FansContiner>
             <FansImage src={Fans} alt="fans" />
             <FansTextContainer>
-              <FansNumber>200K</FansNumber>
+              <FansNumber>{activeUser}K</FansNumber>
               <FansText>Active Users</FansText>
             </FansTextContainer>
           </FansContiner>

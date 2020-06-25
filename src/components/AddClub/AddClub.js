@@ -40,6 +40,7 @@ export default class AddClub extends Component {
     "ClubTypeId": values.League,
     "Email":`${values.email}`,
     "Phone":`${values.phone}`, 
+    "Percentage": values.Percentage,
     "Enable":this.state.clubStutes,
     "Logo": this.state.imageUrl, 
 }
@@ -175,7 +176,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   </Select>
                 </Form.Item>
                 <Form.Item
-                  name="Commission"
+                  name="Percentage"
                   label="Club Commission Percentage"
                   rules={[{ required: true, message: "Please input Club Commission", }]}
                 >

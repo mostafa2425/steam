@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
-
+import moment from 'moment';
 import Location from '../../images/pin.png'
 import Email from '../../images/email.png'
 import Phone from '../../images/phone.png'
@@ -38,28 +38,29 @@ const columns = [
   },
   {
     name: 'Vendor Name',
-    selector: 'VendorTypeName',
     sortable: true,
+    cell: (values) => <p>{values.Vendor.Name}</p>
   },
   {
     name: 'Invoice Amount Due',
-    selector: 'VendorTypeName',
+    selector: 'DueAmount',
     sortable: true,
   },
   {
     name: 'Invoice paid Amount',
-    selector: 'Id',
+    selector: 'PaidAmount',
     sortable: true,
   },
   {
     name: 'Invoice Remaining Amount',
-    selector: 'Id',
     sortable: true,
+    cell: (values) => <p>{values.DueAmount - values.PaidAmount}</p>
+
   },
   {
     name: 'Invoice Date',
-    selector: 'VendorTypeName',
     sortable: true,
+    cell: (values) => <p>{moment(values.CreatedAt).format('L')}</p>
   },
   {
     name: 'Type',
@@ -71,7 +72,7 @@ const columns = [
     name: 'Statues',
     selector: 'Enable',
     sortable: true,
-    cell: (values) => <p>{values.Enable ? "true" : "false"}</p>
+    cell: (values) => <p>{values.Status ? "true" : "false"}</p>
   },
   {
     name: 'Actions',
@@ -114,7 +115,7 @@ class InvoiceTable extends React.Component {
   }
   
     if(!this.props.brnachesList.length > 0){
-      fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetBranches?Page=0').then((response) => {
+      fetch('http://native-001-site2.ctempurl.com/api/GetAllInvoices?Page=0').then((response) => {
         if(response.ok) {
           response.json().then((data) => {
             let branches = data.model;

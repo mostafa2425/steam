@@ -15,6 +15,8 @@ export default class UpdateInvoice extends Component {
     super(props);
     this.state = {
       loadingBtn : false,
+      invoice : null,
+      payAmountMax : 0
     }
   } 
 
@@ -22,62 +24,56 @@ export default class UpdateInvoice extends Component {
 
   componentDidMount() {
     if(this.props.location.data){
-      console.log(this.props.location.data)
-      const {Name, NameLT, Phone, VendorTypeName, Enable, IdentityId,Email, Commission, Id } = this.props.location.data;
-      this.formRef.current.setFieldsValue({
-        InvoiceID: Id,
-        VendorName: VendorTypeName,
-        AmountDue: 1000,
-        paidAmount: 500,
-        Commission : Commission ? Commission : 0
-      })
-      this.setState({clubStutes : this.props.location.data.Enable, clubId : this.props.location.data.Id, loading:false })
-    }else{
+      const { Id } = this.props.location.data;
+    fetch(`http://native-001-site2.ctempurl.com/api/GetInvoice?InvoiceId=${Id}`).then((response) => {
+      if(response.ok) {
+        response.json().then((data) => {
+          let invoice = data.model;
+          this.setState({invoice, payAmountMax :  (+invoice.DueAmount - +invoice.PaidAmount)},
+           () => console.log(this.state))
+          this.formRef.current.setFieldsValue({
+            InvoiceID: Id,
+            VendorName: invoice.Vendor.Name,
+            AmountDue: invoice.DueAmount,
+            paidAmount: invoice.PaidAmount,
+          })
+        });
+      } else {
+        message.error('Network response was not ok.');
+        this.setState({loading : false})
+      }
+    })
+    .catch((error) => {
+      this.setState({loading : false})
+      message.error('There has been a problem with your fetch operation: ' + error.message);
+    });
+     }else{
       this.props.history.push("/brand-invoice");
     }
   }
 
-  handelSubmit = () => {
-    this.props.history.push("/brand-invoice");
+  handelSubmit = (values) => {
+    console.log(values)
+    fetch(`http://native-001-site2.ctempurl.com/api/UpdateInvoice?InvoiceId=${this.state.invoice.Id}&EnterAmount=${values.payAmount}`)
+        .then((response) => {
+          if(response.ok) {
+            response.json().then((data) => { 
+              message.success('invoice updated successfully'); 
+              setTimeout(() => {
+                this.props.history.push("/brand-invoice");
+              }, 500)
+            });
+          } else {
+            message.error('Network response was not ok.');
+          }
+        })
+        .catch((error) => {
+          this.setState({loading : false})
+          message.error('There has been a problem with your fetch operation: ' + error.message);
+        });
   }
 
-//   handelSubmit = (values) => {
-//     this.setState({loadingBtn : true})
-//     let data = {
-//       "Id":this.state.clubId,
-//     "Name":`${values.ClubName}`,
-//     "NameLT":`${values.ArabicClubName}`,
-//     "ClubTypeId": values.League,
-//     "Email":`${values.email}`,
-//     "Phone":`${values.phone}`,
-//     // "Commission":`${values.Commission}`,
-//     "Enable":this.state.clubStutes,
-//     "Logo": this.state.imageUrl ? this.state.imageUrl : "", 
-// }
 
-// fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditClub", {
-//       method: "post",
-//       headers: {
-//         'Accept': 'application/json',
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify(data) 
-//     })
-//     .then( (response) => { 
-//       if(response.ok) {
-//         message.success('club Updated successfully'); 
-//         this.setState({loadingBtn : false})
-//         this.props.history.push("/clubs");
-//       } else {
-//         message.error('Network response was not ok.');
-//         this.setState({loadingBtn : false}) 
-//       }
-//     })
-//     .catch((error) => {
-//       this.setState({loadingBtn : false})
-//       message.error('There has been a problem with your fetch operation: ' + error.message);
-//     });
-//   };
 
   render() {
     return (
@@ -133,11 +129,11 @@ export default class UpdateInvoice extends Component {
                 <Form.Item
                   name="payAmount"
                   label="Enter Amount"
-                  rules={[{ required: true, message: "Please input pay Amount", }]}
+                  // rules={[{ required: true, message: "Please input pay Amount", }]}
                 >
                   <InputNumber
                     min={0}
-                    max={100}
+                    max={this.state.payAmountMax} 
                   />
                 </Form.Item>
                 <div className="btn-action">
