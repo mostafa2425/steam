@@ -217,3 +217,52 @@
     background-color: #ebedf2;
 }
 
+.auth-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: gainsboro;
+    .auth-content{
+        width: 80%;
+        height: 70%;
+        display: flex;
+    }
+      .form-wrapper{
+        width: 40%;
+        background-color: #FFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 40px;
+        form{
+            width: 100%;
+        }
+        .ant-form-item{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            .ant-form-item-control{
+                width: 100%; 
+            }
+        }
+      }  
+      .auth-hero{
+        width: 60%;
+        background: url(../../images/login.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .login-btn{
+          display: flex;
+          align-items: center;
+          .ant-form-item{
+              margin-bottom: 0;
+          }
+          a{
+              margin: 0 16px;
+              color: #81b955;
+          }
+      }
+}
+

@@ -1117,3 +1117,61 @@ ul::-webkit-scrollbar-thumb,
 .ant-progress-inner {
   background-color: #ebedf2;
 }
+
+.auth-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: gainsboro;
+}
+
+.auth-wrapper .auth-content {
+  width: 80%;
+  height: 70%;
+  display: flex;
+}
+
+.auth-wrapper .form-wrapper {
+  width: 40%;
+  background-color: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+}
+
+.auth-wrapper .form-wrapper form {
+  width: 100%;
+}
+
+.auth-wrapper .form-wrapper .ant-form-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.auth-wrapper .form-wrapper .ant-form-item .ant-form-item-control {
+  width: 100%;
+}
+
+.auth-wrapper .auth-hero {
+  width: 60%;
+  background: url(../../images/login.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.auth-wrapper .login-btn {
+  display: flex;
+  align-items: center;
+}
+
+.auth-wrapper .login-btn .ant-form-item {
+  margin-bottom: 0;
+}
+
+.auth-wrapper .login-btn a {
+  margin: 0 16px;
+  color: #81b955;
+}

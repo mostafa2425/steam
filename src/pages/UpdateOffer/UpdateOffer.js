@@ -43,8 +43,6 @@ export default class UpdateOffer extends Component {
     console.log(this.formRef)
     if(this.props.history.location.data){
     const { Id, ClubId, VendorId, end, start, title, titleAr } = this.props.history.location.data;
-    console.log(start)
-    console.log(end)
     fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then((response) => {
       if(response.ok) {
         response.json().then((data) => {

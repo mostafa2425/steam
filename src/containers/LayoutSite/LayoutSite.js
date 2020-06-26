@@ -44,6 +44,7 @@ import UpdateInvoice from "../../pages/UpdateInvoice/UpdateInvoice";
 import UpdateOffer from "../../pages/UpdateOffer/UpdateOffer";
 
 import { createBrowserHistory } from "history";
+import Login from "../../pages/Login/Login";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const mq = window.matchMedia( "(max-width: 480px)" );
@@ -71,6 +72,7 @@ componentDidMount() {
     return (
       <Router history={history}> 
         <Switch>
+        <Route exact path="/login" component={Login} />
           <Layout>
             <Content className="root-wrapper">
               <Layout
