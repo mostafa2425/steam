@@ -6,7 +6,7 @@ import BarChart from '../../components/BarChart'
 import DropdownList from '../../components/DropdownList'
 import UserAvatar from '../../images/avatar.jpg'
 import placeholderImage from '../../images/users.png'
-import { setBranchesList } from '../../Dashboard/store/actions'; 
+import { setBranchesList, setClubsList } from '../../Dashboard/store/actions'; 
 import Moment from 'moment'
 import {
   Container,
@@ -48,11 +48,27 @@ class HomePage extends React.Component {
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
 
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetBranches?Page=0').then((response) => {
+    // fetch('http://native-001-site2.ctempurl.com/api/GetBranches?Page=0').then((response) => {
+    //   if(response.ok) {
+    //     response.json().then((data) => {
+    //       let branches = data.model;
+    //       // this.props.dispatch(setBranchesList(branches)) 
+    //     });
+    //   } else {
+    //     message.error('Network response was not ok.');
+    //     this.setState({loading : false})
+    //   }
+    // })
+    // .catch((error) => {
+    //   this.setState({loading : false})
+    //   message.error('There has been a problem with your fetch operation: ' + error.message);
+    // });
+
+    fetch('http://native-001-site2.ctempurl.com/api/GetClubs?Page=0').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
-          let branches = data.model;
-          // this.props.dispatch(setBranchesList(branches)) 
+          let clubs = data.model;
+          this.props.dispatch(setClubsList(clubs)) 
         });
       } else {
         message.error('Network response was not ok.');

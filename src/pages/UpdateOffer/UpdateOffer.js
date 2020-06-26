@@ -11,6 +11,8 @@ import {
   PageContainer,
 } from "./StyledComponents";
 import { UploadOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { connect } from "react-redux";
+import { setClubsList } from "../../Dashboard/store/actions";
 const { confirm } = Modal;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -23,7 +25,7 @@ function getBase64(img, callback) {
   reader.addEventListener('load', () => callback(reader.result));
   reader.readAsDataURL(img);
 };
-export default class UpdateOffer extends Component {
+class UpdateOffer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,8 +41,6 @@ export default class UpdateOffer extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.history.location.data)
-    console.log(this.formRef)
     if(this.props.history.location.data){
     const { Id, ClubId, VendorId, end, start, title, titleAr } = this.props.history.location.data;
     fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then((response) => {
@@ -65,25 +65,59 @@ export default class UpdateOffer extends Component {
       this.setState({loading : false})
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0').then((response) => {
-      if(response.ok) {
-        response.json().then((data) => {
-          let clubs = data.model;
-          this.setState({clubs, loading : false}, () => {
-            setTimeout(() => {
-              this.formRef.current.setFieldsValue({ClubName : ClubId});
-            }, 1000)
-          }) 
+
+    if (!this.props.clubsList.length > 0) {
+      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0")
+        .then((response) => {
+          if (response.ok) {
+            response.json().then((data) => {
+              let clubs = data.model;
+              this.setState({ clubs, loading: false }, () => {
+                setTimeout(() => {
+                  this.formRef.current.setFieldsValue({ClubName : ClubId});
+                }, 1000)
+              });
+              this.props.dispatch(setClubsList(clubs))
+            });
+          } else {
+            message.error("Network response was not ok.");
+            this.setState({ loading: false });
+          }
+        })
+        .catch((error) => {
+          this.setState({ loading: false });
+          message.error(
+            "There has been a problem with your fetch operation: " +
+              error.message
+          );
         });
-      } else {
-        message.error('Network response was not ok.');
-        this.setState({loading : false})
-      }
-    })
-    .catch((error) => {
-      this.setState({loading : false})
-      message.error('There has been a problem with your fetch operation: ' + error.message);
-    });
+    } else {
+      this.setState({ clubs: this.props.clubsList, loading: false }, () => {
+        setTimeout(() => {
+          this.formRef.current.setFieldsValue({ClubName : ClubId});
+        }, 1000)
+      });
+    }
+    
+    // fetch('http://native-001-site2.ctempurl.com/api/GetClubs?Page=0').then((response) => {
+    //   if(response.ok) {
+    //     response.json().then((data) => {
+    //       let clubs = data.model;
+    //       this.setState({clubs, loading : false}, () => {
+    //         setTimeout(() => {
+    //           this.formRef.current.setFieldsValue({ClubName : ClubId});
+    //         }, 1000)
+    //       }) 
+    //     });
+    //   } else {
+    //     message.error('Network response was not ok.');
+    //     this.setState({loading : false})
+    //   }
+    // })
+    // .catch((error) => {
+    //   this.setState({loading : false})
+    //   message.error('There has been a problem with your fetch operation: ' + error.message);
+    // });
   }else{
     this.props.history.push("/Offers");
   }
@@ -299,3 +333,10 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    clubsList: state.dashboard.clubsList,
+  };
+};
+export default connect(mapStateToProps)(UpdateOffer)

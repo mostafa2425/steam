@@ -26,6 +26,8 @@ import {
 } from './StyledComponents';
 import { Menu, Dropdown, message, Modal } from 'antd';
 import { SettingOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { DeleteClub } from '../../Dashboard/store/actions';
+import { connect } from 'react-redux';
 const { confirm } = Modal;
 class VendorCard extends React.Component {
   state = {};
@@ -94,13 +96,13 @@ class VendorCard extends React.Component {
       }else if(this.props.fans){
         fetch(`http://native-001-site2.ctempurl.com/api/DeleteClub?ClubId=${cardId}`)
         .then((response) => {
-          console.log(response)
           if(response.ok) {
             response.json().then((data) => {
               message.success('club deleted successfully'); 
-              setTimeout(() => {
-                window.location.reload();
-              }, 800)
+              this.props.dispatch(DeleteClub(cardId))
+              // setTimeout(() => {
+              //   window.location.reload();
+              // }, 800)
               
             });
           } else {
@@ -204,4 +206,4 @@ class VendorCard extends React.Component {
   }
 }
 
-export default VendorCard;
+export default connect()(VendorCard);

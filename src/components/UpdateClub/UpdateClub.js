@@ -9,26 +9,16 @@ import {
   PageContainer,
 } from "./StyledComponents";
 import { UploadOutlined } from '@ant-design/icons';
-const { TextArea } = Input;
+import { setClubsList } from "../../Dashboard/store/actions";
+import { connect } from "react-redux";
+const { TextArea } = Input; 
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
   reader.readAsDataURL(img);
 };
 
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2; 
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-}
-
-export default class UpdateClub extends Component {
+class UpdateClub extends Component {
 
   constructor(props) {
     super(props);
@@ -86,8 +76,23 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     .then( (response) => { 
       if(response.ok) {
         message.success('club Updated successfully'); 
-        this.setState({loadingBtn : false})
-        this.props.history.push("/clubs");
+        fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0")
+        .then((response) => {
+          if (response.ok) {
+            response.json().then((data) => {
+              let clubs = data.model;
+              this.props.dispatch(setClubsList(clubs))
+              this.setState({loadingBtn : false})
+              this.props.history.push("/clubs");
+            });
+          }
+        })
+        .catch((error) => {
+          this.setState({ loading: false });
+          message.error(
+            "There has been a problem with your fetch operation: " + error.message
+          );
+        });
       } else {
         message.error('Network response was not ok.');
         this.setState({loadingBtn : false}) 
@@ -114,7 +119,8 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     if (info.file.status === 'done') {
       getBase64(info.file.originFileObj, imageUrl =>{
         let imageUrljpeg = imageUrl.replace("data:image/jpeg;base64,", "");
-        let imageUrlpng = imageUrljpeg.replace("data:image/png;base64,", "");
+        let imageUrlpeg = imageUrljpeg.replace("data:image/jpg;base64,", "");
+        let imageUrlpng = imageUrlpeg.replace("data:image/png;base64,", "");
         this.setState({
           imageUrl : imageUrlpng,
           loading: false,
@@ -130,7 +136,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
 
 
   beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === "image/jpg";
     if (!isJpgOrPng) {
       message.error('You can only upload JPG/PNG file!');
     }
@@ -278,3 +284,5 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     );
   }
 }
+
+export default connect()(UpdateClub)

@@ -11,6 +11,8 @@ import {
   PageContainer,
 } from "./StyledComponents";
 import { UploadOutlined } from "@ant-design/icons";
+import { setClubsList } from "../../Dashboard/store/actions";
+import { connect } from "react-redux";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 function disabledDate(current) {
@@ -29,7 +31,7 @@ function range(start, end) {
   }
   return result;
 }
-export default class AddOffer extends Component {
+class AddOffer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -111,26 +113,30 @@ export default class AddOffer extends Component {
           "There has been a problem with your fetch operation: " + error.message
         );
       });
-    fetch(
-      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0"
-    )
-      .then((response) => {
-        if (response.ok) {
-          response.json().then((data) => {
-            let clubs = data.model;
-            this.setState({ clubs, loading: false });
+      if (!this.props.clubsList.length > 0) {
+        fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0")
+          .then((response) => {
+            if (response.ok) {
+              response.json().then((data) => {
+                let clubs = data.model;
+                this.setState({ clubs, loading: false });
+                this.props.dispatch(setClubsList(clubs))
+              });
+            } else {
+              message.error("Network response was not ok.");
+              this.setState({ loading: false });
+            }
+          })
+          .catch((error) => {
+            this.setState({ loading: false });
+            message.error(
+              "There has been a problem with your fetch operation: " +
+                error.message
+            );
           });
-        } else {
-          message.error("Network response was not ok.");
-          this.setState({ loading: false });
-        }
-      })
-      .catch((error) => {
-        this.setState({ loading: false });
-        message.error(
-          "There has been a problem with your fetch operation: " + error.message
-        );
-      });
+      } else {
+        this.setState({ clubs: this.props.clubsList, loading: false });
+      }
   }
 
   onChangeimg = (info) => {
@@ -323,3 +329,9 @@ export default class AddOffer extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    clubsList: state.dashboard.clubsList,
+  };
+};
+export default connect(mapStateToProps)(AddOffer)

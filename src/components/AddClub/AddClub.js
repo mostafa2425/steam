@@ -9,6 +9,8 @@ import {
   PageContainer,
 } from "./StyledComponents";
 import { UploadOutlined } from '@ant-design/icons';
+import { setClubsList } from "../../Dashboard/store/actions";
+import { connect } from "react-redux";
 const { TextArea } = Input;
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -16,7 +18,7 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 };
 
-export default class AddClub extends Component {
+class AddClub extends Component {
 
   constructor(props) {
     super(props);
@@ -54,11 +56,27 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
       body: JSON.stringify(data) 
     })
     .then( (response) => { 
-      console.log(response)
       this.setState({loadingBtn : false})
       message.success('club added successfully'); 
       this.formRef.current.resetFields();
       this.setState({imageUrl : null, })
+      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0")
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            let clubs = data.model;
+            this.props.dispatch(setClubsList(clubs))
+          });
+        } else {
+          // message.error("Network response was not ok.");
+        }
+      })
+      .catch((error) => {
+        this.setState({ loading: false });
+        message.error(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+      });
     })
     .catch((error) => {
       this.setState({loadingBtn : false})
@@ -81,7 +99,8 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     if (info.file.status === 'done') {
       getBase64(info.file.originFileObj, imageUrl =>{
         let imageUrljpeg = imageUrl.replace("data:image/jpeg;base64,", "");
-        let imageUrlpng = imageUrljpeg.replace("data:image/png;base64,", "");
+        let imageUrlpeg = imageUrljpeg.replace("data:image/jpg;base64,", "");
+        let imageUrlpng = imageUrlpeg.replace("data:image/png;base64,", "");
         this.setState({
           imageUrl : imageUrlpng,
           loading: false,
@@ -97,7 +116,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
 
 
   beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === "image/jpg";;
     if (!isJpgOrPng) {
       message.error('You can only upload JPG/PNG file!');
     }
@@ -119,7 +138,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 list={["Edit Profile", "Notification", "Logout"]}
                 titleImage={UserAvatar}
               />
-            </HeaderPageSection>
+            </HeaderPageSection> 
             <div className="form-holder">
               <h2>Add Club</h2>
               <Form
@@ -249,3 +268,5 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     );
   }
 }
+
+export default connect()(AddClub)

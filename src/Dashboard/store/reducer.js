@@ -4,6 +4,8 @@
 import { 
     SET_BRANCHES,
     ADD_BRANCH,
+    SET_CLUBS,
+    DELETE_CLUB,
 } from "./action-types";
 
 /**
@@ -11,6 +13,7 @@ import {
  */
 const initialState = {
     branchesList: [],
+    clubsList: [],
 };  
 
 
@@ -25,6 +28,10 @@ const reducer = (state = initialState, {type, payload = null}) => {
     switch (type) {
         case SET_BRANCHES: 
             return setBranchesList(state, payload)
+        case SET_CLUBS: 
+            return setClubsList(state, payload)
+        case DELETE_CLUB: 
+            return deleteClub(state, payload)
         case ADD_BRANCH: 
             return addBranch(state, payload)
         default:
@@ -44,6 +51,19 @@ function setBranchesList(state, payload){
         ...state, branchesList: payload
     }
 }
+
+function setClubsList(state, payload){
+    return {
+        ...state, clubsList: payload
+    }
+}
+
+function deleteClub(state, payload){
+    return {
+        ...state, clubsList: [...state.clubsList].filter(club => club.Id !== payload)
+    }
+}
+
 function addBranch(state, payload){
     console.log(payload) 
     return {
