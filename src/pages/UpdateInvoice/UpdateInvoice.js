@@ -122,14 +122,14 @@ export default class UpdateInvoice extends Component {
                   name="paidAmount"
                   label="Invoice paid Amount"
                   
-                  rules={[{ required: true, message: "Please input Invoice paid Amount!",}]}
+                  // rules={[{ required: true, message: "Please input Invoice paid Amount!",}]}
                 >
                   <Input disabled/>
                 </Form.Item>
                 <Form.Item
                   name="payAmount"
                   label="Enter Amount"
-                  // rules={[{ required: true, message: "Please input pay Amount", }]}
+                  rules={[{ required: true, message: "Please input pay Amount", }]}
                 >
                   <InputNumber
                     min={0}

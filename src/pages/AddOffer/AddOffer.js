@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button, Select, message, Input, Spin, Upload } from "antd";
+import { Form, Button, Select, message, Input, Spin, Upload, InputNumber } from "antd";
 import { DatePicker } from "antd";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -41,28 +41,34 @@ class AddOffer extends Component {
       StartDate: null,
       EndDate: null,
       imageUrl: null,
+      isSelectAllClubs : false
     };
   }
 
   formRef = React.createRef();
 
   onChangeDateRange = (dates, dateStrings) => {
-    console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
     this.setState({ StartDate: dateStrings[0], EndDate: dateStrings[1] });
   };
 
   handelSubmit = (values, errors) => {
     console.log(values);
     this.setState({ loadingBtn: true });
+
     let data = {
+      ForAll: this.state.isSelectAllClubs,
       VendorId: values.VendorName,
-      ClubId: values.ClubName,
+      // ClubId: values.ClubName,
       Description: `${values.OfferDescription}`,
       DescriptionLT: `${values.OfferDescriptionAr}`,
       StartDate: this.state.StartDate,
+      HourCost: values.HourCost,
       EndDate: this.state.EndDate,
       BannerImage: this.state.imageUrl,
     };
+    if(!this.state.isSelectAllClubs){
+      data.ClubId = values.ClubName
+    }
     fetch(
       "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddOffer",
       {
@@ -86,10 +92,6 @@ class AddOffer extends Component {
           "There has been a problem with your fetch operation: " + error.message
         );
       });
-  };
-
-  onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
   };
 
   componentDidMount() {
@@ -187,6 +189,8 @@ class AddOffer extends Component {
   //   };
   // }
 
+  changeClub = value => value === "all" && this.setState({isSelectAllClubs : true})
+
   render() {
     return (
       <Container>
@@ -236,13 +240,16 @@ class AddOffer extends Component {
                       },
                     ]}
                   >
-                    <Select placeholder="select Club">
+                    <Select onChange={this.changeClub} placeholder="select Club">
+                      <>
                       {this.state.clubs &&
                         this.state.clubs.map((club) => (
                           <Select.Option value={`${club.Id}`}>
                             {club.Name}
-                          </Select.Option>
-                        ))}
+                          </Select.Option> 
+                          ))}
+                          <Select.Option style={{fontWeight : "bold"}} value="all">All Clubs</Select.Option>
+                        </>
                     </Select>
                   </Form.Item>
                   <Form.Item
@@ -273,6 +280,19 @@ class AddOffer extends Component {
                       onChange={this.onChangeDateRange}
                     />
                   </Form.Item>
+
+                  <Form.Item
+                  name="HourCost"
+                  label="Hour Cost"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your hour cost!",
+                    },
+                  ]}
+                >
+                  <InputNumber placeholder="Please add Hour Cost" style={{ width: "100%" }} /> 
+                </Form.Item>
 
                   <Form.Item
                     name="OfferDescription"
@@ -314,7 +334,7 @@ class AddOffer extends Component {
                     >
                       Submit
                     </Button>
-                    <Link to="/Offers" className="grayscale-fill xlg-btn">
+                    <Link to="/alerts" className="grayscale-fill xlg-btn">
                       Cancel
                     </Link>
                   </div>

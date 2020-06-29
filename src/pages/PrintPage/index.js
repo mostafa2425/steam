@@ -4,6 +4,7 @@ import SideBarContainer from '../../containers/SideBarContainer'
 import DropdownList from '../../components/DropdownList'
 import UserAvatar from '../../images/avatar.jpg'
 import Logo from '../../images/logow.png'
+import moment from "moment";
 import {
   Container,
   PageContainer,
@@ -24,8 +25,51 @@ import {
 
 class PrintPage extends React.Component {
 
-  render() {
+  componentDidMount() {
+    console.log(this.props.location.data)
+    console.log(this.props.location)
+    // AlertAmount: 200
+    // CommissionAmount: 600
+    // CreatedAt: "2020-06-25T00:00:00"
+    // DueAmount: 1000
+    // EnterAmount: null
+    // Id: 2
+    // OfferAmount: 200
+    // PaidAmount: 200
+    // Status: null
+    // Type: true
+    // UpdatedAt: null
 
+//     Vendor:
+// Branches: null
+// Company: null
+// CompanyId: 0
+// ConfirmPassword: null
+// CreatedAt: null
+// DeletedAt: null
+// Description: ""
+// Email: "mcdonalds@yahoo.com"
+// Enable: true
+// Id: 2
+// IdentityId: ""
+// Industry: ""
+// Logo: "mcdonalds_PNG162.png"
+// Name: "Mcdonalds"
+// NameLT: "ماكدونالدز"
+// Password: null
+// Percentage: 10
+// Phone: "965507888571"
+// RegisterationDate: "2020-05-25T00:00:00"
+// UpdatedAt: null
+// VendorTypeId: 2
+    if(!this.props.location.data){
+      this.props.history.push("/brand-invoice");
+    }
+  }
+  
+
+  render() {
+    const data = this.props.location && this.props.location.data 
     return (
       <Container>
         
@@ -58,7 +102,7 @@ class PrintPage extends React.Component {
                 <p>
                   <Headers>DATA</Headers>
                   <br/>
-                  <HeadersContent>22/2/2020</HeadersContent>
+                  <HeadersContent>{moment().format('l')}</HeadersContent>
                 </p>
                 <p>
                   <Headers>INVOICE NO.</Headers>
@@ -68,7 +112,7 @@ class PrintPage extends React.Component {
                 <p>
                   <Headers>INVOICE TO.</Headers>
                   <br/>
-                  <HeadersContent>IMcDonald's KSA</HeadersContent>
+                  <HeadersContent>{data && data.Vendor.Name}</HeadersContent>
                 </p>
               </PageSection>
               <PageSection style={{ borderBottom: '1px solid #ececec', marginBottom: '80px' }} >
@@ -81,15 +125,15 @@ class PrintPage extends React.Component {
               </PageSection>
               <PageSection>
                 <ElementText>Order Commission</ElementText>
-                <GreenText>SAR 5000</GreenText>
+                <GreenText>SAR {data && data.CommissionAmount}</GreenText>
               </PageSection>
               <PageSection>
                 <ElementText>Alerts</ElementText>
-                <GreenText>SAR 2000</GreenText>
+                <GreenText>SAR {data && data.AlertAmount}</GreenText>
               </PageSection>
               <PageSection>
                 <ElementText>Offers</ElementText>
-                <GreenText>SAR 3000</GreenText>
+                <GreenText>SAR {data && data.OfferAmount}</GreenText>
               </PageSection>
               <PageSection style={{ borderTop: '1px solid #ececec', marginTop: '150px' }} >
                 <p>
@@ -105,7 +149,7 @@ class PrintPage extends React.Component {
                 <p>
                   <Headers>TOTAL AMOUNT</Headers>
                   <br/>
-                  <GreenText>SAR 11,000</GreenText>
+                  <GreenText>SAR {data && data.OfferAmount + data.AlertAmount + data.CommissionAmount}</GreenText>
                 </p>
               </PageSection>
             </ContentContaine>

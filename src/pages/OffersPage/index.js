@@ -38,9 +38,11 @@ class OffersPage extends React.Component {
                 Id: offer.Id,
                 VendorId: offer.VendorId,
                 ClubId: offer.ClubId,
+                ForAll: offer.ForAll,
                 BannerImage: offer.BannerImage,
                 title: offer.Description,
                 titleAr: offer.DescriptionLT,
+                HourCost: offer.HourCost,
                 start: moment(offer.StartDate).toDate(),
                 end: moment(offer.EndDate).toDate(), 
               })
@@ -77,7 +79,7 @@ class OffersPage extends React.Component {
               to="/add-offer"
               style={{ textDecoration: "none", display: "flex" }}
             >
-              <button className="primary-fill">Add Offer</button>
+              <button className="primary-fill">Add Offer</button> 
             </Link>
             <DropdownList
               title="user name"

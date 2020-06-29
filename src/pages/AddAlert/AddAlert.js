@@ -1,7 +1,16 @@
 import React, { Component } from "react";
-import { Form, Button, Select, message, Input, Spin, Upload } from "antd";
-import { DatePicker } from 'antd';
-import moment from 'moment';
+import {
+  Form,
+  Button,
+  Select,
+  message,
+  Input,
+  Spin,
+  Upload,
+  InputNumber,
+} from "antd";
+import { DatePicker } from "antd";
+import moment from "moment";
 import { Link } from "react-router-dom";
 import DropdownList from "../../components/DropdownList";
 import UserAvatar from "../../images/avatar.jpg";
@@ -10,141 +19,168 @@ import {
   Container,
   PageContainer,
 } from "./StyledComponents";
-import { UploadOutlined } from '@ant-design/icons';
-const { RangePicker } = DatePicker;
+import { UploadOutlined } from "@ant-design/icons";
+import { setClubsList } from "../../Dashboard/store/actions";
+import { connect } from "react-redux";
 const { TextArea } = Input;
-    function disabledDate(current) {
-        return current && current < moment().endOf('day');
-      }
-      function getBase64(img, callback) {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => callback(reader.result));
-        reader.readAsDataURL(img);
-      };
-export default class AddAlert extends Component {
-
+function disabledDate(current) {
+  return current && current < moment().endOf("day");
+}
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+class AddAlert extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      vendors : null,
-      clubs : null,
-      loading : true,
-      StartDate : null,
-      EndDate : null,
-      imageUrl : null,
-    }
+      vendors: null,
+      clubs: null,
+      loading: true,
+      StartDate: null,
+      EndDate: null,
+      imageUrl: null,
+      isSelectAllClubs: false,
+    };
   }
 
   formRef = React.createRef();
 
-  onChangeDateRange = (dates, dateStrings) => {
-    this.setState({StartDate : dateStrings[0], EndDate : dateStrings[1]})
-  }
-
+  // onChangeDateRange = (dates, dateStrings) => {
+  //   this.setState({ StartDate: dateStrings[0], EndDate: dateStrings[1] });
+  // };
 
   handelSubmit = (values, errors) => {
-    console.log(values)
-    this.setState({loadingBtn : true})
+    console.log(values);
+    this.setState({ loadingBtn: true });
+
     let data = {
-      "VendorId":1,
-	    "ClubId":1,
-      "Description":`${values.OfferDescription}`,
-      "StartDate": this.state.StartDate,
-      "EndDate": this.state.EndDate,
-  }
-  fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddOffer", {
-      method: "post",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data) 
-    })
-    .then( (response) => { 
-      console.log(response)
-      this.setState({loadingBtn : false})
-      message.success('alert added successfully'); 
-      this.formRef.current.resetFields();
-    })
-    .catch((error) => {
-      this.setState({loadingBtn : false})
-      message.error('There has been a problem with your fetch operation: ' + error.message);
-    });
+      ForAll: this.state.isSelectAllClubs,
+      VendorId: values.VendorName,
+      // ClubId: values.ClubName,
+      Description: `${values.OfferDescription}`,
+      DescriptionLT: `${values.OfferDescriptionAr}`,
+      StartDate: this.state.StartDate, 
+      TotalCost: values.HourCost,
+      BannerImage: this.state.imageUrl,
+      Time : values.Time
+    };
+    if (!this.state.isSelectAllClubs) {
+      data.ClubId = values.ClubName;
+    }
+    fetch(
+      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddAlert",
+      {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    )
+      .then((response) => {
+        console.log(response);
+        this.setState({ loadingBtn: false });
+        message.success("Alert added successfully");
+        this.formRef.current.resetFields();
+      })
+      .catch((error) => {
+        this.setState({ loadingBtn: false });
+        message.error(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+      });
   };
 
   componentDidMount() {
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then((response) => {
-      if(response.ok) {
-        response.json().then((data) => {
-          let vendors = data.model;
-          console.log(vendors)
-          this.setState({vendors, loading : false})
+    fetch(
+      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0"
+    )
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            let vendors = data.model;
+            this.setState({ vendors, loading: false });
+          });
+        } else {
+          message.error("Network response was not ok.");
+          this.setState({ loading: false });
+        }
+      })
+      .catch((error) => {
+        this.setState({ loading: false });
+        message.error(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+      });
+    if (!this.props.clubsList.length > 0) {
+      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0")
+        .then((response) => {
+          if (response.ok) {
+            response.json().then((data) => {
+              let clubs = data.model;
+              this.setState({ clubs, loading: false });
+              this.props.dispatch(setClubsList(clubs));
+            });
+          } else {
+            message.error("Network response was not ok.");
+            this.setState({ loading: false });
+          }
+        })
+        .catch((error) => {
+          this.setState({ loading: false });
+          message.error(
+            "There has been a problem with your fetch operation: " +
+              error.message
+          );
         });
-      } else {
-        message.error('Network response was not ok.');
-        this.setState({loading : false})
-      }
-    })
-    .catch((error) => {
-      this.setState({loading : false})
-      message.error('There has been a problem with your fetch operation: ' + error.message);
-    });
-
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0').then((response) => {
-      if(response.ok) {
-        response.json().then((data) => {
-          let clubs = data.model;
-          this.setState({clubs, loading : false}) 
-        });
-      } else {
-        message.error('Network response was not ok.');
-        this.setState({loading : false})
-      }
-    })
-    .catch((error) => {
-      this.setState({loading : false})
-      message.error('There has been a problem with your fetch operation: ' + error.message);
-    });
+    } else {
+      this.setState({ clubs: this.props.clubsList, loading: false });
+    }
   }
 
-  onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
-
   onChangeimg = (info) => {
-    if (info.file.status !== 'uploading') {
+    if (info.file.status !== "uploading") {
       console.log(info.file, info.fileList);
     }
-    if (info.file.status === 'done') {
-      getBase64(info.file.originFileObj, imageUrl =>{
+    if (info.file.status === "done") {
+      getBase64(info.file.originFileObj, (imageUrl) => {
         let imageUrljpeg = imageUrl.replace("data:image/jpeg;base64,", "");
-        let imageUrlpng = imageUrljpeg.replace("data:image/png;base64,", "");
+        let imageUrlpeg = imageUrljpeg.replace("data:image/jpg;base64,", "");
+        let imageUrlpng = imageUrlpeg.replace("data:image/png;base64,", "");
         this.setState({
-          imageUrl : imageUrlpng,
+          imageUrl: imageUrlpng,
           loading: false,
-        })
-      }
-        
-      );
+        });
+      });
       message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
+    } else if (info.file.status === "error") {
       message.error(`${info.file.name} file upload failed.`);
     }
   };
 
-
   beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    const isJpgOrPng =
+      file.type === "image/jpeg" ||
+      file.type === "image/png" ||
+      file.type === "image/jpg";
     if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!');
+      message.error("You can only upload JPG/PNG file!");
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
+      message.error("Image must smaller than 2MB!");
     }
     return isJpgOrPng && isLt2M;
-  }
+  };
 
+  changeClub = (value) =>value === "all" && this.setState({ isSelectAllClubs: true });
+
+  onChangeDateRange = (value, dateString) =>  {
+    this.setState({StartDate : dateString})
+  }
 
   render() {
     return (
@@ -158,93 +194,166 @@ export default class AddAlert extends Component {
                 titleImage={UserAvatar}
               />
             </HeaderPageSection>
-            {!this.state.loading ?
-            <div className="form-holder">
-              <h2>Add Alert</h2>
-              <Form
-                name="nest-messages"
-                onFinish={this.handelSubmit}
-                onFinishFailed={this.onFinishFailed}
-                ref={this.formRef}
-              >
-                <Form.Item
-                  name="ClubLogo"
-                  label="Alert Logo"
-                  rules={[{ required: true, message: "Please input Club Logo!", }]}
+            {!this.state.loading ? (
+              <div className="form-holder">
+                <h2>Add Alert</h2>
+                <Form
+                  name="nest-messages"
+                  onFinish={this.handelSubmit}
+                  onFinishFailed={this.onFinishFailed}
+                  ref={this.formRef}
                 >
-                  <Upload
-                  name ='file'
-                  action = 'https://www.mocky.io/v2/5cc8019d300000980a055e76' 
-                  onChange={this.onChangeimg} beforeUpload={this.beforeUpload}> 
-                  <Button>
-                    <UploadOutlined /> Click to Upload
-                  </Button>
-                </Upload>
-                </Form.Item>
-                <Form.Item
-                  label="Club Name"
-                  name="ClubName"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please select Club",
-                    },
-                  ]}
-                >
-                  <Select placeholder="select Club">
-                  {this.state.clubs && this.state.clubs.map(club => <Select.Option value={`${club.Id}`}>{club.Name}</Select.Option>)}
-                  </Select>
-                </Form.Item>
-                <Form.Item
-                  label="Vendor Name"
-                  name="VendorName"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please select Vendor",
-                    },
-                  ]}
-                >
-                  <Select placeholder="select Vendor">
-                  {this.state.vendors && this.state.vendors.map(vendor => <Select.Option value={`${vendor.Id}`}>{vendor.Name}</Select.Option>)}
-                  </Select>
-                </Form.Item>   
-
-                {/* <Form.Item name="range-picker" label="RangePicker">
-                <RangePicker disabledDate={disabledDate} onChange={this.onChangeDateRange} />
-                </Form.Item>  */}
-
-                <Form.Item name="range-picker" label="RangePicker">
-                  <DatePicker disabledDate={disabledDate} onChange={this.onChangeDateRange} />
-                </Form.Item> 
-
-                <Form.Item
-                  name="OfferDescription"
-                  label="Offer Description"
-                  rules={[{ required: true, message: "Please add Offer Description!", }]}
-                >
-                  <TextArea
-                    placeholder="Add Offer Description"
-                    autoSize={{ minRows: 2, maxRows: 6 }} 
-                  />
-                </Form.Item>
-
-                <div className="btn-action">
-                  <Button
-                    type="primary"
-                    className="primary-fill xlg-btn mr-20"
-                    htmlType="submit"
-                    loading={this.state.loadingBtn}
+                  <Form.Item
+                    name="ClubLogo"
+                    label="Alert Logo"
+                    rules={[
+                      { required: true, message: "Please input Club Logo!" },
+                    ]}
                   >
-                    Submit
-                  </Button>
-                  <Button className="grayscale-fill xlg-btn">Cancel</Button>
-                </div>
-              </Form>
-            </div> : <Spin />}
+                    <Upload
+                      name="file"
+                      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                      onChange={this.onChangeimg}
+                      beforeUpload={this.beforeUpload}
+                    >
+                      <Button>
+                        <UploadOutlined /> Click to Upload
+                      </Button>
+                    </Upload>
+                  </Form.Item>
+                  <Form.Item
+                    label="Club Name"
+                    name="ClubName"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please select Club",
+                      },
+                    ]}
+                  >
+                   <Select onChange={this.changeClub} placeholder="select Club">
+                      <>
+                      {this.state.clubs &&
+                        this.state.clubs.map((club) => (
+                          <Select.Option value={`${club.Id}`}>
+                            {club.Name}
+                          </Select.Option> 
+                          ))}
+                          <Select.Option style={{fontWeight : "bold"}} value="all">All Clubs</Select.Option>
+                        </>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label="Vendor Name"
+                    name="VendorName"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please select Vendor",
+                      },
+                    ]}
+                  >
+                    <Select placeholder="select Vendor">
+                      {this.state.vendors &&
+                        this.state.vendors.map((vendor) => (
+                          <Select.Option value={`${vendor.Id}`}>
+                            {vendor.Name}
+                          </Select.Option>
+                        ))}
+                    </Select>
+                  </Form.Item>
+
+                  <Form.Item name="rangepicker" label="RangePicker">
+                    <DatePicker
+                      showTime={{ format: "HH:mm" }}
+                      disabledDate={disabledDate}
+                      onChange={this.onChangeDateRange}
+                    />
+                  </Form.Item>
+
+                  <Form.Item
+                  name="TotalCost"
+                  label="Total Cost"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Total Cost!",
+                    },
+                  ]}
+                >
+                  <InputNumber placeholder="Please add Total Cost" style={{ width: "100%" }} /> 
+                </Form.Item>
+                  <Form.Item
+                  name="Time"
+                  label="Alert Time"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Alert Time!",
+                    },
+                  ]}
+                >
+                  <InputNumber placeholder="Please add Alert Time" style={{ width: "100%" }} /> 
+                </Form.Item>
+
+                  <Form.Item
+                    name="OfferDescription"
+                    label="Offer Description"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please add alert Description!",
+                      },
+                    ]}
+                  >
+                    <TextArea
+                      placeholder="Add alert Description"
+                      autoSize={{ minRows: 2, maxRows: 6 }}
+                    />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="OfferDescriptionAr"
+                    label="Offer Description Arbic"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please add alert Description In Arabic!",
+                      },
+                    ]}
+                  >
+                    <TextArea
+                      placeholder="Add alert Description In Arabic"
+                      autoSize={{ minRows: 2, maxRows: 6 }}
+                    />
+                  </Form.Item>
+
+                  <div className="btn-action">
+                    <Button
+                      type="primary"
+                      className="primary-fill xlg-btn mr-20"
+                      htmlType="submit"
+                      loading={this.state.loadingBtn}
+                    >
+                      Submit
+                    </Button>
+                    <Link to="/Offers" className="grayscale-fill xlg-btn">Cancel</Link>
+                  </div>
+                </Form>
+              </div>
+            ) : (
+              <Spin />
+            )}
           </div>
         </PageContainer>
       </Container>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    clubsList: state.dashboard.clubsList,
+  };
+};
+export default connect(mapStateToProps)(AddAlert)
