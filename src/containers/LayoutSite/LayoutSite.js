@@ -1,5 +1,11 @@
 import React, { Component, Suspense } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import HomePage from "../../pages/HomePage";
 import CompanyPage from "../../pages/CompanyPage";
 import VendorPage from "../../pages/VendorPage";
@@ -8,16 +14,16 @@ import ProfileDashboardPage from "../../pages/ProfileDashboardPage";
 import VendorProfileDashboardPage from "../../pages/VendorProfileDashboardPage";
 import InvoicePage from "../../pages/InvoicePage";
 import PrintPage from "../../pages/PrintPage";
-import OffersPage from "../../pages/OffersPage"; 
+import OffersPage from "../../pages/OffersPage";
 import AlertsPage from "../../pages/AlertsPage";
-import history from "../../history"; 
-import Logo from '../../images/logow.png'
-import { Layout, Menu, Spin  } from "antd";
+import history from "../../history";
+import Logo from "../../images/logow.png";
+import { Layout, Menu, Spin } from "antd";
 import {
-    SkinOutlined,
-    HomeOutlined,
-    ApartmentOutlined,
-    TransactionOutlined ,
+  SkinOutlined,
+  HomeOutlined,
+  ApartmentOutlined,
+  TransactionOutlined,
   PrinterOutlined,
   PercentageOutlined,
   SoundOutlined,
@@ -41,34 +47,37 @@ import UpdateOffer from "../../pages/UpdateOffer/UpdateOffer";
 import { createBrowserHistory } from "history";
 import Login from "../../pages/Login/Login";
 import UpdateAlert from "../../pages/UpdateAlert/UpdateAlert";
+import { formValueSelector } from "redux-form";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
-const mq = window.matchMedia( "(max-width: 480px)" );
+const mq = window.matchMedia("(max-width: 480px)");
 
 export default class LayoutSite extends Component {
   state = {
     collapsed: false,
-    screenSize: mq.matches ? true : false
+    screenSize: mq.matches ? true : false,
+    loggedin: false,
   };
-componentDidMount() {
-  mq.addListener((e) => {
-    this.setState({
-      screenSize: e.matches ? true : false
-    })
-  })
-}
+  componentDidMount() {
+    JSON.parse(localStorage.getItem("token")) ? this.setState({loggedin : true}) : this.setState({loggedin : false})
+    mq.addListener((e) => {
+      this.setState({
+        screenSize: e.matches ? true : false,
+      });
+    });
+  }
 
   onCollapse = (collapsed) => {
-    console.log(collapsed);
     this.setState({ collapsed });
   };
 
-  
   render() {
+    const {loggedin} = this.state
     return (
-      <Router history={history}> 
+      <Router history={history}>
+        { !loggedin && <Redirect to="/login" />}
         <Switch>
-        <Route exact path="/login" component={Login} />
+          <Route exact path="/login" component={Login} />
           <Layout>
             <Content className="root-wrapper">
               <Layout
@@ -83,10 +92,10 @@ componentDidMount() {
                   onCollapse={this.onCollapse}
                   width="230px"
                   breakpoint="md"
-                > 
-                    <Link className="sidebar-logo" to="/">
-                      <img src={Logo} alt="Logo"/>
-                    </Link>
+                >
+                  <Link className="sidebar-logo" to="/">
+                    <img src={Logo} alt="Logo" />
+                  </Link>
                   <Menu
                     mode="inline"
                     defaultSelectedKeys={["1"]}
@@ -106,7 +115,7 @@ componentDidMount() {
                       <Link to="/vendors" />
                       vendors
                     </Menu.Item>
-                    <Menu.Item key="3" icon={<SkinOutlined  />}>
+                    <Menu.Item key="3" icon={<SkinOutlined />}>
                       <Link to="/clubs" />
                       clubs
                     </Menu.Item>
@@ -116,10 +125,10 @@ componentDidMount() {
                     </Menu.Item>
                     <SubMenu
                       key="sub2"
-                      icon={<TransactionOutlined  />}
+                      icon={<TransactionOutlined />}
                       title="offers"
                     >
-                      <Menu.Item key="5"  icon={<PercentageOutlined />}>
+                      <Menu.Item key="5" icon={<PercentageOutlined />}>
                         <Link to="/Offers" />
                         Offers
                       </Menu.Item>
@@ -127,54 +136,58 @@ componentDidMount() {
                         <Link to="/alerts" />
                         alerts
                       </Menu.Item>
-                      {/* <Menu.Item key="7" icon={<SoundOutlined />}>
-                        <Link to="/test" />
-                        add company
-                      </Menu.Item>
-                      <Menu.Item key="8" icon={<SoundOutlined />}>
-                        <Link to="/add-branch2" />
-                        Add Branch
-                      </Menu.Item> */}
                     </SubMenu>
                   </Menu>
                 </Sider>
                 <Suspense fallback={<Spin />}>
-                <Content >
-                  <Route exact path="/" component={HomePage} />
-                  <Route path="/companies" component={CompanyPage} />
-                  <Route path="/vendors" component={VendorPage} />
-                  <Route path="/clubs" component={ClubPage} />
-                  <Route
-                    path="/dashbord-profile"
-                    component={ProfileDashboardPage}
-                  />
-                  <Route
-                    path="/vendor-profile/:id"
-                    component={VendorProfileDashboardPage}
-                  />
-                  
-                  <Route path="/brand-invoice" component={InvoicePage} />
-                  <Route path="/add-company" component={AddCompany} />
-                  <Route path="/add-branch" component={AddBranch} />
-                  <Route path="/update-branch" component={UpdateBranch} />
-                  <Route path="/add-club" component={AddClub} /> 
-                  <Route path="/invoice" component={PrintPage} /> 
-                  <Route path="/update-invoice" component={UpdateInvoice} />
-                  <Route path="/offers" component={OffersPage} />
-                  <Route path="/alerts" component={AlertsPage} />
-                  <Route path="/add-offer" component={AddOffer} />
-                  <Route path="/update-offer" component={UpdateOffer} />
-                  <Route path="/add-alert" component={AddAlert} />
-                  <Route path="/update-alert" component={UpdateAlert} /> 
-                  <Route path="/add-vendor" component={AddVendor} /> 
-                  <Route path="/update-vendor" component={UpdateVendor} /> 
-                  <Route path="/update-club" component={UpdateClub} /> 
-                  <Route path="/update-company" component={UpdateCompany} /> 
-                  <Route path="/company-vendor" component={CompanyVendorPage} /> 
-                  <Route component={NotFound}/>
-                  {/* <Route path="/add-branch2" component={AddBranch} /> */}
-                  {/* <Route path="/test" component={AddCompany} /> */}
-                </Content>
+                  <Content>
+                    {/* {!JSON.parse(localStorage.getItem("token")) && (
+                      <Redirect exact to="login" />
+                    )} */}
+                    {/* {  JSON.parse(localStorage.getItem("token")) ? console.log("true",JSON.parse(localStorage.getItem("token"))) : console.log("false",JSON.parse(localStorage.getItem("token")))  } */}
+                    {/* <Route exact path="/" component={HomePage} /> */}
+                    <Route
+                      exact
+                      path="/"
+                      component={HomePage}
+                    />
+                    <Route path="/companies" component={CompanyPage} />
+                    <Route path="/vendors" component={VendorPage} />
+                    <Route path="/clubs" component={ClubPage} />
+                    <Route
+                      path="/dashbord-profile/:id"
+                      component={ProfileDashboardPage}
+                    />
+                    <Route
+                      path="/vendor-profile/:id"
+                      component={VendorProfileDashboardPage}
+                    />
+
+                    <Route path="/brand-invoice" component={InvoicePage} />
+                    <Route path="/add-company" component={AddCompany} />
+                    <Route path="/add-branch" component={AddBranch} />
+                    <Route path="/update-branch" component={UpdateBranch} />
+                    <Route path="/add-club" component={AddClub} />
+                    <Route path="/invoice" component={PrintPage} />
+                    <Route path="/update-invoice" component={UpdateInvoice} />
+                    <Route path="/offers" component={OffersPage} />
+                    <Route path="/alerts" component={AlertsPage} />
+                    <Route path="/add-offer" component={AddOffer} />
+                    <Route path="/update-offer" component={UpdateOffer} />
+                    <Route path="/add-alert" component={AddAlert} />
+                    <Route path="/update-alert" component={UpdateAlert} />
+                    <Route path="/add-vendor" component={AddVendor} />
+                    <Route path="/update-vendor" component={UpdateVendor} />
+                    <Route path="/update-club" component={UpdateClub} />
+                    <Route path="/update-company" component={UpdateCompany} />
+                    <Route
+                      path="/company-vendor"
+                      component={CompanyVendorPage}
+                    />
+                    <Route component={NotFound} />
+                    {/* <Route path="/add-branch2" component={AddBranch} /> */}
+                    {/* <Route path="/test" component={AddCompany} /> */}
+                  </Content>
                 </Suspense>
               </Layout>
             </Content>

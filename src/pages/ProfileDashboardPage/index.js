@@ -27,7 +27,8 @@ class ProfileDashboardPage extends React.Component {
     super(props);
     this.state = {
       clubId: null,
-      branches: [],
+      clubInfo: null,
+      loading : false
     };
   }
   componentDidMount() {
@@ -35,16 +36,17 @@ class ProfileDashboardPage extends React.Component {
       "Content-Type": "application/json",
       'Authorization': JSON.parse(localStorage.getItem("token")),
     });
-    fetch("http://native-001-site2.ctempurl.com/api/GetBranches?Page=0", {
+    if (this.props.match) {
+      let clubId = +this.props.match.params.id.replace(":", "");
+    fetch(`http://native-001-site2.ctempurl.com/api/GetClubStatisticsById?ClubId=${clubId}`, {
       method: 'GET',
       headers: myHeaders, 
     })
       .then((response) => {
         if (response.ok) {
           response.json().then((data) => {
-            let branches = data.model;
-            console.log(branches);
-            this.setState({ branches, loading: false });
+            let clubInfo = data.model;
+            this.setState({ clubInfo, loading: false });
           });
         } else {
           message.error("Network response was not ok.");
@@ -58,51 +60,53 @@ class ProfileDashboardPage extends React.Component {
         );
       });
   }
+  }
   render() {
+    const clubInfo = this.state.clubInfo;
     return (
       <Container>
         <PageContainer className="vendor-profile-wrapper">
           <HeaderPageSection>
             <DropdownList
               title="user name"
-              list={["Edit Profile", "Notification", "Logout"]}
+              list={["Edit Profile", "Notification"]}
               titleImage={UserAvatar}
             />
           </HeaderPageSection>
-          {!this.state.clubId ? (
+          {!this.state.loading ? (
             <>
               <InformationPageSection>
                 <ComponyProfile
-                  name="Al Hilal"
-                  email="hithere@hello.net"
+                  name={clubInfo && clubInfo.Name}
+                  email={clubInfo && clubInfo.Email}
                   emailIcon={Email}
-                  phone="0554327899"
+                  phone={clubInfo && clubInfo.Phone}
                   phoneIcon={Phone}
                   active
-                  image={CompanyLogo}
+                  image={ clubInfo && `http://native-001-site2.ctempurl.com/images/clubimages/${clubInfo.Logo}`}
                 />
                 <SmallCard
                   title="Total Orders"
                   image={Orders}
-                  number="100K"
+                  number={clubInfo && clubInfo.TotalOrders}
                   transparent
                 />
                 <SmallCard
                   title="Profit"
                   image={Profit}
-                  number="14.6 K"
+                  number={ clubInfo && `${clubInfo.TotalProfit ? clubInfo.TotalProfit : 0} K`}
                   transparent
                 />
                 <SmallCard
                   title="register users"
                   image={placeholderImage}
-                  number="3 K"
+                  number={ clubInfo && `${clubInfo.ActiveUsers ? clubInfo.ActiveUsers : 0} K`}
                   transparent
                 />
                 <SmallCard
                   title="Club Commission"
                   image={Commission}
-                  number="10%"
+                  number={clubInfo && `${clubInfo.Percentage}%`} 
                   transparent
                 />
               </InformationPageSection>

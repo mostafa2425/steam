@@ -196,7 +196,7 @@ fetch("http://native-001-site2.ctempurl.com/api/EditVendor", {
             <HeaderPageSection>
               <DropdownList
                 title="user name"
-                list={["Edit Profile", "Notification", "Logout"]}
+                list={["Edit Profile", "Notification"]}
                 titleImage={UserAvatar}
               />
             </HeaderPageSection>

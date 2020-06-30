@@ -160,7 +160,7 @@ export default class AddOffer extends Component {
             <HeaderPageSection>
               <DropdownList
                 title="user name"
-                list={["Edit Profile", "Notification", "Logout"]}
+                list={["Edit Profile", "Notification"]}
                 titleImage={UserAvatar}
               />
             </HeaderPageSection>

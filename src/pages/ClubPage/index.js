@@ -80,7 +80,7 @@ class ClubPage extends React.Component {
             </Link>
             <DropdownList
               title="user name"
-              list={["Edit Profile", "Notification", "Logout"]}
+              list={["Edit Profile", "Notification"]}
               titleImage={UserAvatar}
             />
           </HeaderPageSection>
@@ -103,9 +103,9 @@ class ClubPage extends React.Component {
                       fans
                       editLink={{ pathname: "/update-club", vendorInfo: club }}
                       to={{
-                        pathname: "/dashbord-profile",
+                        pathname: `/dashbord-profile/:${club.Id}`,
                         clubInfo: club,
-                        id: club.Id,
+                        id: club.Id,  
                       }}
                     />
                   ))}

@@ -60,7 +60,7 @@ class VendorPage extends React.Component {
           </Link>
             <DropdownList 
               title="user name"
-              list={["Edit Profile", "Notification", "Logout"]}
+              list={["Edit Profile", "Notification"]}
               titleImage={UserAvatar}
             />
           </HeaderPageSection>
