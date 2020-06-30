@@ -48,6 +48,7 @@ import { createBrowserHistory } from "history";
 import Login from "../../pages/Login/Login";
 import UpdateAlert from "../../pages/UpdateAlert/UpdateAlert";
 import { formValueSelector } from "redux-form";
+import ForgetPassword from "../../pages/ForgetPassword/ForgetPassword";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const mq = window.matchMedia("(max-width: 480px)");
@@ -59,7 +60,7 @@ export default class LayoutSite extends Component {
     loggedin: false,
   };
   componentDidMount() {
-    JSON.parse(localStorage.getItem("token")) ? this.setState({loggedin : true}) : this.setState({loggedin : false})
+    // JSON.parse(localStorage.getItem("token")) ? this.setState({loggedin : true}) : this.setState({loggedin : false})
     mq.addListener((e) => {
       this.setState({
         screenSize: e.matches ? true : false,
@@ -75,9 +76,9 @@ export default class LayoutSite extends Component {
     const {loggedin} = this.state
     return (
       <Router history={history}>
-        { !loggedin && <Redirect to="/login" />}
         <Switch>
           <Route exact path="/login" component={Login} />
+          <Route exact path="/forget-password" component={ForgetPassword} />
           <Layout>
             <Content className="root-wrapper">
               <Layout
@@ -141,50 +142,45 @@ export default class LayoutSite extends Component {
                 </Sider>
                 <Suspense fallback={<Spin />}>
                   <Content>
-                    {/* {!JSON.parse(localStorage.getItem("token")) && (
-                      <Redirect exact to="login" />
-                    )} */}
-                    {/* {  JSON.parse(localStorage.getItem("token")) ? console.log("true",JSON.parse(localStorage.getItem("token"))) : console.log("false",JSON.parse(localStorage.getItem("token")))  } */}
-                    {/* <Route exact path="/" component={HomePage} /> */}
                     <Route
                       exact
                       path="/"
                       component={HomePage}
                     />
-                    <Route path="/companies" component={CompanyPage} />
-                    <Route path="/vendors" component={VendorPage} />
-                    <Route path="/clubs" component={ClubPage} />
-                    <Route
+                    <Route exact path="/companies" component={CompanyPage} />
+                    <Route exact path="/vendors" component={VendorPage} />
+                    <Route exact path="/clubs" component={ClubPage} />
+                    <Route exact
                       path="/dashbord-profile/:id"
                       component={ProfileDashboardPage}
                     />
-                    <Route
+                    <Route exact
                       path="/vendor-profile/:id"
                       component={VendorProfileDashboardPage}
                     />
 
-                    <Route path="/brand-invoice" component={InvoicePage} />
-                    <Route path="/add-company" component={AddCompany} />
-                    <Route path="/add-branch" component={AddBranch} />
-                    <Route path="/update-branch" component={UpdateBranch} />
-                    <Route path="/add-club" component={AddClub} />
-                    <Route path="/invoice" component={PrintPage} />
-                    <Route path="/update-invoice" component={UpdateInvoice} />
-                    <Route path="/offers" component={OffersPage} />
-                    <Route path="/alerts" component={AlertsPage} />
-                    <Route path="/add-offer" component={AddOffer} />
-                    <Route path="/update-offer" component={UpdateOffer} />
-                    <Route path="/add-alert" component={AddAlert} />
-                    <Route path="/update-alert" component={UpdateAlert} />
-                    <Route path="/add-vendor" component={AddVendor} />
-                    <Route path="/update-vendor" component={UpdateVendor} />
-                    <Route path="/update-club" component={UpdateClub} />
-                    <Route path="/update-company" component={UpdateCompany} />
-                    <Route
+                    <Route exact path="/brand-invoice" component={InvoicePage} />
+                    <Route exact path="/add-company" component={AddCompany} />
+                    <Route exact path="/add-branch" component={AddBranch} />
+                    <Route exact path="/update-branch" component={UpdateBranch} />
+                    <Route exact path="/add-club" component={AddClub} />
+                    <Route exact path="/invoice" component={PrintPage} />
+                    <Route exact path="/update-invoice" component={UpdateInvoice} />
+                    <Route exact path="/offers" component={OffersPage} />
+                    <Route exact path="/alerts" component={AlertsPage} />
+                    <Route exact path="/add-offer" component={AddOffer} />
+                    <Route exact path="/update-offer" component={UpdateOffer} />
+                    <Route exact path="/add-alert" component={AddAlert} />
+                    <Route exact path="/update-alert" component={UpdateAlert} />
+                    <Route exact path="/add-vendor" component={AddVendor} />
+                    <Route exact path="/update-vendor" component={UpdateVendor} />
+                    <Route exact path="/update-club" component={UpdateClub} />
+                    <Route exact path="/update-company" component={UpdateCompany} />
+                    <Route exact
                       path="/company-vendor"
                       component={CompanyVendorPage}
                     />
-                    <Route component={NotFound} />
+                    <Route exact component={NotFound} />
                     {/* <Route path="/add-branch2" component={AddBranch} /> */}
                     {/* <Route path="/test" component={AddCompany} /> */}
                   </Content>

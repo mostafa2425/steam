@@ -33,6 +33,8 @@ export default class AddVendor extends Component {
 
   formRef = React.createRef();
   componentDidMount() {
+    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
+
     if(!this.props.isFromCompany){
     fetch('http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0').then((response) => {
       if(response.ok) {

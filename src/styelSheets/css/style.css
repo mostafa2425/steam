@@ -356,6 +356,15 @@
   padding: 0;
 }
 
+.logout-link {
+  color: #f50000 !important;
+  margin-bottom: 0 !important;
+}
+
+.logout-link .anticon {
+  margin-right: 5px;
+}
+
 .ant-layout-sider-trigger {
   background: #81b955;
   display: none;
@@ -1130,6 +1139,7 @@ ul::-webkit-scrollbar-thumb,
   width: 80%;
   height: 70%;
   display: flex;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 @media only screen and (max-width: 991px) {

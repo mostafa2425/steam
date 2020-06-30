@@ -29,6 +29,7 @@ class HomePage extends React.Component {
     }
   }
   componentDidMount() {
+    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
     const myHeaders = new Headers({
       "Content-Type": "application/json",
       'Authorization': JSON.parse(localStorage.getItem("token")),
@@ -108,7 +109,7 @@ class HomePage extends React.Component {
             <SmallCard
               title="Active User"
               image={placeholderImage}
-              number={`${this.state.dashboard && this.state.dashboard.DashBoardStatistics.ActiveUsersRatio.toFixed(2)}%`}
+              number={this.state.dashboard ? `${this.state.dashboard.DashBoardStatistics.ActiveUsersRatio ? this.state.dashboard.DashBoardStatistics.ActiveUsersRatio.toFixed(2) : 0} "%"` : "0%"} 
               isProgress
             />
           </PageSection>

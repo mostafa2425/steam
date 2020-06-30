@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Form, Input, Button, message } from "antd";
 import { Link } from "react-router-dom";
-export default class Login extends Component {
+export default class ForgetPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,17 +12,16 @@ export default class Login extends Component {
   handeSubmit = (values) => {
     this.setState({ loadingBtn: true });
     fetch(
-      `http://native-001-site2.ctempurl.com/api/AdminLogin?Email=${values.username}&Password=${values.password}`
+      `http://native-001-site2.ctempurl.com/api/AdminForgetPassword?Email=${values.Email}`
     )
       .then((response) => {
         if (response.ok) {
           response.json().then((data) => {
-            localStorage.setItem("userInfo", JSON.stringify(data.model));
-            localStorage.setItem("token", JSON.stringify(data.model.Token));
             setTimeout(() => {
               this.setState({ loadingBtn: false });
-              this.props.history.push("/");
-            }, 500);
+              message.success('New Password Send To Your E-Mail'); 
+              this.props.history.push("/login");
+            }, 1500);
           });
         } else {
           if (response.status === 401) {
@@ -46,7 +45,7 @@ export default class Login extends Component {
           <div className="form-wrapper">
             {this.state.loginFaild && (
               <p className="warning-msg">
-                email address or password is incorrect
+                email address is incorrect
               </p>
             )}
             <Form
@@ -58,29 +57,20 @@ export default class Login extends Component {
               onFinish={this.handeSubmit}
             >
               <Form.Item
-                label="Email/Username"
-                name="username"
+                label="Email"
+                name="Email"
                 rules={[
                   {
                     required: true,
-                    message: "Please input your username!",
+                    message: "Please input your Email!",
+                  },
+                  {
+                    type: "email",
+                    message: "The input is not valid E-mail!",
                   },
                 ]}
               >
                 <Input placeholder="please Enter Your E-Mail" />
-              </Form.Item>
-
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password placeholder="please Enter Your Password" />
               </Form.Item>
               <div className="login-btn">
                 <Form.Item>
@@ -90,10 +80,10 @@ export default class Login extends Component {
                     type="primary"
                     htmlType="submit"
                   >
-                    Submit
+                    Send
                   </Button>
                 </Form.Item>
-                <Link to="/forget-password">Forget Password ?</Link>
+                <Link to="/login">Back To Login</Link>
               </div>
             </Form>
           </div>

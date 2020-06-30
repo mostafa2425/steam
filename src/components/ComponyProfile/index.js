@@ -12,7 +12,11 @@ import {
 } from './StyledComponents';
 
 class ComponyProfile extends React.Component {
-
+  componentDidMount() {
+    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
+    
+  }
+  
   render() {
     const { name, email, emailIcon, phone, phoneIcon, image, active } = this.props;
 

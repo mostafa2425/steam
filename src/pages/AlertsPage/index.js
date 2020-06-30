@@ -28,6 +28,7 @@ class AlertsPage extends React.Component {
   }
 
   componentDidMount() {
+    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
     const myHeaders = new Headers({
       "Content-Type": "application/json",
       'Authorization': JSON.parse(localStorage.getItem("token")),

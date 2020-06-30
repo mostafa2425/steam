@@ -11,6 +11,10 @@ import {
 } from './StyledComponents';
 
 class InvoicePage extends React.Component {
+componentDidMount() {
+  !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
+  
+}
 
   render() {
 

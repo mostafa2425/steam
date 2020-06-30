@@ -26,8 +26,7 @@ import {
 class PrintPage extends React.Component {
 
   componentDidMount() {
-    console.log(this.props.location.data)
-    console.log(this.props.location)
+    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
     if(!this.props.location.data){
       this.props.history.push("/brand-invoice");
     }

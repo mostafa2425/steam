@@ -35,6 +35,8 @@ class UpdateClub extends Component {
   formRef = React.createRef();
 
   componentDidMount() {
+    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
+
     if(this.props.location.data){
       const {Name, NameLT, Phone, HeadQuarter, Enable, IdentityId,Email, Percentage, ClubTypeId } = this.props.location.data;
       this.formRef.current.setFieldsValue({

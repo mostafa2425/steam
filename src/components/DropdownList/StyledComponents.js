@@ -18,7 +18,7 @@ export const Container = styled.button`
 
 export const MenuContiner = styled.div`
   position: absolute;
-  width: 100px;
+  width: 120px;
   height: auto;
   padding: 25px;
   top: 50px;
@@ -45,5 +45,6 @@ export const MenuItem = styled.p`
   font-size: 14px;
   color: #232323;
   font-weight: bold;
+  letter-spacing: 1px;
   margin: 20px 0;
 `;

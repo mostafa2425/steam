@@ -33,6 +33,12 @@ class AddClub extends Component {
 
   formRef = React.createRef();
 
+  componentDidMount() {
+    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
+    
+  }
+  
+
   handelSubmit = (values, errors) => {
     const myHeaders = new Headers({
       "Content-Type": "application/json",

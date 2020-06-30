@@ -21,6 +21,11 @@ export default class AddCompany extends Component {
 
   formRef = React.createRef();
 
+  componentDidMount() {
+    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
+    
+  }
+  
   handelSubmit = (values, errors) => {
     this.setState({loadingBtn : true})
         let data = {

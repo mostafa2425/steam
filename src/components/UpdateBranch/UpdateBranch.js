@@ -66,6 +66,7 @@ export default class UpdateBranch extends Component {
 
   formRef = React.createRef();
   componentDidMount() {
+    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
     
     if(this.props.location.data){
       const {Name, NameLT, Phone, Enable, Email, Latitude, Longitude, Password, ConfirmPassword, Type, VendorId, VendorTypeName, Id } = this.props.location.data;
