@@ -27,8 +27,15 @@ class ClubPage extends React.Component {
     };
   }
   componentDidMount() {
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      'Authorization': JSON.parse(localStorage.getItem("token")),
+    });
     if (!this.props.clubsList.length > 0) {
-      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0")
+      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
+        method: 'GET',
+        headers: myHeaders, 
+      })
         .then((response) => {
           if (response.ok) {
             response.json().then((data) => {
@@ -81,8 +88,9 @@ class ClubPage extends React.Component {
             <>
               <div className="club-card-list">
                 {this.state.clubs &&
-                  this.state.clubs.map((club) => (
+                  this.state.clubs.map((club, i) => (
                     <VendorCard
+                      key={i}
                       name={club.Name}
                       image={club.Logo}
                       email={club.Email}

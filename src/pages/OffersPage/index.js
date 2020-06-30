@@ -27,7 +27,14 @@ class OffersPage extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://native-001-site2.ctempurl.com/api/GetOffers?Page=0")
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      'Authorization': JSON.parse(localStorage.getItem("token")),
+    });
+    fetch("http://native-001-site2.ctempurl.com/api/GetOffers?Page=0", {
+      method: 'GET',
+      headers: myHeaders, 
+    })
       .then((response) => {
         if (response.ok) {
           response.json().then((data) => {

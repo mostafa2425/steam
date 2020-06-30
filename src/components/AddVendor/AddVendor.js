@@ -34,7 +34,7 @@ export default class AddVendor extends Component {
   formRef = React.createRef();
   componentDidMount() {
     if(!this.props.isFromCompany){
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0').then((response) => {
+    fetch('http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let companies = data.model;
@@ -57,7 +57,7 @@ export default class AddVendor extends Component {
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
 
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendorTypes').then((response) => {
+    fetch('http://native-001-site2.ctempurl.com/api/GetVendorTypes').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let vendorIndustry = data.model;
@@ -94,11 +94,13 @@ export default class AddVendor extends Component {
     "Logo": this.state.imageUrl, 
 }
 
-fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddVendor", {
+fetch("http://native-001-site2.ctempurl.com/api/AddVendor", {
       method: "post",
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': JSON.parse(localStorage.getItem("token")),
+
       },
       body: JSON.stringify(data) 
     })
@@ -112,10 +114,6 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
       this.setState({loadingBtn : false})
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
-  };
-
-  onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
   };
 
   changeVendorStutes = (value) => {
@@ -178,7 +176,6 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
               <Form
                 name="nest-messages"
                 onFinish={this.handelSubmit}
-                onFinishFailed={this.onFinishFailed}
                 ref={this.formRef}
               >
 
@@ -194,7 +191,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   ]}
                 >
                   <Select disabled= {!!this.state.companyVendorId}> 
-                      {this.state.companies && this.state.companies.map(company => <Select.Option value={company.Id}>{company.Name}</Select.Option>)}
+                      {this.state.companies && this.state.companies.map( (company, i) => <Select.Option key={i} value={company.Id}>{company.Name}</Select.Option>)}
                   </Select>
                 </Form.Item>
 
@@ -340,7 +337,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   ]}
                 >
                   <Select>
-                  {this.state.vendorIndustry && this.state.vendorIndustry.map(type => <Select.Option value={type.Id}>{type.Name}</Select.Option>)}
+                  {this.state.vendorIndustry && this.state.vendorIndustry.map( (type, i) => <Select.Option key={i} value={type.Id}>{type.Name}</Select.Option>)}
                   </Select>
                 </Form.Item>
                 <Form.Item label="Enable" name="vendorStutes">

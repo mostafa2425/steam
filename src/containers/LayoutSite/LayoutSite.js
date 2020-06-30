@@ -7,14 +7,9 @@ import ClubPage from "../../pages/ClubPage";
 import ProfileDashboardPage from "../../pages/ProfileDashboardPage";
 import VendorProfileDashboardPage from "../../pages/VendorProfileDashboardPage";
 import InvoicePage from "../../pages/InvoicePage";
-import AddCompanyPage from "../../pages/AddCompanyPage";
-import AddBranchPage from "../../pages/AddBranchPage";
-import AddClubPage from "../../pages/AddClubPage";
 import PrintPage from "../../pages/PrintPage";
 import OffersPage from "../../pages/OffersPage"; 
 import AlertsPage from "../../pages/AlertsPage";
-import AddOfferPage from "../../pages/AddOfferPage";
-import AddAlertPage from "../../pages/AddAlertPage"; 
 import history from "../../history"; 
 import Logo from '../../images/logow.png'
 import { Layout, Menu, Spin  } from "antd";
@@ -45,6 +40,7 @@ import UpdateOffer from "../../pages/UpdateOffer/UpdateOffer";
 
 import { createBrowserHistory } from "history";
 import Login from "../../pages/Login/Login";
+import UpdateAlert from "../../pages/UpdateAlert/UpdateAlert";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const mq = window.matchMedia( "(max-width: 480px)" );
@@ -161,7 +157,6 @@ componentDidMount() {
                   <Route path="/add-company" component={AddCompany} />
                   <Route path="/add-branch" component={AddBranch} />
                   <Route path="/update-branch" component={UpdateBranch} />
-                  {/* <Route path="/add-clubb" component={AddClubPage} /> */}
                   <Route path="/add-club" component={AddClub} /> 
                   <Route path="/invoice" component={PrintPage} /> 
                   <Route path="/update-invoice" component={UpdateInvoice} />
@@ -170,6 +165,7 @@ componentDidMount() {
                   <Route path="/add-offer" component={AddOffer} />
                   <Route path="/update-offer" component={UpdateOffer} />
                   <Route path="/add-alert" component={AddAlert} />
+                  <Route path="/update-alert" component={UpdateAlert} /> 
                   <Route path="/add-vendor" component={AddVendor} /> 
                   <Route path="/update-vendor" component={UpdateVendor} /> 
                   <Route path="/update-club" component={UpdateClub} /> 

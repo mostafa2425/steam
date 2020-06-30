@@ -222,11 +222,14 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: gainsboro;
-    .auth-content{
+    background: #eae8e8;
+    .auth-content{ 
         width: 80%;
         height: 70%;
         display: flex;
+        @include mq("ipad"){
+            width: 95%;
+        }
     }
       .form-wrapper{
         width: 40%;
@@ -234,7 +237,20 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
         padding: 60px 40px;
+        @include mq("ipad"){
+            width: 50%;
+        }
+        @include mq("tablet"){
+            width: 100%;
+            padding: 40px 25px;
+        }
+        .warning-msg{
+            color: #d83025;
+            font-size: 15px;
+            text-transform: capitalize;
+        }
         form{
             width: 100%;
         }
@@ -252,6 +268,9 @@
         background: url(../../images/login.png);
         background-repeat: no-repeat;
         background-size: cover;
+        @include mq("tablet"){
+           display: none;
+        }
       }
       .login-btn{
           display: flex;

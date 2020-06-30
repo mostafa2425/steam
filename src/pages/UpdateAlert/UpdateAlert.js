@@ -36,7 +36,7 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 }
 // const now = moment().format('YYYY-MM-DD HH:mm');
-class UpdateOffer extends Component {
+class UpdateAlert extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,7 +47,7 @@ class UpdateOffer extends Component {
       EndDate: null,
       imageUrl: null,
       Id: null,
-      isSelectAllClubs: false,
+      isSelectAllClubs : false
     };
     this.formRef = React.createRef();
   }
@@ -55,48 +55,47 @@ class UpdateOffer extends Component {
   componentDidMount() {
     const myHeaders = new Headers({
       "Content-Type": "application/json",
-      Authorization: JSON.parse(localStorage.getItem("token")),
+      'Authorization': JSON.parse(localStorage.getItem("token")),
     });
     if (this.props.history.location.data) {
       const {
         Id,
         ClubId,
         VendorId,
-        end,
         start,
         title,
         titleAr,
-        forAll,
-        HourCost,
+        TotalCost,
+        Time,
       } = this.props.history.location.data;
       let startDate = moment(start, "DD-MM-YYYY HH:mm");
-      let EndDate = moment(end, "DD-MM-YYYY HH:mm");
-      console.log(startDate);
-      console.log(EndDate);
-      this.setState({
-        StartDate: startDate.format("YYYY/MM/DD HH:mm"),
-        EndDate: EndDate.format("YYYY/MM/DD HH:mm"),
-      });
-      fetch("http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
-        method: "GET",
-        headers: myHeaders,
-      })
+      this.setState({StartDate : startDate.format('YYYY/MM/DD HH:mm')}) 
+
+      fetch(
+        "http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
+          method: 'GET',
+          headers: myHeaders, 
+        }
+      )
         .then((response) => {
           if (response.ok) {
             response.json().then((data) => {
               let vendors = data.model;
-              this.setState({ vendors, Id }, () => {
-                setTimeout(() => {
-                  this.formRef.current.setFieldsValue({
-                    VendorName: VendorId,
-                    HourCost: HourCost ? HourCost.toFixed(2) : 0,
-                    OfferDescription: title,
-                    OfferDescriptionAr: titleAr,
-                  });
-                  // rangePicker : [moment(`${start}`, dateFormat), moment(`${end}`, dateFormat)]
-                  this.setState({ loading: false });
-                }, 1000);
-              });
+              this.setState(
+                { vendors, Id, },
+                () => {
+                  setTimeout(() => {
+                    this.formRef.current.setFieldsValue({
+                      VendorName: VendorId,
+                      TotalCost: TotalCost ? TotalCost.toFixed(2) : 0,
+                      OfferDescription: title, 
+                      OfferDescriptionAr: titleAr,
+                      Time: Time,
+                    });
+                    this.setState({ loading: false });
+                  }, 1000);
+                }
+              );
             });
           } else {
             message.error("Network response was not ok.");
@@ -113,8 +112,8 @@ class UpdateOffer extends Component {
 
       if (!this.props.clubsList.length > 0) {
         fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
-          method: "GET",
-          headers: myHeaders,
+          method: 'GET',
+          headers: myHeaders, 
         })
           .then((response) => {
             if (response.ok) {
@@ -142,19 +141,14 @@ class UpdateOffer extends Component {
       } else {
         this.setState({ clubs: this.props.clubsList, loading: false }, () => {
           setTimeout(() => {
-            this.formRef.current.setFieldsValue({ ClubName: ClubId });
+              this.formRef.current.setFieldsValue({ ClubName: ClubId }); 
           }, 500);
         });
       }
     } else {
-      this.props.history.push("/Offers");
+      this.props.history.push("/alerts");
     }
   }
-
-  onChangeDateRange = (dates, dateStrings) => {
-    console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
-    this.setState({ StartDate: dateStrings[0], EndDate: dateStrings[1] });
-  };
 
   handelSubmit = (values, errors) => {
     console.log(values);
@@ -166,23 +160,26 @@ class UpdateOffer extends Component {
       Description: `${values.OfferDescription}`,
       DescriptionLT: `${values.OfferDescriptionAr}`,
       StartDate: this.state.StartDate,
-      HourCost: values.HourCost ? values.HourCost : 0,
-      EndDate: this.state.EndDate,
+      TotalCost: values.TotalCost ? values.TotalCost : 0,
       BannerImage: this.state.imageUrl,
+      Time : values.Time
     };
-    fetch("http://native-001-site2.ctempurl.com/api/EditOffer", {
-      method: "post",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        'Authorization': JSON.parse(localStorage.getItem("token")), 
-      },
-      body: JSON.stringify(data),
-    })
+    fetch(
+      "http://native-001-site2.ctempurl.com/api/EditAlert",
+      {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'Authorization': JSON.parse(localStorage.getItem("token")),
+        },
+        body: JSON.stringify(data),
+      }
+    )
       .then((response) => {
         this.setState({ loadingBtn: false });
-        message.success("offer update successfully");
-        this.props.history.push("/Offers");
+        message.success("alert update successfully");
+        this.props.history.push("/alerts");
       })
       .catch((error) => {
         this.setState({ loadingBtn: false });
@@ -236,13 +233,13 @@ class UpdateOffer extends Component {
       cancelText: "No",
       onOk: () => {
         fetch(
-          `http://native-001-site2.ctempurl.com/api/DeleteOffer?OfferId=${this.state.Id}`
+          `http://native-001-site2.ctempurl.com/api/DeleteAlert?AlertId=${this.state.Id}`
         )
           .then((response) => {
             if (response.ok) {
               response.json().then((data) => {
-                message.success("Offer deleted successfully");
-                this.props.history.push("/Offers");
+                message.success("alert deleted successfully");
+                this.props.history.push("/alerts");
               });
             } else {
               message.error("Network response was not ok.");
@@ -259,7 +256,9 @@ class UpdateOffer extends Component {
     });
   };
 
-  // changeClub = value => value === "all" && this.setState({isSelectAllClubs : true})
+  onChangeDateRange = (value, dateString) =>  {
+    this.setState({StartDate : dateString})
+  }
 
   render() {
     return (
@@ -275,7 +274,7 @@ class UpdateOffer extends Component {
             </HeaderPageSection>
             {!this.state.loading ? (
               <div className="form-holder">
-                <h2>Update Offer</h2>
+                <h2>Update Alert</h2>
                 <Form
                   name="nest-messages"
                   onFinish={this.handelSubmit}
@@ -283,7 +282,7 @@ class UpdateOffer extends Component {
                 >
                   <Form.Item
                     name="ClubLogo"
-                    label="Offer Logo"
+                    label="Alert Logo"
                     // rules={[{ required: true, message: "Please input Club Logo!", }]}
                   >
                     <Upload
@@ -309,14 +308,13 @@ class UpdateOffer extends Component {
                   >
                     <Select placeholder="select Club">
                       <>
-                        {this.state.clubs &&
-                          this.state.clubs.map((club, i) => (
-                            <Select.Option key={i} value={club.Id}>
-                              {club.Name}
-                            </Select.Option>
-                          ))}
-                      </>
-                      {/* <Select.Option style={{fontWeight : "bold"}} value="all">All Clubs</Select.Option> */}
+                      {this.state.clubs &&
+                        this.state.clubs.map((club) => (
+                          <Select.Option value={club.Id}>
+                            {club.Name}
+                          </Select.Option>
+                        ))}
+                        </>
                     </Select>
                   </Form.Item>
                   <Form.Item
@@ -331,69 +329,75 @@ class UpdateOffer extends Component {
                   >
                     <Select placeholder="select Vendor">
                       {this.state.vendors &&
-                        this.state.vendors.map((vendor, i) => (
-                          <Select.Option key={i} value={vendor.Id}>
+                        this.state.vendors.map((vendor) => (
+                          <Select.Option value={vendor.Id}>
                             {vendor.Name}
                           </Select.Option>
                         ))}
                     </Select>
                   </Form.Item>
-                  <Form.Item name="rangePicker" label="RangePicker">
-                    <RangePicker
+                  <Form.Item name="rangepicker" label="RangePicker">
+                    <DatePicker
                       showTime={{ format: "HH:mm" }}
                       disabledDate={disabledDate}
                       onChange={this.onChangeDateRange}
-                      // defaultPickerValue={[
-                      //   moment(this.state.StartDate && this.state.StartDate).format('YYYY-MM-DD HH:mm'),
-                      //   moment(this.state.EndDate && this.state.EndDate).format('YYYY-MM-DD HH:mm'),
-                      // ]}
-                      defaultValue={[
-                        this.state.StartDate && moment(this.state.StartDate),
-                        this.state.EndDate && moment(this.state.EndDate),
-                      ]}
+                      defaultValue={this.state.StartDate && moment(this.state.StartDate)}
                     />
                   </Form.Item>
 
                   <Form.Item
-                    name="HourCost"
-                    label="Hour Cost"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your hour cost!",
-                      },
-                    ]}
-                  >
-                    <InputNumber style={{ width: "100%" }} />
-                  </Form.Item>
+                  name="TotalCost"
+                  label="Total Cost"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Total Cost!",
+                    },
+                  ]}
+                >
+                  <InputNumber style={{ width: "100%" }} /> 
+                </Form.Item>
+
+                <Form.Item
+                  name="Time"
+                  label="Alert Time"
+                  rules={[ 
+                    {
+                      required: true,
+                      message: "Please input your Alert Time!",
+                    },
+                  ]}
+                >
+                  <InputNumber placeholder="Please add Alert Time" style={{ width: "100%" }} /> 
+                </Form.Item>
 
                   <Form.Item
                     name="OfferDescription"
-                    label="Offer Description"
+                    label="alert Description"
                     rules={[
                       {
                         required: true,
-                        message: "Please add Offer Description!",
+                        message: "Please add alert Description!",
                       },
                     ]}
                   >
                     <TextArea
-                      placeholder="Add Offer Description"
+                      placeholder="Add alert Description"
                       autoSize={{ minRows: 2, maxRows: 6 }}
                     />
                   </Form.Item>
                   <Form.Item
                     name="OfferDescriptionAr"
-                    label="Offer Description Arbic"
+                    label="alert Description Arbic"
                     rules={[
                       {
                         required: true,
-                        message: "Please add Offer Description In Arabic!",
+                        message: "Please add alert Description In Arabic!",
                       },
                     ]}
                   >
                     <TextArea
-                      placeholder="Add Offer Description In Arabic"
+                      placeholder="Add alert Description In Arabic"
                       autoSize={{ minRows: 2, maxRows: 6 }}
                     />
                   </Form.Item>
@@ -413,7 +417,7 @@ class UpdateOffer extends Component {
                     >
                       Update
                     </Button>
-                    <Link to="/Offers" className="grayscale-fill xlg-btn">
+                    <Link to="/alerts" className="grayscale-fill xlg-btn">
                       Cancel
                     </Link>
                   </div>
@@ -434,4 +438,4 @@ const mapStateToProps = (state) => {
     clubsList: state.dashboard.clubsList,
   };
 };
-export default connect(mapStateToProps)(UpdateOffer);
+export default connect(mapStateToProps)(UpdateAlert);

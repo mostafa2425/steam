@@ -29,7 +29,14 @@ class HomePage extends React.Component {
     }
   }
   componentDidMount() {
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetDashBoardHome').then((response) => {
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      'Authorization': JSON.parse(localStorage.getItem("token")),
+    });
+    fetch('http://native-001-site2.ctempurl.com/api/GetDashBoardHome', {
+      method: 'GET',
+      headers: myHeaders, 
+    }).then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let dashboard = data.model;
@@ -48,23 +55,10 @@ class HomePage extends React.Component {
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
 
-    // fetch('http://native-001-site2.ctempurl.com/api/GetBranches?Page=0').then((response) => {
-    //   if(response.ok) {
-    //     response.json().then((data) => {
-    //       let branches = data.model;
-    //       // this.props.dispatch(setBranchesList(branches)) 
-    //     });
-    //   } else {
-    //     message.error('Network response was not ok.');
-    //     this.setState({loading : false})
-    //   }
-    // })
-    // .catch((error) => {
-    //   this.setState({loading : false})
-    //   message.error('There has been a problem with your fetch operation: ' + error.message);
-    // });
-
-    fetch('http://native-001-site2.ctempurl.com/api/GetClubs?Page=0').then((response) => {
+    fetch('http://native-001-site2.ctempurl.com/api/GetClubs?Page=0', {
+      method: 'GET',
+      headers: myHeaders,
+    }).then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let clubs = data.model;
@@ -99,17 +93,17 @@ class HomePage extends React.Component {
             <SmallCard
               title="Total Sales"
               image={placeholderImage}
-              number={`${this.state.dashboard && this.state.dashboard.DashBoardStatistics.TotalSales} SR`}
+              number={`${this.state.dashboard ? this.state.dashboard.DashBoardStatistics.TotalSales : 0} SR`}
             />
             <SmallCard
               title="Total Orders"
               image={placeholderImage}
-              number={`${this.state.dashboard && this.state.dashboard.DashBoardStatistics.TotalOrders}`}
+              number={`${this.state.dashboard ? this.state.dashboard.DashBoardStatistics.TotalOrders : 0}`}
             />
             <SmallCard 
               title="Total Users"
               image={placeholderImage}
-              number={`${this.state.dashboard && this.state.dashboard.DashBoardStatistics.TotalUsers}`}
+              number={`${this.state.dashboard ? this.state.dashboard.DashBoardStatistics.TotalUsers : 0}`}
             />
             <SmallCard
               title="Active User"

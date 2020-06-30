@@ -28,40 +28,6 @@ class PrintPage extends React.Component {
   componentDidMount() {
     console.log(this.props.location.data)
     console.log(this.props.location)
-    // AlertAmount: 200
-    // CommissionAmount: 600
-    // CreatedAt: "2020-06-25T00:00:00"
-    // DueAmount: 1000
-    // EnterAmount: null
-    // Id: 2
-    // OfferAmount: 200
-    // PaidAmount: 200
-    // Status: null
-    // Type: true
-    // UpdatedAt: null
-
-//     Vendor:
-// Branches: null
-// Company: null
-// CompanyId: 0
-// ConfirmPassword: null
-// CreatedAt: null
-// DeletedAt: null
-// Description: ""
-// Email: "mcdonalds@yahoo.com"
-// Enable: true
-// Id: 2
-// IdentityId: ""
-// Industry: ""
-// Logo: "mcdonalds_PNG162.png"
-// Name: "Mcdonalds"
-// NameLT: "ماكدونالدز"
-// Password: null
-// Percentage: 10
-// Phone: "965507888571"
-// RegisterationDate: "2020-05-25T00:00:00"
-// UpdatedAt: null
-// VendorTypeId: 2
     if(!this.props.location.data){
       this.props.history.push("/brand-invoice");
     }

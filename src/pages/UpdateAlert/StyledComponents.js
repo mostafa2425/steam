@@ -26,6 +26,7 @@ export const PageSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
 `;
 
 export const HeaderPageSection = styled.div`
@@ -42,3 +43,20 @@ export const HeaderPageSection = styled.div`
   box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
 `;
 
+export const AddBtn = styled.button`
+  border-radius: 8px;
+  border: none;
+  background-color: #81b955;
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 10px;
+  margin: 0 10px;
+  width: auto;
+  height: 40px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+`;

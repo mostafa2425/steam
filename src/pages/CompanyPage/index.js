@@ -18,17 +18,6 @@ import {
 import { Dropdown, Menu, Spin, message } from 'antd';
 import { MoreOutlined, MailOutlined, EnvironmentOutlined, PhoneOutlined } from '@ant-design/icons';
 
-const menu = (
-  <Menu>
-    <Menu.Item key="0">
-      <a href="">Edit</a>
-    </Menu.Item>
-    <Menu.Divider />
-    <Menu.Item key="1">
-      <Link to="/vendors">details</Link>
-    </Menu.Item>
-  </Menu>
-);
 class CompanyPage extends React.Component {
   constructor(props) {
     super(props);
@@ -38,7 +27,14 @@ class CompanyPage extends React.Component {
     }
   }
   componentDidMount() {
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0').then((response) => {
+    const myHeaders = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': JSON.parse(localStorage.getItem('token')) 
+    });
+    fetch('http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0', {
+      method: 'GET',
+      headers: myHeaders, 
+    }).then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let companies = data.model;
@@ -74,8 +70,9 @@ class CompanyPage extends React.Component {
             {!this.state.loading ? 
           <>
           <div className="company-grid-holder">
-          {this.state.companies && this.state.companies.map(company =>
+          {this.state.companies && this.state.companies.map( (company, i) =>
             <VendorCard 
+              key={i} 
               name={company.Name}
               email = {company.Email}
               status={company.Enable}

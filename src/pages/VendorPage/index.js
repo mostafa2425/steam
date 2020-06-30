@@ -24,11 +24,17 @@ class VendorPage extends React.Component {
   }
   
   componentDidMount() {
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then((response) => {
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      'Authorization': JSON.parse(localStorage.getItem("token")),
+    });
+    fetch('http://native-001-site2.ctempurl.com/api/GetVendors?Page=0', {
+      method: 'GET',
+      headers: myHeaders, 
+    }).then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let vendors = data.model;
-          console.log(vendors)
           this.setState({vendors, loading : false})
         });
       } else {

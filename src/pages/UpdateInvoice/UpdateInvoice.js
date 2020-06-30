@@ -23,9 +23,16 @@ export default class UpdateInvoice extends Component {
   formRef = React.createRef();
 
   componentDidMount() {
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      'Authorization': JSON.parse(localStorage.getItem("token")),
+    });
     if(this.props.location.data){
       const { Id } = this.props.location.data;
-    fetch(`http://native-001-site2.ctempurl.com/api/GetInvoice?InvoiceId=${Id}`).then((response) => {
+    fetch(`http://native-001-site2.ctempurl.com/api/GetInvoice?InvoiceId=${Id}` ,{
+      method: 'GET',
+      headers: myHeaders, 
+    }).then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let invoice = data.model;
@@ -53,8 +60,14 @@ export default class UpdateInvoice extends Component {
   }
 
   handelSubmit = (values) => {
-    console.log(values)
-    fetch(`http://native-001-site2.ctempurl.com/api/UpdateInvoice?InvoiceId=${this.state.invoice.Id}&EnterAmount=${values.payAmount}`)
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      'Authorization': JSON.parse(localStorage.getItem("token")),
+    });
+    fetch(`http://native-001-site2.ctempurl.com/api/UpdateInvoice?InvoiceId=${this.state.invoice.Id}&EnterAmount=${values.payAmount}`, {
+      method: 'GET',
+      headers: myHeaders, 
+    })
         .then((response) => {
           if(response.ok) {
             response.json().then((data) => { 

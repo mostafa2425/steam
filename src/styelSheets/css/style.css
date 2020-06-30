@@ -1123,7 +1123,7 @@ ul::-webkit-scrollbar-thumb,
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: gainsboro;
+  background: #eae8e8;
 }
 
 .auth-wrapper .auth-content {
@@ -1132,13 +1132,39 @@ ul::-webkit-scrollbar-thumb,
   display: flex;
 }
 
+@media only screen and (max-width: 991px) {
+  .auth-wrapper .auth-content {
+    width: 95%;
+  }
+}
+
 .auth-wrapper .form-wrapper {
   width: 40%;
   background-color: #FFF;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   padding: 60px 40px;
+}
+
+@media only screen and (max-width: 991px) {
+  .auth-wrapper .form-wrapper {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .auth-wrapper .form-wrapper {
+    width: 100%;
+    padding: 40px 25px;
+  }
+}
+
+.auth-wrapper .form-wrapper .warning-msg {
+  color: #d83025;
+  font-size: 15px;
+  text-transform: capitalize;
 }
 
 .auth-wrapper .form-wrapper form {
@@ -1160,6 +1186,12 @@ ul::-webkit-scrollbar-thumb,
   background: url(../../images/login.png);
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+@media only screen and (max-width: 767px) {
+  .auth-wrapper .auth-hero {
+    display: none;
+  }
 }
 
 .auth-wrapper .login-btn {

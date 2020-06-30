@@ -51,11 +51,13 @@ export default class UpdateCompany extends Component {
         "Enable":this.state.CompanyStutes
     }
 
-    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditCompany", {
+    fetch("http://native-001-site2.ctempurl.com/api/EditCompany", {
           method: "post",
           headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': JSON.parse(localStorage.getItem("token")),
+
           },
           body: JSON.stringify(data) 
         })
@@ -68,10 +70,6 @@ export default class UpdateCompany extends Component {
           this.setState({loadingBtn : false})
           message.error('There has been a problem with your fetch operation: ' + error.message);
         });
-  };
-
-  onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
   };
 
   changeCompanyStutes = (value) => {
@@ -96,7 +94,6 @@ export default class UpdateCompany extends Component {
               <Form
                 name="nest-messages"
                 onFinish={this.handelSubmit}
-                onFinishFailed={this.onFinishFailed}
                 ref={this.formRef}
               >
                 <Form.Item

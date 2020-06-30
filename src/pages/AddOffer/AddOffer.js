@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Form, Button, Select, message, Input, Spin, Upload, InputNumber } from "antd";
+import {
+  Form,
+  Button,
+  Select,
+  message,
+  Input,
+  Spin,
+  Upload,
+  InputNumber,
+} from "antd";
 import { DatePicker } from "antd";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -41,7 +50,7 @@ class AddOffer extends Component {
       StartDate: null,
       EndDate: null,
       imageUrl: null,
-      isSelectAllClubs : false
+      isSelectAllClubs: false,
     };
   }
 
@@ -51,8 +60,7 @@ class AddOffer extends Component {
     this.setState({ StartDate: dateStrings[0], EndDate: dateStrings[1] });
   };
 
-  handelSubmit = (values, errors) => {
-    console.log(values);
+  handelSubmit = (values) => {
     this.setState({ loadingBtn: true });
 
     let data = {
@@ -66,20 +74,18 @@ class AddOffer extends Component {
       EndDate: this.state.EndDate,
       BannerImage: this.state.imageUrl,
     };
-    if(!this.state.isSelectAllClubs){
-      data.ClubId = values.ClubName
+    if (!this.state.isSelectAllClubs) {
+      data.ClubId = values.ClubName;
     }
-    fetch(
-      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddOffer",
-      {
-        method: "post",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    )
+    fetch("http://native-001-site2.ctempurl.com/api/AddOffer", {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        'Authorization': JSON.parse(localStorage.getItem("token")),
+      },
+      body: JSON.stringify(data),
+    })
       .then((response) => {
         console.log(response);
         this.setState({ loadingBtn: false });
@@ -95,9 +101,14 @@ class AddOffer extends Component {
   };
 
   componentDidMount() {
-    fetch(
-      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0"
-    )
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      'Authorization': JSON.parse(localStorage.getItem("token")),
+    });
+    fetch("http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
+      method: 'GET',
+      headers: myHeaders, 
+    })
       .then((response) => {
         if (response.ok) {
           response.json().then((data) => {
@@ -115,30 +126,33 @@ class AddOffer extends Component {
           "There has been a problem with your fetch operation: " + error.message
         );
       });
-      if (!this.props.clubsList.length > 0) {
-        fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0")
-          .then((response) => {
-            if (response.ok) {
-              response.json().then((data) => {
-                let clubs = data.model;
-                this.setState({ clubs, loading: false });
-                this.props.dispatch(setClubsList(clubs))
-              });
-            } else {
-              message.error("Network response was not ok.");
-              this.setState({ loading: false });
-            }
-          })
-          .catch((error) => {
+    if (!this.props.clubsList.length > 0) {
+      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
+        method: 'GET',
+        headers: myHeaders, 
+      })
+        .then((response) => {
+          if (response.ok) {
+            response.json().then((data) => {
+              let clubs = data.model;
+              this.setState({ clubs, loading: false });
+              this.props.dispatch(setClubsList(clubs));
+            });
+          } else {
+            message.error("Network response was not ok.");
             this.setState({ loading: false });
-            message.error(
-              "There has been a problem with your fetch operation: " +
-                error.message
-            );
-          });
-      } else {
-        this.setState({ clubs: this.props.clubsList, loading: false });
-      }
+          }
+        })
+        .catch((error) => {
+          this.setState({ loading: false });
+          message.error(
+            "There has been a problem with your fetch operation: " +
+              error.message
+          );
+        });
+    } else {
+      this.setState({ clubs: this.props.clubsList, loading: false });
+    }
   }
 
   onChangeimg = (info) => {
@@ -176,20 +190,8 @@ class AddOffer extends Component {
     return isJpgOrPng && isLt2M;
   };
 
-  //  disabledRangeTime = (_, type) => {
-  //   if (type === 'start') {
-  //     return {
-  //       disabledHours: () => range(0, 60).splice(4, 20),
-  //       disabledMinutes: () => range(30, 60),
-  //     };
-  //   }
-  //   return {
-  //     disabledHours: () => range(0, 60).splice(20, 4),
-  //     disabledMinutes: () => range(0, 31),
-  //   };
-  // }
-
-  changeClub = value => value === "all" && this.setState({isSelectAllClubs : true})
+  changeClub = (value) =>
+    value === "all" && this.setState({ isSelectAllClubs: true });
 
   render() {
     return (
@@ -240,16 +242,24 @@ class AddOffer extends Component {
                       },
                     ]}
                   >
-                    <Select onChange={this.changeClub} placeholder="select Club">
+                    <Select
+                      onChange={this.changeClub}
+                      placeholder="select Club"
+                    >
                       <>
-                      {this.state.clubs &&
-                        this.state.clubs.map((club) => (
-                          <Select.Option value={`${club.Id}`}>
-                            {club.Name}
-                          </Select.Option> 
+                        {this.state.clubs &&
+                          this.state.clubs.map((club, i) => (
+                            <Select.Option key={i} value={`${club.Id}`}>
+                              {club.Name}
+                            </Select.Option>
                           ))}
-                          <Select.Option style={{fontWeight : "bold"}} value="all">All Clubs</Select.Option>
-                        </>
+                        <Select.Option
+                          style={{ fontWeight: "bold" }}
+                          value="all"
+                        >
+                          All Clubs
+                        </Select.Option>
+                      </>
                     </Select>
                   </Form.Item>
                   <Form.Item
@@ -264,8 +274,8 @@ class AddOffer extends Component {
                   >
                     <Select placeholder="select Vendor">
                       {this.state.vendors &&
-                        this.state.vendors.map((vendor) => (
-                          <Select.Option value={`${vendor.Id}`}>
+                        this.state.vendors.map((vendor, i) => (
+                          <Select.Option key={i} value={`${vendor.Id}`}>
                             {vendor.Name}
                           </Select.Option>
                         ))}
@@ -282,17 +292,20 @@ class AddOffer extends Component {
                   </Form.Item>
 
                   <Form.Item
-                  name="HourCost"
-                  label="Hour Cost"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your hour cost!",
-                    },
-                  ]}
-                >
-                  <InputNumber placeholder="Please add Hour Cost" style={{ width: "100%" }} /> 
-                </Form.Item>
+                    name="HourCost"
+                    label="Hour Cost"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your hour cost!",
+                      },
+                    ]}
+                  >
+                    <InputNumber
+                      placeholder="Please add Hour Cost"
+                      style={{ width: "100%" }}
+                    />
+                  </Form.Item>
 
                   <Form.Item
                     name="OfferDescription"
@@ -354,4 +367,4 @@ const mapStateToProps = (state) => {
     clubsList: state.dashboard.clubsList,
   };
 };
-export default connect(mapStateToProps)(AddOffer)
+export default connect(mapStateToProps)(AddOffer);

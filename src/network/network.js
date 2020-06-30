@@ -1,4 +1,4 @@
-// let baseUrl = 'https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api';
+// let baseUrl = 'http://native-001-site2.ctempurl.com/api';
 // export function getVendor (){
 //     fetch(`${baseUrl}/GetVendors?Page=0`).then(function(response) {
 //         if(response.ok) {

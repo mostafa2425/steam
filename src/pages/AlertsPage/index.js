@@ -28,7 +28,14 @@ class AlertsPage extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://native-001-site2.ctempurl.com/api/GetAlerts?Page=0")
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      'Authorization': JSON.parse(localStorage.getItem("token")),
+    });
+    fetch("http://native-001-site2.ctempurl.com/api/GetAlerts?Page=0", {
+      method: 'GET',
+      headers: myHeaders, 
+    })
       .then((response) => {
         if (response.ok) {
           response.json().then((data) => {
@@ -43,9 +50,10 @@ class AlertsPage extends React.Component {
                 BannerImage: offer.BannerImage,
                 title: offer.Description,
                 titleAr: offer.DescriptionLT,
-                HourCost: offer.HourCost,
+                TotalCost: offer.TotalCost,
+                Time: offer.Time,
                 start: moment(offer.StartDate).toDate(),
-                end: moment(offer.EndDate).toDate(), 
+                end: moment(offer.StartDate).toDate(), 
               })
             );
             this.setState({ offers: calenderOffer, loading: false });
@@ -68,7 +76,7 @@ class AlertsPage extends React.Component {
   onOfferSelect = (e) => {
     console.log(e);
     // this.props.history.push("/update-offer");
-    this.props.history.push({ pathname: "/update-offer", data: e });
+    this.props.history.push({ pathname: "/update-alert", data: e });
   };
 
   render() {

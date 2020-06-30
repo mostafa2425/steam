@@ -34,7 +34,10 @@ class AddClub extends Component {
   formRef = React.createRef();
 
   handelSubmit = (values, errors) => {
-    console.log(values)
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      'Authorization': JSON.parse(localStorage.getItem("token")),
+    });
     this.setState({loadingBtn : true})
     let data = {
     "Name":`${values.ClubName}`,
@@ -47,11 +50,12 @@ class AddClub extends Component {
     "Logo": this.state.imageUrl, 
 }
 
-fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddClub", {
+fetch("http://native-001-site2.ctempurl.com/api/AddClub", {
       method: "post",
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': JSON.parse(localStorage.getItem("token")),
       },
       body: JSON.stringify(data) 
     })
@@ -60,7 +64,10 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
       message.success('club added successfully'); 
       this.formRef.current.resetFields();
       this.setState({imageUrl : null, })
-      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0")
+      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
+        method: 'GET',
+        headers: myHeaders, 
+      })
       .then((response) => {
         if (response.ok) {
           response.json().then((data) => {
@@ -82,10 +89,6 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
       this.setState({loadingBtn : false})
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
-  };
-
-  onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
   };
 
   changeClubStutes = (value) => {
@@ -144,7 +147,6 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
               <Form
                 name="nest-messages"
                 onFinish={this.handelSubmit}
-                onFinishFailed={this.onFinishFailed}
                 ref={this.formRef}
               >
                 <Form.Item

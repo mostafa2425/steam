@@ -97,7 +97,7 @@ class InvoiceTable extends React.Component {
   componentDidMount() {
     // eslint-disable-next-line no-lone-blocks
     {this.props.isInvoices &&
-      fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then((response) => {
+      fetch('http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then((response) => {
         if(response.ok) {
           response.json().then((data) => {
             let vendors = data.model;

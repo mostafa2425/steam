@@ -34,6 +34,10 @@ export default class UpdateVendor extends Component {
   formRef = React.createRef();
 
   componentDidMount() {
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      'Authorization': JSON.parse(localStorage.getItem("token")),
+    });
     if(this.props.location.data){
       const {Name, NameLT, Phone, Enable, Email, Description, Password, ConfirmPassword, Percentage, Id } = this.props.location.data;
       this.formRef.current.setFieldsValue({
@@ -53,7 +57,10 @@ export default class UpdateVendor extends Component {
     }
 
     if(!this.props.isFromCompany){
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0').then((response) => {
+    fetch('http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0', {
+      method: 'GET',
+      headers: myHeaders, 
+    }).then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let companies = data.model;
@@ -71,7 +78,10 @@ export default class UpdateVendor extends Component {
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
 
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendorTypes').then((response) => {
+    fetch('http://native-001-site2.ctempurl.com/api/GetVendorTypes', {
+      method: 'GET',
+      headers: myHeaders, 
+    }).then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let vendorIndustry = data.model;
@@ -110,11 +120,13 @@ export default class UpdateVendor extends Component {
     "Logo": this.state.imageUrl, 
 }
 
-fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditVendor", {
+fetch("http://native-001-site2.ctempurl.com/api/EditVendor", {
       method: "post",
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': JSON.parse(localStorage.getItem("token")),
+
       },
       body: JSON.stringify(data) 
     })

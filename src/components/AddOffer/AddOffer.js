@@ -41,8 +41,7 @@ export default class AddOffer extends Component {
         this.setState({StartDate : dateStrings[0], EndDate : dateStrings[1]})
       }
 
-  handelSubmit = (values, errors) => {
-    console.log(values)
+  handelSubmit = (values) => {
     this.setState({loadingBtn : true})
     let data = {
       "VendorId": values.VendorName,
@@ -53,16 +52,17 @@ export default class AddOffer extends Component {
       "EndDate": this.state.EndDate,
       "BannerImage": this.state.imageUrl,
   }
-  fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddOffer", {
+  fetch("http://native-001-site2.ctempurl.com/api/AddOffer", {
       method: "post",
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+      'Authorization': JSON.parse(localStorage.getItem("token")),
+
       },
       body: JSON.stringify(data) 
     })
     .then( (response) => { 
-      console.log(response)
       this.setState({loadingBtn : false})
       message.success('offer added successfully');
       this.formRef.current.resetFields();
@@ -73,12 +73,15 @@ export default class AddOffer extends Component {
     });
   };
 
-  onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
-
   componentDidMount() {
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0').then((response) => {
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      'Authorization': JSON.parse(localStorage.getItem("token")),
+    });
+    fetch('http://native-001-site2.ctempurl.com/api/GetVendors?Page=0', {
+      method: 'GET',
+      headers: myHeaders, 
+    }).then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let vendors = data.model;
@@ -93,7 +96,10 @@ export default class AddOffer extends Component {
       this.setState({loading : false})
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0').then((response) => {
+    fetch('http://native-001-site2.ctempurl.com/api/GetClubs?Page=0', {
+      method: 'GET',
+      headers: myHeaders, 
+    }).then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let clubs = data.model;
@@ -164,7 +170,6 @@ export default class AddOffer extends Component {
               <Form
                 name="nest-messages"
                 onFinish={this.handelSubmit}
-                onFinishFailed={this.onFinishFailed}
                 ref={this.formRef}
               >
                 <Form.Item
@@ -192,7 +197,7 @@ export default class AddOffer extends Component {
                   ]}
                 >
                   <Select placeholder="select Club">
-                  {this.state.clubs && this.state.clubs.map(club => <Select.Option value={`${club.Id}`}>{club.Name}</Select.Option>)}
+                  {this.state.clubs && this.state.clubs.map( (club, i) => <Select.Option key={i} value={`${club.Id}`}>{club.Name}</Select.Option>)}
                   </Select>
                 </Form.Item>   
                 <Form.Item
@@ -206,7 +211,7 @@ export default class AddOffer extends Component {
                   ]}
                 >
                   <Select placeholder="select Vendor">
-                  {this.state.vendors && this.state.vendors.map(vendor => <Select.Option value={`${vendor.Id}`}>{vendor.Name}</Select.Option>)}
+                  {this.state.vendors && this.state.vendors.map((vendor, i) => <Select.Option key={i} value={`${vendor.Id}`}>{vendor.Name}</Select.Option>)}
                   </Select>
                 </Form.Item>   
 

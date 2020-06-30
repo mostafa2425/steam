@@ -47,10 +47,6 @@ class AddAlert extends Component {
 
   formRef = React.createRef();
 
-  // onChangeDateRange = (dates, dateStrings) => {
-  //   this.setState({ StartDate: dateStrings[0], EndDate: dateStrings[1] });
-  // };
-
   handelSubmit = (values, errors) => {
     console.log(values);
     this.setState({ loadingBtn: true });
@@ -61,27 +57,25 @@ class AddAlert extends Component {
       // ClubId: values.ClubName,
       Description: `${values.OfferDescription}`,
       DescriptionLT: `${values.OfferDescriptionAr}`,
-      StartDate: this.state.StartDate, 
-      TotalCost: values.HourCost,
+      StartDate: this.state.StartDate,
+      TotalCost: values.TotalCost,
       BannerImage: this.state.imageUrl,
-      Time : values.Time
+      Time: values.Time,
     };
     if (!this.state.isSelectAllClubs) {
       data.ClubId = values.ClubName;
     }
-    fetch(
-      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddAlert",
-      {
-        method: "post",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    )
+
+    fetch("http://native-001-site2.ctempurl.com/api/AddAlert", {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        'Authorization': JSON.parse(localStorage.getItem("token")),
+      },
+      body: JSON.stringify(data),
+    })
       .then((response) => {
-        console.log(response);
         this.setState({ loadingBtn: false });
         message.success("Alert added successfully");
         this.formRef.current.resetFields();
@@ -95,9 +89,14 @@ class AddAlert extends Component {
   };
 
   componentDidMount() {
-    fetch(
-      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0"
-    )
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      'Authorization': JSON.parse(localStorage.getItem("token")),
+    });
+    fetch("http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
+      method: 'GET',
+      headers: myHeaders, 
+    })
       .then((response) => {
         if (response.ok) {
           response.json().then((data) => {
@@ -116,7 +115,10 @@ class AddAlert extends Component {
         );
       });
     if (!this.props.clubsList.length > 0) {
-      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0")
+      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0",{
+        method: 'GET',
+        headers: myHeaders, 
+      })
         .then((response) => {
           if (response.ok) {
             response.json().then((data) => {
@@ -176,11 +178,12 @@ class AddAlert extends Component {
     return isJpgOrPng && isLt2M;
   };
 
-  changeClub = (value) =>value === "all" && this.setState({ isSelectAllClubs: true });
+  changeClub = (value) =>
+    value === "all" && this.setState({ isSelectAllClubs: true });
 
-  onChangeDateRange = (value, dateString) =>  {
-    this.setState({StartDate : dateString})
-  }
+  onChangeDateRange = (value, dateString) => {
+    this.setState({ StartDate: dateString });
+  };
 
   render() {
     return (
@@ -231,16 +234,24 @@ class AddAlert extends Component {
                       },
                     ]}
                   >
-                   <Select onChange={this.changeClub} placeholder="select Club">
+                    <Select
+                      onChange={this.changeClub}
+                      placeholder="select Club"
+                    >
                       <>
-                      {this.state.clubs &&
-                        this.state.clubs.map((club) => (
-                          <Select.Option value={`${club.Id}`}>
-                            {club.Name}
-                          </Select.Option> 
+                        {this.state.clubs &&
+                          this.state.clubs.map((club) => (
+                            <Select.Option value={`${club.Id}`}>
+                              {club.Name}
+                            </Select.Option>
                           ))}
-                          <Select.Option style={{fontWeight : "bold"}} value="all">All Clubs</Select.Option>
-                        </>
+                        <Select.Option
+                          style={{ fontWeight: "bold" }}
+                          value="all"
+                        >
+                          All Clubs
+                        </Select.Option>
+                      </>
                     </Select>
                   </Form.Item>
                   <Form.Item
@@ -272,29 +283,35 @@ class AddAlert extends Component {
                   </Form.Item>
 
                   <Form.Item
-                  name="TotalCost"
-                  label="Total Cost"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your Total Cost!",
-                    },
-                  ]}
-                >
-                  <InputNumber placeholder="Please add Total Cost" style={{ width: "100%" }} /> 
-                </Form.Item>
+                    name="TotalCost"
+                    label="Total Cost"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your Total Cost!",
+                      },
+                    ]}
+                  >
+                    <InputNumber
+                      placeholder="Please add Total Cost"
+                      style={{ width: "100%" }}
+                    />
+                  </Form.Item>
                   <Form.Item
-                  name="Time"
-                  label="Alert Time"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your Alert Time!",
-                    },
-                  ]}
-                >
-                  <InputNumber placeholder="Please add Alert Time" style={{ width: "100%" }} /> 
-                </Form.Item>
+                    name="Time"
+                    label="Alert Time"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your Alert Time!",
+                      },
+                    ]}
+                  >
+                    <InputNumber
+                      placeholder="Please add Alert Time"
+                      style={{ width: "100%" }}
+                    />
+                  </Form.Item>
 
                   <Form.Item
                     name="OfferDescription"
@@ -337,7 +354,9 @@ class AddAlert extends Component {
                     >
                       Submit
                     </Button>
-                    <Link to="/Offers" className="grayscale-fill xlg-btn">Cancel</Link>
+                    <Link to="/Offers" className="grayscale-fill xlg-btn">
+                      Cancel
+                    </Link>
                   </div>
                 </Form>
               </div>
@@ -356,4 +375,4 @@ const mapStateToProps = (state) => {
     clubsList: state.dashboard.clubsList,
   };
 };
-export default connect(mapStateToProps)(AddAlert)
+export default connect(mapStateToProps)(AddAlert);
