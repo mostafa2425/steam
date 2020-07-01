@@ -12,7 +12,7 @@ export default class Login extends Component {
   handeSubmit = (values) => {
     this.setState({ loadingBtn: true });
     fetch(
-      `http://native-001-site2.ctempurl.com/api/AdminLogin?Email=${values.username}&Password=${values.password}`
+      `https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AdminLogin?Email=${values.username}&Password=${values.password}`
     )
       .then((response) => {
         if (response.ok) {
@@ -90,7 +90,7 @@ export default class Login extends Component {
                     type="primary"
                     htmlType="submit"
                   >
-                    Submit
+                    Login
                   </Button>
                 </Form.Item>
                 <Link to="/forget-password">Forget Password ?</Link>

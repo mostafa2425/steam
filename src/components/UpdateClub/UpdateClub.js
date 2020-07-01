@@ -71,7 +71,7 @@ class UpdateClub extends Component {
     "Logo": this.state.imageUrl ? this.state.imageUrl : "", 
 }
 
-fetch("http://native-001-site2.ctempurl.com/api/EditClub", {
+fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditClub", {
       method: "post",
       headers: {
         'Accept': 'application/json',
@@ -84,7 +84,7 @@ fetch("http://native-001-site2.ctempurl.com/api/EditClub", {
     .then( (response) => { 
       if(response.ok) {
         message.success('club Updated successfully'); 
-        fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
+        fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
           method: 'GET',
            headers: myHeaders, 
         })

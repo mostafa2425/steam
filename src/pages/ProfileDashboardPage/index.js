@@ -41,7 +41,7 @@ class ProfileDashboardPage extends React.Component {
     if (this.props.match) {
       let clubId = +this.props.match.params.id.replace(":", "");
       fetch(
-        `http://native-001-site2.ctempurl.com/api/GetClubStatisticsById?ClubId=${clubId}`,
+        `https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubStatisticsById?ClubId=${clubId}`,
         {
           method: "GET",
           headers: myHeaders,

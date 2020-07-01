@@ -73,7 +73,7 @@ class UpdateAlert extends Component {
       this.setState({StartDate : startDate.format('YYYY/MM/DD HH:mm')}) 
 
       fetch(
-        "http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
+        "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
           method: 'GET',
           headers: myHeaders, 
         }
@@ -112,7 +112,7 @@ class UpdateAlert extends Component {
         });
 
       if (!this.props.clubsList.length > 0) {
-        fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
+        fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
           method: 'GET',
           headers: myHeaders, 
         })
@@ -166,7 +166,7 @@ class UpdateAlert extends Component {
       Time : values.Time
     };
     fetch(
-      "http://native-001-site2.ctempurl.com/api/EditAlert",
+      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditAlert",
       {
         method: "post",
         headers: {
@@ -234,7 +234,7 @@ class UpdateAlert extends Component {
       cancelText: "No",
       onOk: () => {
         fetch(
-          `http://native-001-site2.ctempurl.com/api/DeleteAlert?AlertId=${this.state.Id}`
+          `https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/DeleteAlert?AlertId=${this.state.Id}`
         )
           .then((response) => {
             if (response.ok) {

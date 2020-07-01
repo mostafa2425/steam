@@ -31,7 +31,7 @@ class CompanyVendorPage extends React.Component {
     });
     if (this.props.location.companyId) {
       fetch(
-        `http://native-001-site2.ctempurl.com/api/GetVendorsByCompanyId?CompanyId=${this.props.location.companyId}&page=0`,
+        `https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendorsByCompanyId?CompanyId=${this.props.location.companyId}&page=0`,
         {
           method: "GET",
           headers: myHeaders,

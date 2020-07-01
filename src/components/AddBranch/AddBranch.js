@@ -75,7 +75,7 @@ export default class AddBranch extends Component {
       "Content-Type": "application/json",
       'Authorization': JSON.parse(localStorage.getItem("token")),
     });
-    fetch("http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
+    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
       method: 'GET',
       headers: myHeaders, 
     })
@@ -140,7 +140,7 @@ export default class AddBranch extends Component {
       ConfirmPassword: values.confirm,
     };
 
-    fetch("http://native-001-site2.ctempurl.com/api/AddBranch", {
+    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddBranch", {
       method: "post",
       headers: {
          Accept: "application/json",

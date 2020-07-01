@@ -44,7 +44,7 @@ class VendorCard extends React.Component {
   }
 
   deleteVendorCard = () => {
-    fetch(`http://native-001-site2.ctempurl.com/api/DeleteCompany?CompanyId=${1}`).then((response) => {
+    fetch(`https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/DeleteCompany?CompanyId=${1}`).then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           // this.setState({companies, loading : false})
@@ -70,7 +70,7 @@ class VendorCard extends React.Component {
       cancelText: 'No',
       onOk : () =>  {
         if(this.props.isCompany){
-        fetch(`http://native-001-site2.ctempurl.com/api/DeleteCompany?CompanyId=${cardId}`)
+        fetch(`https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/DeleteCompany?CompanyId=${cardId}`)
         .then((response) => {
           console.log(response)
           if(response.ok) {
@@ -94,7 +94,7 @@ class VendorCard extends React.Component {
           message.error('There has been a problem with your fetch operation: ' + error.message);
         });
       }else if(this.props.fans){
-        fetch(`http://native-001-site2.ctempurl.com/api/DeleteClub?ClubId=${cardId}`)
+        fetch(`https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/DeleteClub?ClubId=${cardId}`)
         .then((response) => {
           if(response.ok) {
             response.json().then((data) => {
@@ -114,7 +114,7 @@ class VendorCard extends React.Component {
           message.error('There has been a problem with your fetch operation: ' + error.message);
         });
       }else{
-        fetch(`http://native-001-site2.ctempurl.com/api/DeleteVendor?VendorId=${cardId}`)
+        fetch(`https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/DeleteVendor?VendorId=${cardId}`)
         .then((response) => {
           console.log(response)
           if(response.ok) {

@@ -77,7 +77,7 @@ class AddOffer extends Component {
     if (!this.state.isSelectAllClubs) {
       data.ClubId = values.ClubName;
     }
-    fetch("http://native-001-site2.ctempurl.com/api/AddOffer", {
+    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddOffer", {
       method: "post",
       headers: {
         Accept: "application/json",
@@ -107,7 +107,7 @@ class AddOffer extends Component {
       "Content-Type": "application/json",
       'Authorization': JSON.parse(localStorage.getItem("token")),
     });
-    fetch("http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
+    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
       method: 'GET',
       headers: myHeaders, 
     })
@@ -129,7 +129,7 @@ class AddOffer extends Component {
         );
       });
     if (!this.props.clubsList.length > 0) {
-      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
+      fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
         method: 'GET',
         headers: myHeaders, 
       })

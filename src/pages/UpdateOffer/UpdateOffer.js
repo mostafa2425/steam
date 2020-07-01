@@ -78,7 +78,7 @@ class UpdateOffer extends Component {
         StartDate: startDate.format("YYYY/MM/DD HH:mm"),
         EndDate: EndDate.format("YYYY/MM/DD HH:mm"),
       });
-      fetch("http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
+      fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
         method: "GET",
         headers: myHeaders,
       })
@@ -113,7 +113,7 @@ class UpdateOffer extends Component {
         });
 
       if (!this.props.clubsList.length > 0) {
-        fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
+        fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
           method: "GET",
           headers: myHeaders,
         })
@@ -171,7 +171,7 @@ class UpdateOffer extends Component {
       EndDate: this.state.EndDate,
       BannerImage: this.state.imageUrl,
     };
-    fetch("http://native-001-site2.ctempurl.com/api/EditOffer", {
+    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditOffer", {
       method: "post",
       headers: {
         Accept: "application/json",
@@ -237,7 +237,7 @@ class UpdateOffer extends Component {
       cancelText: "No",
       onOk: () => {
         fetch(
-          `http://native-001-site2.ctempurl.com/api/DeleteOffer?OfferId=${this.state.Id}`
+          `https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/DeleteOffer?OfferId=${this.state.Id}`
         )
           .then((response) => {
             if (response.ok) {

@@ -52,7 +52,7 @@ export default class AddOffer extends Component {
       "EndDate": this.state.EndDate,
       "BannerImage": this.state.imageUrl,
   }
-  fetch("http://native-001-site2.ctempurl.com/api/AddOffer", {
+  fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddOffer", {
       method: "post",
       headers: {
         'Accept': 'application/json',
@@ -80,7 +80,7 @@ export default class AddOffer extends Component {
       "Content-Type": "application/json",
       'Authorization': JSON.parse(localStorage.getItem("token")),
     });
-    fetch('http://native-001-site2.ctempurl.com/api/GetVendors?Page=0', {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0', {
       method: 'GET',
       headers: myHeaders, 
     }).then((response) => {
@@ -98,7 +98,7 @@ export default class AddOffer extends Component {
       this.setState({loading : false})
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
-    fetch('http://native-001-site2.ctempurl.com/api/GetClubs?Page=0', {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0', {
       method: 'GET',
       headers: myHeaders, 
     }).then((response) => {

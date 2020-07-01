@@ -56,7 +56,7 @@ class AddClub extends Component {
     "Logo": this.state.imageUrl, 
 }
 
-fetch("http://native-001-site2.ctempurl.com/api/AddClub", {
+fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddClub", {
       method: "post",
       headers: {
         'Accept': 'application/json',
@@ -70,7 +70,7 @@ fetch("http://native-001-site2.ctempurl.com/api/AddClub", {
       message.success('club added successfully'); 
       this.formRef.current.resetFields();
       this.setState({imageUrl : null, })
-      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
+      fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
         method: 'GET',
         headers: myHeaders, 
       })

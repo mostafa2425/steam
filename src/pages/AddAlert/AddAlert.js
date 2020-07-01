@@ -66,7 +66,7 @@ class AddAlert extends Component {
       data.ClubId = values.ClubName;
     }
 
-    fetch("http://native-001-site2.ctempurl.com/api/AddAlert", {
+    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddAlert", {
       method: "post",
       headers: {
         Accept: "application/json",
@@ -95,7 +95,7 @@ class AddAlert extends Component {
       "Content-Type": "application/json",
       'Authorization': JSON.parse(localStorage.getItem("token")),
     });
-    fetch("http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
+    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
       method: 'GET',
       headers: myHeaders, 
     })
@@ -117,7 +117,7 @@ class AddAlert extends Component {
         );
       });
     if (!this.props.clubsList.length > 0) {
-      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0",{
+      fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0",{
         method: 'GET',
         headers: myHeaders, 
       })

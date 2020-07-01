@@ -45,7 +45,7 @@ class VendorProfileDashboardPage extends React.Component {
       let vendorId = +this.props.match.params.id.replace(":", "");
       this.setState({ vendorId }, () => {
         fetch(
-          `http://native-001-site2.ctempurl.com/api/GetVendorStatistics?VendorId=${vendorId}`, {
+          `https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendorStatistics?VendorId=${vendorId}`, {
             method: 'GET',
             headers: myHeaders, 
           }

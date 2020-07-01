@@ -59,7 +59,7 @@ export default class UpdateVendor extends Component {
     }
 
     if(!this.props.isFromCompany){
-    fetch('http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0', {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0', {
       method: 'GET',
       headers: myHeaders, 
     }).then((response) => {
@@ -80,7 +80,7 @@ export default class UpdateVendor extends Component {
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
 
-    fetch('http://native-001-site2.ctempurl.com/api/GetVendorTypes', {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendorTypes', {
       method: 'GET',
       headers: myHeaders, 
     }).then((response) => {
@@ -122,7 +122,7 @@ export default class UpdateVendor extends Component {
     "Logo": this.state.imageUrl, 
 }
 
-fetch("http://native-001-site2.ctempurl.com/api/EditVendor", {
+fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditVendor", {
       method: "post",
       headers: {
         'Accept': 'application/json',

@@ -53,7 +53,7 @@ export default class UpdateCompany extends Component {
         "Enable":this.state.CompanyStutes
     }
 
-    fetch("http://native-001-site2.ctempurl.com/api/EditCompany", {
+    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditCompany", {
           method: "post",
           headers: {
             'Accept': 'application/json',

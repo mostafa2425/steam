@@ -113,7 +113,7 @@ export default class UpdateBranch extends Component {
     "ConfirmPassword": values.confirm, 
 }
 
-fetch("http://native-001-site2.ctempurl.com/api/EditBranch", {
+fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditBranch", {
       method: "post",
       headers: {
         'Accept': 'application/json',

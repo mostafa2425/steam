@@ -12,7 +12,7 @@ export default class ForgetPassword extends Component {
   handeSubmit = (values) => {
     this.setState({ loadingBtn: true });
     fetch(
-      `http://native-001-site2.ctempurl.com/api/AdminForgetPassword?Email=${values.Email}`
+      `https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AdminForgetPassword?Email=${values.Email}`
     )
       .then((response) => {
         if (response.ok) {

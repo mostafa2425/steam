@@ -222,14 +222,15 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: #eae8e8;
+    background-color: #f2f3f8;
     .auth-content{ 
         width: 80%;
+        max-width: 1000px;
         height: 70%;
         display: flex;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
         @include mq("ipad"){
-            width: 95%;
+            width: 95%;   
         }
     }
       .form-wrapper{

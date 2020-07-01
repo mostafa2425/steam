@@ -1,4 +1,4 @@
-// let baseUrl = 'http://native-001-site2.ctempurl.com/api';
+// let baseUrl = 'https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api';
 // export function getVendor (){
 //     fetch(`${baseUrl}/GetVendors?Page=0`).then(function(response) {
 //         if(response.ok) {
@@ -15,7 +15,7 @@
 // }
 
 export function getClubs (){
-    fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0")
+    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0")
       .then((response) => {
         if (response.ok) {
           response.json().then((data) => {

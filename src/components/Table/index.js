@@ -17,7 +17,7 @@ function showDeleteConfirm(branchID, branchName, value){
     okType: 'danger',
     cancelText: 'No',
     onOk : () =>  {
-      fetch(`http://native-001-site2.ctempurl.com/api/DeleteBranch?BranchId=${branchID}`)
+      fetch(`https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/DeleteBranch?BranchId=${branchID}`)
       .then((response) => {
         if(response.ok) {
           response.json().then((data) => {

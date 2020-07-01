@@ -33,7 +33,7 @@ class ClubPage extends React.Component {
       'Authorization': JSON.parse(localStorage.getItem("token")),
     });
     if (!this.props.clubsList.length > 0) {
-      fetch("http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
+      fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
         method: 'GET',
         headers: myHeaders, 
       })

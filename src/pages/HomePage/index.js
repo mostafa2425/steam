@@ -34,7 +34,7 @@ class HomePage extends React.Component {
       "Content-Type": "application/json",
       'Authorization': JSON.parse(localStorage.getItem("token")),
     });
-    fetch('http://native-001-site2.ctempurl.com/api/GetDashBoardHome', {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetDashBoardHome', {
       method: 'GET',
       headers: myHeaders, 
     }).then((response) => {
@@ -56,7 +56,7 @@ class HomePage extends React.Component {
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
 
-    fetch('http://native-001-site2.ctempurl.com/api/GetClubs?Page=0', {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0', {
       method: 'GET',
       headers: myHeaders,
     }).then((response) => {
@@ -109,7 +109,7 @@ class HomePage extends React.Component {
             <SmallCard
               title="Active User"
               image={placeholderImage}
-              number={this.state.dashboard ? `${this.state.dashboard.DashBoardStatistics.ActiveUsersRatio ? this.state.dashboard.DashBoardStatistics.ActiveUsersRatio.toFixed(2) : 0} "%"` : "0%"} 
+              number={this.state.dashboard ? `${this.state.dashboard.DashBoardStatistics.ActiveUsersRatio ? this.state.dashboard.DashBoardStatistics.ActiveUsersRatio.toFixed(2) : 0}%` : 0} 
               isProgress
             />
           </PageSection>
