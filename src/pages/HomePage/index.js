@@ -6,7 +6,11 @@ import BarChart from '../../components/BarChart'
 import DropdownList from '../../components/DropdownList'
 import UserAvatar from '../../images/avatar.jpg'
 import placeholderImage from '../../images/users.png'
+import activeUser from '../../images/activeUsers.png'
 import { setBranchesList, setClubsList } from '../../Dashboard/store/actions'; 
+import Orders from "../../images/orders.png";
+import Profit from "../../images/profit.png";
+import Commission from "../../images/commission.png";
 import Moment from 'moment'
 import {
   Container,
@@ -43,7 +47,8 @@ class HomePage extends React.Component {
           let dashboard = data.model;
           this.setState({dashboard, loading : false, 
             orderCount : dashboard.BarCharts.map(order => order.OrderCount), 
-            orderDay : dashboard.BarCharts.map(order => Moment(order.Day).format('L'))})
+            orderDay : dashboard.BarCharts.map(order => Moment(order.Day).format('L'))
+          })
           });
         
       } else {
@@ -81,24 +86,24 @@ class HomePage extends React.Component {
     return (
       <Container className="dashboard-wrapper">
         <PageContainer className="dashboard-content">
-        {!this.state.loading ? 
-        <>
-          <HeaderPageSection>
+        <HeaderPageSection>
             <DropdownList 
               title="user name"
               list={["Edit Profile", "Notification"]}
               titleImage={UserAvatar}
             />
           </HeaderPageSection>
+        {!this.state.loading ? 
+        <>
           <PageSection className="card-wrapper">
             <SmallCard
               title="Total Sales"
-              image={placeholderImage}
+              image={Profit}
               number={`${this.state.dashboard ? this.state.dashboard.DashBoardStatistics.TotalSales : 0} SR`}
             />
             <SmallCard
               title="Total Orders"
-              image={placeholderImage}
+              image={Orders}
               number={`${this.state.dashboard ? this.state.dashboard.DashBoardStatistics.TotalOrders : 0}`}
             />
             <SmallCard 
@@ -108,7 +113,7 @@ class HomePage extends React.Component {
             />
             <SmallCard
               title="Active User"
-              image={placeholderImage}
+              image={activeUser}
               number={this.state.dashboard ? `${this.state.dashboard.DashBoardStatistics.ActiveUsersRatio ? this.state.dashboard.DashBoardStatistics.ActiveUsersRatio.toFixed(2) : 0}%` : 0} 
               isProgress
             />
@@ -123,7 +128,7 @@ class HomePage extends React.Component {
           </PageSection>
           <PageSection className="top-venor-holder">
             <TopCard data={this.state.dashboard && this.state.dashboard.TopClubs} title="Top Club By Revenue" type="club" />
-            <TopCard data={this.state.dashboard && this.state.dashboard.TopVendors} title="Top Venor By Revenue" type="Venor" />
+            <TopCard data={this.state.dashboard && this.state.dashboard.TopVendors} title="Top Venors By Revenue" type="Venor" />
           </PageSection>
           </>
           : <Spin />}

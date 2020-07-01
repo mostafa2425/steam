@@ -19,7 +19,7 @@ class SmallCard extends React.Component {
         <ContentContainer>
           <Description>{number}</Description>
           { isInvoice ? <Title><Link style={{color: "#81b955"}} to="/invoice">{title}</Link></Title> : <Title>{title}</Title>} 
-          {isProgress && <Progress className="progress-holder" percent={41} showInfo={false} />}
+          {isProgress && <Progress className="progress-holder" percent={this.props.number ? +this.props.number.replace("%" , ' ') : 0} showInfo={false} />}
         </ContentContainer>
       </Container>
     );

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Location from '../../images/pin.png'
 import Email from '../../images/email.png'
 import Phone from '../../images/phone.png'
-import Fans from '../../images/users.png'
+import Fans from '../../images/activeUsers.png'
 import DunkinDonutsIcon from '../../images/logo-png.png'
 import avatarPlaceholder from '../../images/company-placholder.png'
 import {
@@ -171,7 +171,7 @@ class VendorCard extends React.Component {
           <FansContiner>
             <FansImage src={Fans} alt="fans" />
             <FansTextContainer>
-              <FansNumber>{activeUser}K</FansNumber>
+              <FansNumber>{Math.abs(activeUser) > 999 ? Math.sign(activeUser)*((Math.abs(activeUser)/1000).toFixed(1)) + 'k' : Math.sign(activeUser)*Math.abs(activeUser)}</FansNumber>
               <FansText>Active Users</FansText>
             </FansTextContainer>
           </FansContiner>

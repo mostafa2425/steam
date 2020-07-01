@@ -1,18 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SideBarContainer from "../../containers/SideBarContainer";
 import VendorCard from "../../containers/VendorCard";
 import DropdownList from "../../components/DropdownList";
 import UserAvatar from "../../images/avatar.jpg";
-import AlahlyIcon from "../../images/al-ahly.png";
-import AlhilalIcon from "../../images/al-hilal.png";
-import AlittihadIcon from "../../images/al-ittihad.png";
 import {
   Container,
   PageContainer,
-  PageSection,
   HeaderPageSection,
-  AddBtn,
 } from "./StyledComponents";
 import { Spin, message } from "antd";
 import { setClubsList } from "../../Dashboard/store/actions";

@@ -30,10 +30,13 @@ class ProfileDashboardPage extends React.Component {
       clubId: null,
       clubInfo: null,
       loading: false,
+      orderCount: null,
+      orderDay: null,
     };
   }
   componentDidMount() {
-    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
+    !JSON.parse(localStorage.getItem("token")) &&
+      this.props.history.push("/login");
     const myHeaders = new Headers({
       "Content-Type": "application/json",
       Authorization: JSON.parse(localStorage.getItem("token")),
@@ -51,7 +54,14 @@ class ProfileDashboardPage extends React.Component {
           if (response.ok) {
             response.json().then((data) => {
               let clubInfo = data.model;
-              this.setState({ clubInfo, loading: false });
+              this.setState({
+                clubInfo,
+                loading: false,
+                orderCount: clubInfo.BarCharts.map((order) => order.OrderCount),
+                orderDay: clubInfo.BarCharts.map((order) =>
+                  moment(order.Day).format("L")
+                ),
+              });
             });
           } else {
             message.error("Network response was not ok.");
@@ -126,19 +136,12 @@ class ProfileDashboardPage extends React.Component {
                 />
               </InformationPageSection>
               <PageSection>
-                <BarChart 
-                 orderCount={
-                    this.state.clubInfo &&
-                    this.state.clubInfo.BarCharts.map(
-                      (order) => order.OrderCount
-                    )
-                  }
-                  orderDay={
-                    this.state.clubInfo &&
-                    this.state.clubInfo.BarCharts.map((order) =>
-                      moment(order.Day).format("L")
-                    )
-                  } height={200} title="Daily Orders" />
+                <BarChart
+                  orderCount={this.state.orderCount && this.state.orderCount}
+                  orderDay={this.state.orderDay && this.state.orderDay}
+                  height={200}
+                  title="Daily Orders"
+                />
               </PageSection>
               {/* <PageSection>
             <TableComponent data={this.state.branches.length > 0 && this.state.branches} />
