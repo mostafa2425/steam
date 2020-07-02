@@ -43,24 +43,6 @@ class VendorCard extends React.Component {
       });
   }
 
-  deleteVendorCard = () => {
-    fetch(`https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/DeleteCompany?CompanyId=${1}`).then((response) => {
-      if(response.ok) {
-        response.json().then((data) => {
-          // this.setState({companies, loading : false})
-          message.success('company deleted successfully'); 
-        });
-      } else {
-        message.error('Network response was not ok.');
-        // this.setState({loading : false})
-      }
-    })
-    .catch((error) => {
-      this.setState({loading : false})
-      message.error('There has been a problem with your fetch operation: ' + error.message);
-    });
-  }
-
  showDeleteConfirm = (cardId, name) => {
     confirm({
       title: `Are you sure delete ${name} ?`,
@@ -97,7 +79,10 @@ class VendorCard extends React.Component {
               this.props.dispatch(DeleteClub(cardId))
             });
           } else {
-            message.error('Network response was not ok.');
+            response.json().then((data) => {
+              this.setState({ loadingBtn: false });
+              message.error(`${data.errors.message}`);
+            });
           }
         })
         .catch((error) => {
@@ -116,7 +101,16 @@ class VendorCard extends React.Component {
               }, 800)
             });
           } else {
-            message.error('Network response was not ok.');
+            response.json().then((data) => {
+              this.setState({ loadingBtn: false });
+              console.log(data.errors.Code)
+              console.log(data.errors.message)
+              if(data.errors.Code === 34){
+                message.error("Vendor cannot be deleted because there are branches, please delete branches first"); 
+              }else{
+                message.error(`${data.errors.message}`);  
+              }
+            });
           }
         })
         .catch((error) => {

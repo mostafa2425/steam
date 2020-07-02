@@ -105,8 +105,10 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
           );
         });
       } else {
-        message.error('Network response was not ok.');
-        this.setState({loadingBtn : false}) 
+        response.json().then((data) => {
+          this.setState({ loadingBtn: false });
+          message.error(`${data.errors.message}`); 
+        });
       }
     })
     .catch((error) => {

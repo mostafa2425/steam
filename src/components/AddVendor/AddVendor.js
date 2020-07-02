@@ -51,8 +51,10 @@ export default class AddVendor extends Component {
           this.setState({companies, loading : false})
         });
       } else {
-        message.error('Network response was not ok.');
-        this.setState({loading : false})
+        response.json().then((data) => {
+          this.setState({ loading: false });
+          message.error(`${data.errors.message}`); 
+        });
       }
     })
     .catch((error) => {
@@ -67,8 +69,10 @@ export default class AddVendor extends Component {
           this.setState({vendorIndustry, loading : false})
         });
       } else {
-        message.error('Network response was not ok.');
-        this.setState({loading : false})
+        response.json().then((data) => {
+          this.setState({ loading: false });
+          message.error(`${data.errors.message}`); 
+        });
       }
     })
     .catch((error) => {
@@ -108,10 +112,16 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
       body: JSON.stringify(data) 
     })
     .then( (response) => { 
-      console.log(response)
-      this.setState({loadingBtn : false})
-      message.success('vendor added successfully'); 
-      this.formRef.current.resetFields();
+      if(response.ok){
+        this.setState({loadingBtn : false})
+        message.success('vendor added successfully'); 
+        this.formRef.current.resetFields();
+      }else{
+        response.json().then((data) => {
+          this.setState({ loadingBtn: false });
+          message.error(`${data.errors.message}`);  
+        });
+      }
     })
     .catch((error) => {
       this.setState({loadingBtn : false})

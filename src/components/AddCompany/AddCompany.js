@@ -74,7 +74,6 @@ class AddCompany extends Component {
             }
           ).then((response) => {
             if (response.ok) {
-                console.log(response)
                 response.json().then((data) => {
                 let companies = data.model;
                 this.props.dispatch(setCompanyList(companies));
@@ -84,8 +83,10 @@ class AddCompany extends Component {
             }
           }); 
         } else {
-          message.error("Network response was not ok.");
-          this.setState({ loadingBtn: false });
+          response.json().then((data) => {
+            this.setState({ loadingBtn: false });
+            message.error(`${data.errors.message}`); 
+          });
         }
       })
       .catch((error) => {

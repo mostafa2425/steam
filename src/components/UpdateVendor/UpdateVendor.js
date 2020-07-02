@@ -132,11 +132,17 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
       body: JSON.stringify(data) 
     })
     .then( (response) => { 
-      console.log(response)
-      this.setState({loadingBtn : false})
-      message.success('vendor Updated successfully'); 
-      this.props.history.push("/vendors");
-    })
+      if(response.ok){
+        this.setState({loadingBtn : false})
+        message.success('vendor Updated successfully'); 
+        this.props.history.push("/vendors");
+      }else{
+        response.json().then((data) => {
+          this.setState({ loadingBtn: false });
+          message.error(`${data.errors.message}`); 
+        });
+      }
+      })
     .catch((error) => {
       this.setState({loadingBtn : false})
       message.error('There has been a problem with your fetch operation: ' + error.message);
