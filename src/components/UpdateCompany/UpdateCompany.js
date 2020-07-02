@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Form, Input, InputNumber, Button, Select, Switch, message, Spin } from "antd";
+import {
+  Form,
+  Input,
+  InputNumber,
+  Button,
+  Select,
+  Switch,
+  message,
+  Spin,
+} from "antd";
 import { Link } from "react-router-dom";
 import DropdownList from "../DropdownList";
 import UserAvatar from "../../images/avatar.jpg";
@@ -8,22 +17,33 @@ import {
   Container,
   PageContainer,
 } from "./StyledComponents";
+import { setCompanyList } from "../../Dashboard/store/actions";
+import { connect } from "react-redux";
 
-export default class UpdateCompany extends Component {
+class UpdateCompany extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      CompanyStutes : true,
-      loadingBtn : false,
-      loading : true,
-    }
+      CompanyStutes: true,
+      loadingBtn: false,
+      loading: true,
+    };
   }
 
   componentDidMount() {
-    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
+    !JSON.parse(localStorage.getItem("token")) &&
+      this.props.history.push("/login");
 
-    if(this.props.location.data){
-      const {Name, NameLT, Phone, HeadQuarter, Enable, IdentityId,Email } = this.props.location.data;
+    if (this.props.location.data) {
+      const {
+        Name,
+        NameLT,
+        Phone,
+        HeadQuarter,
+        Enable,
+        IdentityId,
+        Email,
+      } = this.props.location.data;
       this.formRef.current.setFieldsValue({
         CompanyName: Name,
         ArabicCompanyName: NameLT,
@@ -31,51 +51,83 @@ export default class UpdateCompany extends Component {
         phone: Phone,
         Location: HeadQuarter,
         CompanyStutes: Enable,
-      })
-      this.setState({CompanyStutes : this.props.location.data.Enable, companyId : this.props.location.data.Id, loading:false })
-    }else{
+      });
+      this.setState({
+        CompanyStutes: this.props.location.data.Enable,
+        companyId: this.props.location.data.Id,
+        loading: false,
+      });
+    } else {
       this.props.history.push("/companies");
     }
   }
-  
+
   formRef = React.createRef();
 
   handelSubmit = (values, errors) => {
-    console.log(errors)
-    this.setState({loadingBtn : true})
-        let data = {
-        "Id": this.state.companyId,
-        "Name":`${values.CompanyName}`,
-        "NameLT":`${values.ArabicCompanyName}`,
-        "Email":`${values.email}`,
-        "Phone":`${values.phone}`,
-        "HeadQuarter":`${values.Location}`,
-        "Enable":this.state.CompanyStutes
-    }
+    console.log(errors);
+    this.setState({ loadingBtn: true });
+    let data = {
+      Id: this.state.companyId,
+      Name: `${values.CompanyName}`,
+      NameLT: `${values.ArabicCompanyName}`,
+      Email: `${values.email}`,
+      Phone: `${values.phone}`,
+      HeadQuarter: `${values.Location}`,
+      Enable: this.state.CompanyStutes,
+    };
 
-    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditCompany", {
-          method: "post",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': JSON.parse(localStorage.getItem("token")),
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      Authorization: JSON.parse(localStorage.getItem("token")),
+    });
 
-          },
-          body: JSON.stringify(data) 
-        })
-        .then((response) => { 
-          message.success('company Updated successfully'); 
-          this.setState({loadingBtn : false})
-          this.props.history.push("/companies");
-        })
-        .catch((error) => {
-          this.setState({loadingBtn : false})
-          message.error('There has been a problem with your fetch operation: ' + error.message);
-        });
+    fetch(
+      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditCompany",
+      {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+        },
+        body: JSON.stringify(data),
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          message.success("company Updated successfully");
+          fetch(
+            "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0",
+            {
+              method: "GET",
+              headers: myHeaders,
+            }
+          ).then((response) => {
+            if (response.ok) {
+              response.json().then((data) => {
+                let companies = data.model;
+                this.props.dispatch(setCompanyList(companies));
+                this.setState({ loadingBtn: false });
+                this.props.history.push("/companies");
+              });
+            }
+          });
+        } else {
+          message.error("Network response was not ok.");
+          this.setState({ loadingBtn: false });
+        }
+      })
+      .catch((error) => {
+        this.setState({ loadingBtn: false });
+        message.error(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+      });
   };
 
   changeCompanyStutes = (value) => {
-    this.setState({CompanyStutes : value})
+    this.setState({ CompanyStutes: value });
   };
 
   render() {
@@ -101,14 +153,24 @@ export default class UpdateCompany extends Component {
                 <Form.Item
                   name="CompanyName"
                   label="Company Name"
-                  rules={[{ required: true, message: "Please input your Company Name!",}]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Company Name!",
+                    },
+                  ]}
                 >
                   <Input />
                 </Form.Item>
                 <Form.Item
                   name="ArabicCompanyName"
                   label="Arabic Company Name"
-                  rules={[{ required: true, message: "Please input your Arabic Company Name!", }]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Arabic Company Name!",
+                    },
+                  ]}
                 >
                   <Input />
                 </Form.Item>
@@ -170,25 +232,32 @@ export default class UpdateCompany extends Component {
                   </Select>
                 </Form.Item>
                 <Form.Item label="Enable" name="CompanyStutes">
-                  <Switch checked={this.state.CompanyStutes} onChange={this.changeCompanyStutes} />
+                  <Switch
+                    checked={this.state.CompanyStutes}
+                    onChange={this.changeCompanyStutes}
+                  />
                 </Form.Item>
                 <div className="btn-action">
                   <Button
                     type="primary"
                     className="primary-fill xlg-btn mr-20"
                     htmlType="submit"
-                    loading = {this.state.loadingBtn}
+                    loading={this.state.loadingBtn}
                   >
                     Update
                   </Button>
-                  <Link to="/companies" className="grayscale-fill xlg-btn">Cancel</Link>
+                  <Link to="/companies" className="grayscale-fill xlg-btn">
+                    Cancel
+                  </Link>
                 </div>
               </Form>
             </div>
-          </div> 
+          </div>
           {/* : <Spin />} */}
         </PageContainer>
       </Container>
     );
   }
 }
+
+export default connect()(UpdateCompany);

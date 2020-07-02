@@ -89,7 +89,7 @@ class AlertsPage extends React.Component {
               to="/add-alert"
               style={{ textDecoration: "none", display: "flex" }}
             >
-              <button className="primary-fill">Add Offer</button> 
+              <button className="primary-fill">Add Alert</button> 
             </Link>
             <DropdownList
               title="user name"

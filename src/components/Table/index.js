@@ -53,7 +53,7 @@ const columns = [
     name: 'Branches Statues',
     selector: 'Type',  
     sortable: true,
-    cell: (values) => <p>{values.Enable ? "true" : "false"}</p>
+    cell: (values) => <p>{values.Enable ? "Active" : "InActive"}</p>
   },
   {
     name: 'Total Orders',

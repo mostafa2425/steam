@@ -82,6 +82,19 @@ class HomePage extends React.Component {
 
   }
 
+  covertTokFormatter = (num) => {
+    if (num >= 1000000000) {
+      return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'G';
+   }
+   if (num >= 1000000) {
+      return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+   }
+   if (num >= 1000) {
+      return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+   }
+   return num;
+  }
+
   render() {
     return (
       <Container className="dashboard-wrapper">
@@ -99,17 +112,17 @@ class HomePage extends React.Component {
             <SmallCard
               title="Total Sales"
               image={Profit}
-              number={`${this.state.dashboard ? this.state.dashboard.DashBoardStatistics.TotalSales : 0} SR`}
+              number={`${this.state.dashboard ?  this.covertTokFormatter(this.state.dashboard.DashBoardStatistics.TotalSales) : 0} SR`}
             />
             <SmallCard
               title="Total Orders"
               image={Orders}
-              number={`${this.state.dashboard ? this.state.dashboard.DashBoardStatistics.TotalOrders : 0}`}
+              number={`${this.state.dashboard ? this.covertTokFormatter(this.state.dashboard.DashBoardStatistics.TotalOrders) : 0}`}
             />
             <SmallCard 
               title="Total Users"
               image={placeholderImage}
-              number={`${this.state.dashboard ? this.state.dashboard.DashBoardStatistics.TotalUsers : 0}`}
+              number={`${this.state.dashboard ? this.covertTokFormatter(this.state.dashboard.DashBoardStatistics.TotalUsers) : 0}`}
             />
             <SmallCard
               title="Active User"
@@ -128,7 +141,7 @@ class HomePage extends React.Component {
           </PageSection>
           <PageSection className="top-venor-holder">
             <TopCard data={this.state.dashboard && this.state.dashboard.TopClubs} title="Top Club By Revenue" type="club" />
-            <TopCard data={this.state.dashboard && this.state.dashboard.TopVendors} title="Top Venors By Revenue" type="Venor" />
+            <TopCard data={this.state.dashboard && this.state.dashboard.TopVendors} title="Top Vendors By Revenue" type="Venor" />
           </PageSection>
           </>
           : <Spin />}

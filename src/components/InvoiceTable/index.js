@@ -66,13 +66,13 @@ const columns = [
     name: 'Type',
     selector: 'Type',
     sortable: true,
-    cell: (values) => <p>{values.Type ? "true" : "false"}</p>
+    cell: (values) => <p>{values.Type ? "online" : "physical"}</p>
   },
   {
     name: 'Statues',
     selector: 'Enable',
     sortable: true,
-    cell: (values) => <p>{values.Status ? "true" : "false"}</p>
+    cell: (values) => <p>{values.Status ? "Active" : "InActive"}</p>
   },
   {
     name: 'Actions',

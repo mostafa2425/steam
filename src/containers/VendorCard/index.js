@@ -26,7 +26,7 @@ import {
 } from './StyledComponents';
 import { Menu, Dropdown, message, Modal } from 'antd';
 import { SettingOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { DeleteClub } from '../../Dashboard/store/actions';
+import { DeleteClub, DeleteCompany } from '../../Dashboard/store/actions';
 import { connect } from 'react-redux';
 const { confirm } = Modal;
 class VendorCard extends React.Component {
@@ -72,21 +72,16 @@ class VendorCard extends React.Component {
         if(this.props.isCompany){
         fetch(`https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/DeleteCompany?CompanyId=${cardId}`)
         .then((response) => {
-          console.log(response)
           if(response.ok) {
             response.json().then((data) => {
               message.success('company deleted successfully'); 
-              setTimeout(() => {
-                window.location.reload();
-              }, 800)
-              
+              this.props.dispatch(DeleteCompany(cardId))
             });
           } else {
-            if(response.status === 400){
-              message.warning(`can't delete ${name} beacuse it has active venodrs, Please delete Vendors first`);
-            }else{
-              message.error('Network response was not ok.');
-            }
+            response.json().then((data) => {
+              this.setState({ loadingBtn: false });
+              message.error(`${data.errors.message}`);
+            });
           }
         })
         .catch((error) => {
@@ -100,10 +95,6 @@ class VendorCard extends React.Component {
             response.json().then((data) => {
               message.success('club deleted successfully'); 
               this.props.dispatch(DeleteClub(cardId))
-              // setTimeout(() => {
-              //   window.location.reload();
-              // }, 800)
-              
             });
           } else {
             message.error('Network response was not ok.');
@@ -123,7 +114,6 @@ class VendorCard extends React.Component {
               setTimeout(() => {
                 window.location.reload();
               }, 800)
-              
             });
           } else {
             message.error('Network response was not ok.');
@@ -138,6 +128,18 @@ class VendorCard extends React.Component {
     });
   }
 
+  covertTokFormatter = (num) => {
+    if (num >= 1000000000) {
+      return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'G';
+   }
+   if (num >= 1000000) {
+      return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+   }
+   if (num >= 1000) {
+      return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+   }
+   return num;
+  }
  
   render() {    
     const { image, name, link, fans, location, to, phone, status, email, HeadQuarter, isCompany, cardId, editLink, league, activeUser } = this.props;
@@ -171,7 +173,7 @@ class VendorCard extends React.Component {
           <FansContiner>
             <FansImage src={Fans} alt="fans" />
             <FansTextContainer>
-              <FansNumber>{Math.abs(activeUser) > 999 ? Math.sign(activeUser)*((Math.abs(activeUser)/1000).toFixed(1)) + 'k' : Math.sign(activeUser)*Math.abs(activeUser)}</FansNumber>
+              <FansNumber>{this.covertTokFormatter(activeUser)}</FansNumber>
               <FansText>Active Users</FansText>
             </FansTextContainer>
           </FansContiner>

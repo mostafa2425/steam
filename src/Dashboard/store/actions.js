@@ -3,6 +3,8 @@ import {
     ADD_BRANCH,
     SET_CLUBS,
     DELETE_CLUB,
+    SET_CCOMPANY,
+    DELETE_CCOMPANY,
 } from './action-types'
 
 
@@ -20,9 +22,23 @@ export function setClubsList(payload) {
     }
 }
 
+export function setCompanyList(payload) {
+    return {
+        type: SET_CCOMPANY,
+        payload
+    }
+}
+
 export function DeleteClub(payload) {
     return {
         type: DELETE_CLUB,
+        payload
+    }
+}
+
+export function DeleteCompany(payload) {
+    return {
+        type: DELETE_CCOMPANY,
         payload
     }
 }

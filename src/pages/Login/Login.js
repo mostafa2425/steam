@@ -58,7 +58,7 @@ export default class Login extends Component {
               onFinish={this.handeSubmit}
             >
               <Form.Item
-                label="Email/Username"
+                label="Email / Username"
                 name="username"
                 rules={[
                   {
@@ -67,7 +67,7 @@ export default class Login extends Component {
                   },
                 ]}
               >
-                <Input placeholder="please Enter Your E-Mail" />
+                <Input />
               </Form.Item>
 
               <Form.Item
@@ -80,7 +80,7 @@ export default class Login extends Component {
                   },
                 ]}
               >
-                <Input.Password placeholder="please Enter Your Password" />
+                <Input.Password />
               </Form.Item>
               <div className="login-btn">
                 <Form.Item>

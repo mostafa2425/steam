@@ -72,7 +72,7 @@ class PrintPage extends React.Component {
                 <p>
                   <Headers>INVOICE NO.</Headers>
                   <br/>
-                  <HeadersContent>00001</HeadersContent>
+                  <HeadersContent>{ data && data.Id }</HeadersContent>
                 </p>
                 <p>
                   <Headers>INVOICE TO.</Headers>
@@ -90,15 +90,15 @@ class PrintPage extends React.Component {
               </PageSection>
               <PageSection>
                 <ElementText>Order Commission</ElementText>
-                <GreenText>SAR {data && data.CommissionAmount}</GreenText>
+                <GreenText> {data && data.CommissionAmount} SR</GreenText>
               </PageSection>
               <PageSection>
                 <ElementText>Alerts</ElementText>
-                <GreenText>SAR {data && data.AlertAmount}</GreenText>
+                <GreenText> {data && data.AlertAmount} SR</GreenText>
               </PageSection>
               <PageSection>
                 <ElementText>Offers</ElementText>
-                <GreenText>SAR {data && data.OfferAmount}</GreenText>
+                <GreenText> {data && data.OfferAmount} SR</GreenText>
               </PageSection>
               <PageSection style={{ borderTop: '1px solid #ececec', marginTop: '150px' }} >
                 <p>
@@ -114,7 +114,7 @@ class PrintPage extends React.Component {
                 <p>
                   <Headers>TOTAL AMOUNT</Headers>
                   <br/>
-                  <GreenText>SAR {data && data.OfferAmount + data.AlertAmount + data.CommissionAmount}</GreenText>
+                  <GreenText> {data && data.OfferAmount + data.AlertAmount + data.CommissionAmount} SR</GreenText>
                 </p>
               </PageSection>
             </ContentContaine>

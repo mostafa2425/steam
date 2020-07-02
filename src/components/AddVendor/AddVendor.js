@@ -27,7 +27,8 @@ export default class AddVendor extends Component {
       imageUrl : null,
       companies : null,
       vendorIndustry : null,
-      companyVendorId : null
+      companyVendorId : null,
+      FileList : []
     }
   }
 
@@ -122,10 +123,6 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     this.setState({vendorStutes : value})
   };
 
-  // handleChangeCompany = (value) => {
-  //   this.setState({vendorStutes : value})
-  // };
-
   onChangeimg = (info) => {
     if (info.file.status !== 'uploading') {
       console.log(info.file, info.fileList);
@@ -138,6 +135,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
         this.setState({
           imageUrl : imageUrlpng,
           loading: false,
+          selectedFiles: info.fileList
         })
       }
         
@@ -148,13 +146,15 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     }
   };
 
-  beforeUpload = (file) => {
+  beforeUpload = (file, fileList) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === "image/jpg";
     if (!isJpgOrPng) {
       message.error('You can only upload JPG/PNG file!');
+      // this.setState({ selectedFiles: fileList })
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
+      // this.setState({ selectedFiles: fileList })
       message.error('Image must smaller than 2MB!');
     }
     return isJpgOrPng && isLt2M;
@@ -220,6 +220,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 >
                   <Upload onChange={this.onChangeimg}  
                       name ='file'
+                      // defaultFileList={this.state.FileList}
                       action = 'https://www.mocky.io/v2/5cc8019d300000980a055e76'
                       beforeUpload={this.beforeUpload}> 
                   <Button>

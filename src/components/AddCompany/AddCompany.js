@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Form, Input, InputNumber, Button, Select, Switch, message } from "antd";
+import {
+  Form,
+  Input,
+  InputNumber,
+  Button,
+  Select,
+  Switch,
+  message,
+} from "antd";
 import { Link } from "react-router-dom";
 import DropdownList from "../../components/DropdownList";
 import UserAvatar from "../../images/avatar.jpg";
@@ -8,56 +16,88 @@ import {
   Container,
   PageContainer,
 } from "./StyledComponents";
-import axios from 'axios';
+import axios from "axios";
+import { setCompanyList } from "../../Dashboard/store/actions";
+import { connect } from "react-redux";
 
-export default class AddCompany extends Component {
+class AddCompany extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      CompanyStutes : true,
-      loadingBtn : false,
-    }
+      CompanyStutes: true,
+      loadingBtn: false,
+    };
   }
 
   formRef = React.createRef();
 
   componentDidMount() {
-    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
-    
+    !JSON.parse(localStorage.getItem("token")) &&
+      this.props.history.push("/login");
   }
-  
-  handelSubmit = (values, errors) => {
-    this.setState({loadingBtn : true})
-        let data = {
-        "Name":`${values.CompanyName}`,
-        "NameLT":`${values.ArabicCompanyName}`,
-        "Email":`${values.email}`,
-        "Phone":`${values.phone}`,
-        "HeadQuarter":`${values.Location}`,
-        "Enable":this.state.CompanyStutes
-    }
 
-    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddCompany", {
-          method: "post",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data) 
-        })
-        .then( (response) => { 
-          this.setState({loadingBtn : false})
-          message.success('company added successfully'); 
-          this.formRef.current.resetFields();
-        })
-        .catch((error) => {
-          this.setState({loadingBtn : false})
-          message.error('There has been a problem with your fetch operation: ' + error.message);
-        });
+  handelSubmit = (values, errors) => {
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      Authorization: JSON.parse(localStorage.getItem("token")),
+    });
+    
+    this.setState({ loadingBtn: true });
+    let data = {
+      Name: `${values.CompanyName}`,
+      NameLT: `${values.ArabicCompanyName}`,
+      Email: `${values.email}`,
+      Phone: `${values.phone}`,
+      HeadQuarter: `${values.Location}`,
+      Enable: this.state.CompanyStutes,
+    };
+
+    fetch(
+      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddCompany",
+      {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          message.success("company added successfully");
+          fetch(
+            "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0",
+            {
+              method: "GET",
+              headers: myHeaders,
+            }
+          ).then((response) => {
+            if (response.ok) {
+                console.log(response)
+                response.json().then((data) => {
+                let companies = data.model;
+                this.props.dispatch(setCompanyList(companies));
+                this.formRef.current.resetFields();
+                this.setState({ loadingBtn: false });
+              });
+            }
+          }); 
+        } else {
+          message.error("Network response was not ok.");
+          this.setState({ loadingBtn: false });
+        }
+      })
+      .catch((error) => {
+        this.setState({ loadingBtn: false });
+        message.error(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+      });
   };
 
   changeCompanyStutes = (value) => {
-    this.setState({CompanyStutes : value})
+    this.setState({ CompanyStutes: value });
   };
 
   render() {
@@ -82,14 +122,24 @@ export default class AddCompany extends Component {
                 <Form.Item
                   name="CompanyName"
                   label="Company Name"
-                  rules={[{ required: true, message: "Please input your Company Name!",}]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Company Name!",
+                    },
+                  ]}
                 >
                   <Input />
                 </Form.Item>
                 <Form.Item
                   name="ArabicCompanyName"
                   label="Arabic Company Name"
-                  rules={[{ required: true, message: "Please input your Arabic Company Name!", }]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Arabic Company Name!",
+                    },
+                  ]}
                 >
                   <Input />
                 </Form.Item>
@@ -158,11 +208,13 @@ export default class AddCompany extends Component {
                     type="primary"
                     className="primary-fill xlg-btn mr-20"
                     htmlType="submit"
-                    loading = {this.state.loadingBtn}
+                    loading={this.state.loadingBtn}
                   >
                     Submit
                   </Button>
-                  <Link to="/companies" className="grayscale-fill xlg-btn">Cancel</Link>
+                  <Link to="/companies" className="grayscale-fill xlg-btn">
+                    Cancel
+                  </Link>
                 </div>
               </Form>
             </div>
@@ -172,3 +224,5 @@ export default class AddCompany extends Component {
     );
   }
 }
+
+export default connect()(AddCompany);

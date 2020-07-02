@@ -839,6 +839,10 @@ ul::-webkit-scrollbar-thumb,
   min-height: 75vh;
 }
 
+.invoice-page-wrapper p {
+  margin-bottom: 0;
+}
+
 .invoice-page-wrapper > .ant-select-single ~ div > header {
   display: none;
 }
@@ -1136,8 +1140,8 @@ ul::-webkit-scrollbar-thumb,
 }
 
 .auth-wrapper .auth-content {
-  width: 80%;
-  max-width: 1000px;
+  width: 85%;
+  max-width: 1250px;
   height: 70%;
   display: flex;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
@@ -1156,7 +1160,32 @@ ul::-webkit-scrollbar-thumb,
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 60px 40px;
+  padding: 110px 50px;
+}
+
+.auth-wrapper .form-wrapper .primary-fill {
+  padding: 0 34px;
+}
+
+.auth-wrapper .form-wrapper .ant-form-item-label > label {
+  color: #d7d7d7;
+  height: 20px;
+}
+
+.auth-wrapper .form-wrapper .ant-form-item-label > label.ant-form-item-required::before {
+  display: none;
+}
+
+.auth-wrapper .form-wrapper .ant-input,
+.auth-wrapper .form-wrapper .ant-input-affix-wrapper {
+  background-color: #f2f3f8;
+  border: 0;
+  width: 80%;
+  height: 40px;
+}
+
+.auth-wrapper .form-wrapper .ant-input-affix-wrapper .ant-input {
+  height: 100%;
 }
 
 @media only screen and (max-width: 991px) {
@@ -1186,6 +1215,7 @@ ul::-webkit-scrollbar-thumb,
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-bottom: 10px;
 }
 
 .auth-wrapper .form-wrapper .ant-form-item .ant-form-item-control {
@@ -1208,6 +1238,7 @@ ul::-webkit-scrollbar-thumb,
 .auth-wrapper .login-btn {
   display: flex;
   align-items: center;
+  margin-top: 25px;
 }
 
 .auth-wrapper .login-btn .ant-form-item {

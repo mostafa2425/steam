@@ -29,7 +29,7 @@ class ProfileDashboardPage extends React.Component {
     this.state = {
       clubId: null,
       clubInfo: null,
-      loading: false,
+      loading: true, 
       orderCount: null,
       orderDay: null,
     };
@@ -77,6 +77,20 @@ class ProfileDashboardPage extends React.Component {
         });
     }
   }
+
+  covertTokFormatter = (num) => {
+    if (num >= 1000000000) {
+      return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'G';
+   }
+   if (num >= 1000000) {
+      return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+   }
+   if (num >= 1000) {
+      return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+   }
+   return num;
+  }
+
   render() {
     const clubInfo = this.state.clubInfo;
     return (
@@ -107,7 +121,7 @@ class ProfileDashboardPage extends React.Component {
                 <SmallCard
                   title="Total Orders"
                   image={Orders}
-                  number={clubInfo && clubInfo.TotalOrders}
+                  number={clubInfo && clubInfo.TotalOrders ?  this.covertTokFormatter(clubInfo.TotalOrders) : 0 }
                   transparent
                 />
                 <SmallCard
@@ -115,7 +129,7 @@ class ProfileDashboardPage extends React.Component {
                   image={Profit}
                   number={
                     clubInfo &&
-                    `${clubInfo.TotalProfit ? clubInfo.TotalProfit : 0} K`
+                    `${clubInfo.TotalProfit ? this.covertTokFormatter(clubInfo.TotalProfit) : 0}`
                   }
                   transparent
                 />
@@ -124,7 +138,7 @@ class ProfileDashboardPage extends React.Component {
                   image={placeholderImage}
                   number={
                     clubInfo &&
-                    `${clubInfo.ActiveUsers ? clubInfo.ActiveUsers : 0} K`
+                    `${clubInfo.ActiveUsers ? this.covertTokFormatter(clubInfo.ActiveUsers) : 0}`
                   }
                   transparent
                 />

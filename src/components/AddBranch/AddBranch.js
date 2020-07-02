@@ -150,9 +150,16 @@ export default class AddBranch extends Component {
       body: JSON.stringify(data),
     })
       .then((response) => {
-        this.setState({ loadingBtn: false });
-        message.success("branch added successfully");
-        this.formRef.current.resetFields();
+        if(response.ok){
+          this.setState({ loadingBtn: false });
+          message.success("branch added successfully");
+          this.formRef.current.resetFields();
+        }else{
+          response.json().then((data) => {
+            this.setState({ loadingBtn: false });
+            message.error(`${data.errors.message}`); 
+          });
+        }
       })
       .catch((error) => {
         this.setState({ loadingBtn: false });
@@ -376,7 +383,7 @@ export default class AddBranch extends Component {
                 >
                   <Input.Password />
                 </Form.Item>
-
+                  
                 <div className="btn-action">
                   <Button
                     type="primary"
@@ -386,7 +393,7 @@ export default class AddBranch extends Component {
                   >
                     Submit
                   </Button>
-                  <Button className="grayscale-fill xlg-btn">Cancel</Button>
+                  <Link to="/vendors" className="grayscale-fill xlg-btn">Cancel</Link>
                 </div>
               </Form>
             </div>

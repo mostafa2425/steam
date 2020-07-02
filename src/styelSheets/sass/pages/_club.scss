@@ -259,6 +259,9 @@
   margin: 0 30px !important;
   margin-bottom: 100px !important; 
   min-height: 75vh;
+  p{
+    margin-bottom: 0;
+  }
   > .ant-select-single{
     & ~ div{
       > header{

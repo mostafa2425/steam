@@ -90,8 +90,8 @@ export default class UpdateBranch extends Component {
           password : Password,
           confirm : ConfirmPassword,
         })
-        this.setState({Enable : Enable, VendorId ,branchId : Id, branchType : Type}) 
-      }else{
+        this.setState({Enable : Enable, branchStutes : Enable, VendorId ,branchId : Id, branchType : Type}) 
+      }else{ 
         this.props.history.push("/vendors");
       }
     }

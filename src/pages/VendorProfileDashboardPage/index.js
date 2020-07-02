@@ -33,6 +33,7 @@ class VendorProfileDashboardPage extends React.Component {
       branches: [],
       vendorId: null,
       VendorInfo: null,
+      loading : true,
     };
   }
   componentDidMount() {
@@ -78,6 +79,19 @@ class VendorProfileDashboardPage extends React.Component {
       // this.setState({ branches : filterdBranches})
     }
   }
+  covertTokFormatter = (num) => {
+    if (num >= 1000000000) {
+      return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'G';
+   }
+   if (num >= 1000000) {
+      return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+   }
+   if (num >= 1000) {
+      return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+   }
+   return num;
+  }
+
   render() {
     return (
       <Container>
@@ -126,7 +140,7 @@ class VendorProfileDashboardPage extends React.Component {
                   title="Total Orders"
                   image={Orders}
                   number={
-                    this.state.VendorInfo && this.state.VendorInfo.TotalOrders
+                    this.state.VendorInfo && this.covertTokFormatter(this.state.VendorInfo.TotalOrders)  
                   }
                   transparent
                 />
@@ -134,7 +148,7 @@ class VendorProfileDashboardPage extends React.Component {
                   title="Amount due"
                   image={Profit}
                   number={
-                    this.state.VendorInfo && this.state.VendorInfo.TotalAmount
+                    this.state.VendorInfo && this.covertTokFormatter(this.state.VendorInfo.TotalAmount) 
                   }
                   transparent
                 />
@@ -142,17 +156,17 @@ class VendorProfileDashboardPage extends React.Component {
                   title="invoices"
                   image={Invouces}
                   number={
-                    this.state.VendorInfo && this.state.VendorInfo.TotalInvoices
+                    this.state.VendorInfo && this.covertTokFormatter(this.state.VendorInfo.TotalInvoices) 
                   }
                   transparent
                   isInvoice
                 />
                 <SmallCard
-                  title="Active Beanches"
+                  title="Active Branches"
                   image={Active}
                   number={
-                    this.state.VendorInfo &&
-                    this.state.VendorInfo.ActiveBranchesCount
+                    this.state.VendorInfo && this.covertTokFormatter(this.state.VendorInfo.ActiveBranchesCount)
+                    
                   }
                   transparent
                 />

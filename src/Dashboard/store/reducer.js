@@ -6,6 +6,8 @@ import {
     ADD_BRANCH,
     SET_CLUBS,
     DELETE_CLUB,
+    DELETE_CCOMPANY,
+    SET_CCOMPANY,
 } from "./action-types";
 
 /**
@@ -14,6 +16,7 @@ import {
 const initialState = {
     branchesList: [],
     clubsList: [],
+    CompanyList: [],
 };  
 
 
@@ -30,8 +33,12 @@ const reducer = (state = initialState, {type, payload = null}) => {
             return setBranchesList(state, payload)
         case SET_CLUBS: 
             return setClubsList(state, payload)
+        case SET_CCOMPANY: 
+            return setCompanyList(state, payload)
         case DELETE_CLUB: 
             return deleteClub(state, payload)
+        case DELETE_CCOMPANY: 
+            return deleteCompany(state, payload)
         case ADD_BRANCH: 
             return addBranch(state, payload)
         default:
@@ -58,9 +65,21 @@ function setClubsList(state, payload){
     }
 }
 
+function setCompanyList(state, payload){
+    return {
+        ...state, CompanyList: payload
+    }
+}
+
 function deleteClub(state, payload){
     return {
         ...state, clubsList: [...state.clubsList].filter(club => club.Id !== payload)
+    }
+}
+
+function deleteCompany(state, payload){
+    return {
+        ...state, CompanyList: [...state.CompanyList].filter(company => company.Id !== payload)
     }
 }
 
