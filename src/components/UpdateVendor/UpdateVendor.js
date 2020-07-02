@@ -48,12 +48,11 @@ export default class UpdateVendor extends Component {
         email: Email,
         phone: Phone,
         VendorDescription: Description,
-        CompanyStutes: Enable,
         Commission : Percentage,
         password : Password,
         confirm : ConfirmPassword, 
       })
-      this.setState({CompanyStutes : this.props.location.data.Enable, vendorID : Id })
+      this.setState({vendorStutes : this.props.location.data.Enable, vendorID : Id })
     }else{
       this.props.history.push("/vendors");
     }

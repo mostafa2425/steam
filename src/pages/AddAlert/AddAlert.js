@@ -60,7 +60,7 @@ class AddAlert extends Component {
       StartDate: this.state.StartDate,
       TotalCost: values.TotalCost,
       BannerImage: this.state.imageUrl,
-      Time: values.Time,
+      // Time: values.Time,
     };
     if (!this.state.isSelectAllClubs) {
       data.ClubId = values.ClubName;
@@ -129,8 +129,10 @@ class AddAlert extends Component {
               this.props.dispatch(setClubsList(clubs));
             });
           } else {
-            message.error("Network response was not ok.");
-            this.setState({ loading: false });
+           response.json().then((data) => {
+            this.setState({ loadingBtn: false });
+            message.error(`${data.errors.message}`); 
+          });
           }
         })
         .catch((error) => {
@@ -241,18 +243,18 @@ class AddAlert extends Component {
                       placeholder="select Club"
                     >
                       <>
+                      <Select.Option
+                          style={{ fontWeight: "bold" }}
+                          value="all"
+                        >
+                          All Clubs
+                        </Select.Option>
                         {this.state.clubs &&
                           this.state.clubs.map((club) => (
                             <Select.Option value={`${club.Id}`}>
                               {club.Name}
                             </Select.Option>
                           ))}
-                        <Select.Option
-                          style={{ fontWeight: "bold" }}
-                          value="all"
-                        >
-                          All Clubs
-                        </Select.Option>
                       </>
                     </Select>
                   </Form.Item>
@@ -276,7 +278,7 @@ class AddAlert extends Component {
                     </Select>
                   </Form.Item>
 
-                  <Form.Item name="rangepicker" label="RangePicker">
+                  <Form.Item name="rangepicker" label="Alert date & time">
                     <DatePicker
                       showTime={{ format: "HH:mm" }}
                       disabledDate={disabledDate}
@@ -299,7 +301,7 @@ class AddAlert extends Component {
                       style={{ width: "100%" }}
                     />
                   </Form.Item>
-                  <Form.Item
+                  {/* <Form.Item
                     name="Time"
                     label="Alert Time"
                     rules={[
@@ -313,7 +315,7 @@ class AddAlert extends Component {
                       placeholder="Please add Alert Time"
                       style={{ width: "100%" }}
                     />
-                  </Form.Item>
+                  </Form.Item> */}
 
                   <Form.Item
                     name="OfferDescription"
@@ -356,7 +358,7 @@ class AddAlert extends Component {
                     >
                       Submit
                     </Button>
-                    <Link to="/Offers" className="grayscale-fill xlg-btn">
+                    <Link to="/alerts" className="grayscale-fill xlg-btn"> 
                       Cancel
                     </Link>
                   </div>

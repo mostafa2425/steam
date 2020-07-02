@@ -87,10 +87,16 @@ class AddOffer extends Component {
       body: JSON.stringify(data),
     })
       .then((response) => {
-        console.log(response);
-        this.setState({ loadingBtn: false });
-        message.success("offer added successfully");
-        this.formRef.current.resetFields();
+        if(response.ok){
+          this.setState({ loadingBtn: false });
+          message.success("offer added successfully");
+          this.formRef.current.resetFields();
+        }else{
+          response.json().then((data) => {
+            this.setState({ loadingBtn: false });
+            message.error(`${data.errors.message}`); 
+          });
+        }
       })
       .catch((error) => {
         this.setState({ loadingBtn: false });
@@ -118,8 +124,10 @@ class AddOffer extends Component {
             this.setState({ vendors, loading: false });
           });
         } else {
-          message.error("Network response was not ok.");
-          this.setState({ loading: false });
+            response.json().then((data) => {
+            this.setState({ loadingBtn: false });
+            message.error(`${data.errors.message}`); 
+          });
         }
       })
       .catch((error) => {
@@ -141,8 +149,10 @@ class AddOffer extends Component {
               this.props.dispatch(setClubsList(clubs));
             });
           } else {
-            message.error("Network response was not ok.");
-            this.setState({ loading: false });
+            response.json().then((data) => {
+              this.setState({ loadingBtn: false });
+              message.error(`${data.errors.message}`); 
+            });
           }
         })
         .catch((error) => {
@@ -249,18 +259,19 @@ class AddOffer extends Component {
                       placeholder="select Club"
                     >
                       <>
+                      <Select.Option
+                          style={{ fontWeight: "bold" }}
+                          value="all"
+                        >
+                          All Clubs
+                        </Select.Option>
                         {this.state.clubs &&
                           this.state.clubs.map((club, i) => (
                             <Select.Option key={i} value={`${club.Id}`}>
                               {club.Name}
                             </Select.Option>
                           ))}
-                        <Select.Option
-                          style={{ fontWeight: "bold" }}
-                          value="all"
-                        >
-                          All Clubs
-                        </Select.Option>
+                        
                       </>
                     </Select>
                   </Form.Item>
@@ -349,7 +360,7 @@ class AddOffer extends Component {
                     >
                       Submit
                     </Button>
-                    <Link to="/alerts" className="grayscale-fill xlg-btn">
+                    <Link to="/Offers" className="grayscale-fill xlg-btn">
                       Cancel
                     </Link>
                   </div>

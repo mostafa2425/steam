@@ -91,7 +91,7 @@ class UpdateAlert extends Component {
                       TotalCost: TotalCost ? TotalCost.toFixed(2) : 0,
                       OfferDescription: title, 
                       OfferDescriptionAr: titleAr,
-                      Time: Time,
+                      // Time: Time,
                     });
                     this.setState({ loading: false });
                   }, 1000);
@@ -163,7 +163,7 @@ class UpdateAlert extends Component {
       StartDate: this.state.StartDate,
       TotalCost: values.TotalCost ? values.TotalCost : 0,
       BannerImage: this.state.imageUrl,
-      Time : values.Time
+      // Time : values.Time
     };
     fetch(
       "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/EditAlert",
@@ -243,7 +243,10 @@ class UpdateAlert extends Component {
                 this.props.history.push("/alerts");
               });
             } else {
-              message.error("Network response was not ok.");
+              response.json().then((data) => {
+                this.setState({ loadingBtn: false });
+                message.error(`${data.errors.message}`); 
+              });
             }
           })
           .catch((error) => {
@@ -337,7 +340,7 @@ class UpdateAlert extends Component {
                         ))}
                     </Select>
                   </Form.Item>
-                  <Form.Item name="rangepicker" label="RangePicker">
+                  <Form.Item name="rangepicker" label="Alert date & time">
                     <DatePicker
                       showTime={{ format: "HH:mm" }}
                       disabledDate={disabledDate}
@@ -359,7 +362,7 @@ class UpdateAlert extends Component {
                   <InputNumber style={{ width: "100%" }} /> 
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                   name="Time"
                   label="Alert Time"
                   rules={[ 
@@ -370,7 +373,7 @@ class UpdateAlert extends Component {
                   ]}
                 >
                   <InputNumber placeholder="Please add Alert Time" style={{ width: "100%" }} /> 
-                </Form.Item>
+                </Form.Item> */}
 
                   <Form.Item
                     name="OfferDescription"

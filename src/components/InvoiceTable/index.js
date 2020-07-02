@@ -91,7 +91,8 @@ class InvoiceTable extends React.Component {
     this.state = {
       branches : [],
       vendors : [],
-      isFilterd : false
+      isFilterd : false,
+      loading : true
     }
   }
   componentDidMount() {
@@ -101,7 +102,32 @@ class InvoiceTable extends React.Component {
         if(response.ok) {
           response.json().then((data) => {
             let vendors = data.model;
-            this.setState({vendors, loading : false})
+            this.setState({vendors, loading : false}, () => {
+              if(!this.props.brnachesList.length > 0){
+                fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetAllInvoices?Page=0').then((response) => {
+                  if(response.ok) {
+                    response.json().then((data) => {
+                      let branches = data.model;
+                      this.setState({branches, loading : false}, () => {
+                        if(this.props.vendorId){
+                          this.onChangeVendor(this.props.vendorId)
+                        }
+                      })
+                      // this.props.dispatch(setBranchesList(branches)) 
+                    });
+                  } else {
+                    message.error('Network response was not ok.');
+                    this.setState({loading : false})
+                  }
+                })
+                .catch((error) => {
+                  this.setState({loading : false})
+                  message.error('There has been a problem with your fetch operation: ' + error.message);
+                });
+              }else{
+                this.setState({branches : this.props.brnachesList, loading : false})
+              }
+            })
           });
         } else {
           message.error('Network response was not ok.');
@@ -113,27 +139,6 @@ class InvoiceTable extends React.Component {
         message.error('There has been a problem with your fetch operation: ' + error.message);
       });
   }
-  
-    if(!this.props.brnachesList.length > 0){
-      fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetAllInvoices?Page=0').then((response) => {
-        if(response.ok) {
-          response.json().then((data) => {
-            let branches = data.model;
-            this.setState({branches, loading : false})
-            // this.props.dispatch(setBranchesList(branches)) 
-          });
-        } else {
-          message.error('Network response was not ok.');
-          this.setState({loading : false})
-        }
-      })
-      .catch((error) => {
-        this.setState({loading : false})
-        message.error('There has been a problem with your fetch operation: ' + error.message);
-      });
-    }else{
-      this.setState({branches : this.props.brnachesList, loading : false})
-    }
 
   }
 
@@ -157,8 +162,8 @@ class InvoiceTable extends React.Component {
         <>
         {
         this.props.isInvoices && 
-          <Select onChange={this.onChangeVendor} size="large" style={{width : "280px"}} placeholder="filter by vendor">
-          {this.state.vendors && this.state.vendors.map(vendor => <Select.Option value={`${vendor.Id}`}>{vendor.Name}</Select.Option>)}
+          <Select onChange={this.onChangeVendor} defaultValue={this.props.vendorId && this.props.vendorId} size="large" style={{width : "280px"}} placeholder="filter by vendor">
+          {this.state.vendors && this.state.vendors.map(vendor => <Select.Option value={vendor.Id}>{vendor.Name}</Select.Option>)}
         </Select>
         }
         <h3>invoices</h3>

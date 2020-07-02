@@ -129,8 +129,10 @@ class UpdateOffer extends Component {
                 this.props.dispatch(setClubsList(clubs));
               });
             } else {
-              message.error("Network response was not ok.");
-              this.setState({ loading: false });
+              response.json().then((data) => {
+                this.setState({ loadingBtn: false });
+                message.error(`${data.errors.message}`); 
+              });
             }
           })
           .catch((error) => {
@@ -181,9 +183,16 @@ class UpdateOffer extends Component {
       body: JSON.stringify(data),
     })
       .then((response) => {
-        this.setState({ loadingBtn: false });
-        message.success("offer update successfully");
-        this.props.history.push("/Offers");
+        if(response.ok){
+          this.setState({ loadingBtn: false });
+          message.success("offer update successfully");
+          this.props.history.push("/Offers");
+        }else{
+          response.json().then((data) => {
+            this.setState({ loadingBtn: false });
+            message.error(`${data.errors.message}`); 
+          });
+        }
       })
       .catch((error) => {
         this.setState({ loadingBtn: false });

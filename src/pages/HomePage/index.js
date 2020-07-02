@@ -140,7 +140,7 @@ class HomePage extends React.Component {
             />
           </PageSection>
           <PageSection className="top-venor-holder">
-            <TopCard data={this.state.dashboard && this.state.dashboard.TopClubs} title="Top Club By Revenue" type="club" />
+            <TopCard data={this.state.dashboard && this.state.dashboard.TopClubs} title="Top Clubs By Revenue" type="club" />
             <TopCard data={this.state.dashboard && this.state.dashboard.TopVendors} title="Top Vendors By Revenue" type="Venor" />
           </PageSection>
           </>

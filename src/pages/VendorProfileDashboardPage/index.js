@@ -160,6 +160,7 @@ class VendorProfileDashboardPage extends React.Component {
                   }
                   transparent
                   isInvoice
+                  vendorId={this.state.vendorId && this.state.vendorId}
                 />
                 <SmallCard
                   title="Active Branches"
