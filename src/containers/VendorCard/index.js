@@ -103,8 +103,6 @@ class VendorCard extends React.Component {
           } else {
             response.json().then((data) => {
               this.setState({ loadingBtn: false });
-              console.log(data.errors.Code)
-              console.log(data.errors.message)
               if(data.errors.Code === 34){
                 message.error("Vendor cannot be deleted because there are branches, please delete branches first"); 
               }else{

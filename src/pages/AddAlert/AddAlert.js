@@ -24,7 +24,7 @@ import { setClubsList } from "../../Dashboard/store/actions";
 import { connect } from "react-redux";
 const { TextArea } = Input;
 function disabledDate(current) {
-  return current && current < moment().endOf("day");
+  return current && current < moment().add(-1, 'days');
 }
 function getBase64(img, callback) {
   const reader = new FileReader();

@@ -49,7 +49,7 @@ class UpdateOffer extends Component {
       Id: null,
       isSelectAllClubs: false,
     };
-    this.formRef = React.createRef();
+    this.formRef = React.createRef(); 
   }
 
   componentDidMount() {
@@ -72,8 +72,6 @@ class UpdateOffer extends Component {
       } = this.props.history.location.data;
       let startDate = moment(start, "DD-MM-YYYY HH:mm");
       let EndDate = moment(end, "DD-MM-YYYY HH:mm");
-      console.log(startDate);
-      console.log(EndDate);
       this.setState({
         StartDate: startDate.format("YYYY/MM/DD HH:mm"),
         EndDate: EndDate.format("YYYY/MM/DD HH:mm"),
@@ -86,7 +84,7 @@ class UpdateOffer extends Component {
           if (response.ok) {
             response.json().then((data) => {
               let vendors = data.model;
-              this.setState({ vendors, Id }, () => {
+              this.setState({ vendors, Id, loading : false }, () => {
                 setTimeout(() => {
                   this.formRef.current.setFieldsValue({
                     VendorName: VendorId,
@@ -95,13 +93,49 @@ class UpdateOffer extends Component {
                     OfferDescriptionAr: titleAr,
                   });
                   // rangePicker : [moment(`${start}`, dateFormat), moment(`${end}`, dateFormat)]
-                  this.setState({ loading: false });
-                }, 1000);
-              });
+                }, 100);
+                if (!this.props.clubsList.length > 0) {
+                  fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
+                    method: "GET",
+                    headers: myHeaders,
+                  })
+                    .then((response) => {
+                      if (response.ok) {
+                        response.json().then((data) => {
+                          let clubs = data.model;
+                          this.setState({ clubs}, () => {
+                            setTimeout(() => {
+                              this.formRef.current.setFieldsValue({ ClubName: ClubId });
+                            }, 100);
+                          });
+                          this.props.dispatch(setClubsList(clubs));
+                        });
+                      } else {
+                        response.json().then((data) => {
+                          message.error(`${data.errors.message}`); 
+                        });
+                      }
+                    })
+                    .catch((error) => {
+                      message.error(
+                        "There has been a problem with your fetch operation: " +
+                          error.message
+                      );
+                    });
+                } else {
+                  this.setState({ clubs: this.props.clubsList}, () => {
+                    setTimeout(() => {
+                      this.formRef.current.setFieldsValue({ ClubName: ClubId });
+                    }, 0);
+                  });
+                }
+              }); 
             });
           } else {
-            message.error("Network response was not ok.");
-            this.setState({ loading: false });
+            response.json().then((data) => {
+              this.setState({ loadingBtn: false });
+              message.error(`${data.errors.message}`); 
+            });
           }
         })
         .catch((error) => {
@@ -111,44 +145,6 @@ class UpdateOffer extends Component {
               error.message
           );
         });
-
-      if (!this.props.clubsList.length > 0) {
-        fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
-          method: "GET",
-          headers: myHeaders,
-        })
-          .then((response) => {
-            if (response.ok) {
-              response.json().then((data) => {
-                let clubs = data.model;
-                this.setState({ clubs, loading: false }, () => {
-                  setTimeout(() => {
-                    this.formRef.current.setFieldsValue({ ClubName: ClubId });
-                  }, 1000);
-                });
-                this.props.dispatch(setClubsList(clubs));
-              });
-            } else {
-              response.json().then((data) => {
-                this.setState({ loadingBtn: false });
-                message.error(`${data.errors.message}`); 
-              });
-            }
-          })
-          .catch((error) => {
-            this.setState({ loading: false });
-            message.error(
-              "There has been a problem with your fetch operation: " +
-                error.message
-            );
-          });
-      } else {
-        this.setState({ clubs: this.props.clubsList, loading: false }, () => {
-          setTimeout(() => {
-            this.formRef.current.setFieldsValue({ ClubName: ClubId });
-          }, 500);
-        });
-      }
     } else {
       this.props.history.push("/Offers");
     }
@@ -160,7 +156,6 @@ class UpdateOffer extends Component {
   };
 
   handelSubmit = (values, errors) => {
-    console.log(values);
     this.setState({ loadingBtn: true });
     let data = {
       Id: this.state.Id,
@@ -213,7 +208,7 @@ class UpdateOffer extends Component {
         let imageUrlpng = imageUrlpeg.replace("data:image/png;base64,", "");
         this.setState({
           imageUrl: imageUrlpng,
-          loading: false,
+          // loading: false,
         });
       });
       message.success(`${info.file.name} file uploaded successfully`);

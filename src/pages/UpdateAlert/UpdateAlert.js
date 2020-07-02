@@ -28,7 +28,7 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const dateFormat = "YYYY/MM/DD";
 function disabledDate(current) {
-  return current && current < moment().endOf("day");
+  return current && current < moment().add(-1, 'days');
 }
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -83,7 +83,7 @@ class UpdateAlert extends Component {
             response.json().then((data) => {
               let vendors = data.model;
               this.setState(
-                { vendors, Id, },
+                { vendors, Id, loading : false },
                 () => {
                   setTimeout(() => {
                     this.formRef.current.setFieldsValue({
@@ -93,9 +93,45 @@ class UpdateAlert extends Component {
                       OfferDescriptionAr: titleAr,
                       // Time: Time,
                     });
-                    this.setState({ loading: false });
-                  }, 1000);
+                    
+                  }, 100);
+                  if (!this.props.clubsList.length > 0) {
+                    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
+                      method: 'GET',
+                      headers: myHeaders, 
+                    })
+                      .then((response) => {
+                        if (response.ok) {
+                          response.json().then((data) => {
+                            let clubs = data.model;
+                            this.setState({ clubs}, () => {
+                              setTimeout(() => {
+                                this.formRef.current.setFieldsValue({ ClubName: ClubId });
+                              }, 100);
+                            });
+                            this.props.dispatch(setClubsList(clubs));
+                          });
+                        } else {
+                          message.error("Network response was not ok.");
+                          this.setState({ loading: false });
+                        }
+                      })
+                      .catch((error) => {
+                        this.setState({ loading: false });
+                        message.error(
+                          "There has been a problem with your fetch operation: " +
+                            error.message
+                        );
+                      });
+                  } else {
+                    this.setState({ clubs: this.props.clubsList, }, () => {
+                      setTimeout(() => {
+                          this.formRef.current.setFieldsValue({ ClubName: ClubId }); 
+                      }, 0);
+                    });
+                  }
                 }
+                
               );
             });
           } else {
@@ -111,41 +147,6 @@ class UpdateAlert extends Component {
           );
         });
 
-      if (!this.props.clubsList.length > 0) {
-        fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
-          method: 'GET',
-          headers: myHeaders, 
-        })
-          .then((response) => {
-            if (response.ok) {
-              response.json().then((data) => {
-                let clubs = data.model;
-                this.setState({ clubs, loading: false }, () => {
-                  setTimeout(() => {
-                    this.formRef.current.setFieldsValue({ ClubName: ClubId });
-                  }, 1000);
-                });
-                this.props.dispatch(setClubsList(clubs));
-              });
-            } else {
-              message.error("Network response was not ok.");
-              this.setState({ loading: false });
-            }
-          })
-          .catch((error) => {
-            this.setState({ loading: false });
-            message.error(
-              "There has been a problem with your fetch operation: " +
-                error.message
-            );
-          });
-      } else {
-        this.setState({ clubs: this.props.clubsList, loading: false }, () => {
-          setTimeout(() => {
-              this.formRef.current.setFieldsValue({ ClubName: ClubId }); 
-          }, 500);
-        });
-      }
     } else {
       this.props.history.push("/alerts");
     }
