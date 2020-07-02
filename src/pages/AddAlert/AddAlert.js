@@ -24,7 +24,7 @@ import { setClubsList } from "../../Dashboard/store/actions";
 import { connect } from "react-redux";
 const { TextArea } = Input;
 function disabledDate(current) {
-  return current && current < moment().add(-1, 'days');
+  return current && current < moment().add(-1, "days");
 }
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -42,6 +42,7 @@ class AddAlert extends Component {
       EndDate: null,
       imageUrl: null,
       isSelectAllClubs: false,
+      fileList: [],
     };
   }
 
@@ -54,31 +55,38 @@ class AddAlert extends Component {
     let data = {
       ForAll: this.state.isSelectAllClubs,
       VendorId: values.VendorName,
-      // ClubId: values.ClubName,
+      // ClubId: 13,
       Description: `${values.OfferDescription}`,
       DescriptionLT: `${values.OfferDescriptionAr}`,
       StartDate: this.state.StartDate,
       TotalCost: values.TotalCost,
       BannerImage: this.state.imageUrl,
-      // Time: values.Time,
     };
     if (!this.state.isSelectAllClubs) {
       data.ClubId = values.ClubName;
     }
 
-    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddAlert", {
-      method: "post",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        'Authorization': JSON.parse(localStorage.getItem("token")),
-      },
-      body: JSON.stringify(data),
-    })
+    fetch(
+      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddAlert",
+      {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+        },
+        body: JSON.stringify(data),
+      }
+    )
       .then((response) => {
-        this.setState({ loadingBtn: false });
-        message.success("Alert added successfully");
-        this.formRef.current.resetFields();
+        if (response.ok) {
+          this.setState({ loadingBtn: false });
+          message.success("Alert added successfully");
+          this.formRef.current.resetFields();
+        } else {
+          this.setState({ loadingBtn: false });
+          message.error(`${data.errors.message}`);
+        }
       })
       .catch((error) => {
         this.setState({ loadingBtn: false });
@@ -89,16 +97,20 @@ class AddAlert extends Component {
   };
 
   componentDidMount() {
-    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
+    !JSON.parse(localStorage.getItem("token")) &&
+      this.props.history.push("/login");
 
     const myHeaders = new Headers({
       "Content-Type": "application/json",
-      'Authorization': JSON.parse(localStorage.getItem("token")),
+      Authorization: JSON.parse(localStorage.getItem("token")),
     });
-    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
-      method: 'GET',
-      headers: myHeaders, 
-    })
+    fetch(
+      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0",
+      {
+        method: "GET",
+        headers: myHeaders,
+      }
+    )
       .then((response) => {
         if (response.ok) {
           response.json().then((data) => {
@@ -107,7 +119,7 @@ class AddAlert extends Component {
           });
         } else {
           message.error("Network response was not ok.");
-          this.setState({ loading: false });
+          this.setState({ loading: false }); 
         }
       })
       .catch((error) => {
@@ -117,10 +129,13 @@ class AddAlert extends Component {
         );
       });
     if (!this.props.clubsList.length > 0) {
-      fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0",{
-        method: 'GET',
-        headers: myHeaders, 
-      })
+      fetch(
+        "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0",
+        {
+          method: "GET",
+          headers: myHeaders,
+        }
+      )
         .then((response) => {
           if (response.ok) {
             response.json().then((data) => {
@@ -129,10 +144,10 @@ class AddAlert extends Component {
               this.props.dispatch(setClubsList(clubs));
             });
           } else {
-           response.json().then((data) => {
-            this.setState({ loadingBtn: false });
-            message.error(`${data.errors.message}`); 
-          });
+            response.json().then((data) => {
+              this.setState({ loading: false });
+              message.error(`${data.errors.message}`);
+            });
           }
         })
         .catch((error) => {
@@ -159,27 +174,34 @@ class AddAlert extends Component {
         this.setState({
           imageUrl: imageUrlpng,
           loading: false,
+          fileList: info.fileList,
         });
       });
       message.success(`${info.file.name} file uploaded successfully`);
     } else if (info.file.status === "error") {
+      this.setState({ fileList: info.fileList })
       message.error(`${info.file.name} file upload failed.`);
     }
   };
 
   beforeUpload = (file) => {
-    const isJpgOrPng =
-      file.type === "image/jpeg" ||
-      file.type === "image/png" ||
-      file.type === "image/jpg";
-    if (!isJpgOrPng) {
-      message.error("You can only upload JPG/PNG file!");
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error("Image must smaller than 2MB!");
-    }
-    return isJpgOrPng && isLt2M;
+    // console.log(this.state.fileList.length)
+    // if (this.state.fileList.length >= 1) {
+    //   message.error("can't upload more than one image");
+    // } else {
+      const isJpgOrPng =
+        file.type === "image/jpeg" ||
+        file.type === "image/png" ||
+        file.type === "image/jpg";
+      if (!isJpgOrPng) {
+        message.error("You can only upload JPG/PNG file!");
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        message.error("Image must smaller than 2MB!");
+      }
+      return isJpgOrPng && isLt2M;
+    // }
   };
 
   changeClub = (value) =>
@@ -218,10 +240,12 @@ class AddAlert extends Component {
                     ]}
                   >
                     <Upload
+                      // disabled={this.state.fileList.length >= 1}
                       name="file"
                       action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                       onChange={this.onChangeimg}
                       beforeUpload={this.beforeUpload}
+                      // fileList={this.state.fileList}
                     >
                       <Button>
                         <UploadOutlined /> Click to Upload
@@ -243,7 +267,7 @@ class AddAlert extends Component {
                       placeholder="select Club"
                     >
                       <>
-                      <Select.Option
+                        <Select.Option
                           style={{ fontWeight: "bold" }}
                           value="all"
                         >
@@ -271,7 +295,7 @@ class AddAlert extends Component {
                     <Select placeholder="select Vendor">
                       {this.state.vendors &&
                         this.state.vendors.map((vendor) => (
-                          <Select.Option value={`${vendor.Id}`}>
+                          <Select.Option value={vendor.Id}>
                             {vendor.Name}
                           </Select.Option>
                         ))}
@@ -358,7 +382,7 @@ class AddAlert extends Component {
                     >
                       Submit
                     </Button>
-                    <Link to="/alerts" className="grayscale-fill xlg-btn"> 
+                    <Link to="/alerts" className="grayscale-fill xlg-btn">
                       Cancel
                     </Link>
                   </div>

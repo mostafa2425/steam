@@ -51,6 +51,7 @@ class AddOffer extends Component {
       EndDate: null,
       imageUrl: null,
       isSelectAllClubs: false,
+      fileList : []
     };
   }
 
@@ -125,7 +126,7 @@ class AddOffer extends Component {
           });
         } else {
             response.json().then((data) => {
-            this.setState({ loadingBtn: false });
+            this.setState({ loading: false });
             message.error(`${data.errors.message}`); 
           });
         }
@@ -179,6 +180,7 @@ class AddOffer extends Component {
         this.setState({
           imageUrl: imageUrlpng,
           loading: false,
+          fileList : info.fileList 
         });
       });
       message.success(`${info.file.name} file uploaded successfully`);
@@ -238,6 +240,7 @@ class AddOffer extends Component {
                       action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                       onChange={this.onChangeimg}
                       beforeUpload={this.beforeUpload}
+                      // fileList={this.state.fileList}
                     >
                       <Button>
                         <UploadOutlined /> Click to Upload
