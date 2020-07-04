@@ -18,6 +18,9 @@ import {
     SET_ALL_CLUB,
     DELETE_ALL_CLUB,
     DELETE_ALL_VENDOR,
+    TOTAL_COMPANY,
+    TOTAL_VENDOR,
+    TOTAL_CLUB,
 } from "./action-types";
 
 /**
@@ -32,6 +35,9 @@ const initialState = {
     allClubList: [],
     alertList: [],
     offerList: [],
+    totalCompany : 0,
+    totalClub: 0,
+    totalVendor : 0,
 };  
 
 
@@ -46,6 +52,12 @@ const reducer = (state = initialState, {type, payload = null}) => {
     switch (type) {
         case SET_BRANCHES: 
             return setBranchesList(state, payload)
+        case TOTAL_COMPANY: 
+            return setTotalCompany(state, payload)
+        case TOTAL_CLUB: 
+            return setTotalClub(state, payload)
+        case TOTAL_VENDOR: 
+            return setTotalVendor(state, payload)
         case SET_CLUBS: 
             return setClubsList(state, payload)
         case SET_CCOMPANY: 
@@ -115,6 +127,24 @@ function setOfferList(state, payload){
 function setAllVendorList(state, payload){
     return {
         ...state, allVendorList: payload
+    }
+}
+
+function setTotalVendor(state, payload){
+    return {
+        ...state, totalVendor: payload
+    }
+}
+
+function setTotalCompany(state, payload){
+    return {
+        ...state, totalCompany: payload
+    }
+}
+
+function setTotalClub(state, payload){
+    return {
+        ...state, totalClub: payload
     }
 }
 

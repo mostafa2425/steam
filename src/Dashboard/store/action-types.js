@@ -14,6 +14,9 @@ export const SET_ALL_VENDOR = 'SET_ALL_VENDOR'
 export const DELETE_ALL_VENDOR = 'DELETE_ALL_VENDOR'
 export const SET_ALL_CLUB = 'SET_ALL_CLUB'
 export const DELETE_ALL_CLUB = 'DELETE_ALL_CLUB'
+export const TOTAL_COMPANY = 'TOTAL_COMPANY'
+export const TOTAL_VENDOR = 'TOTAL_VENDOR'
+export const TOTAL_CLUB = 'TOTAL_CLUB'
 
 export default {
     SET_BRANCHES,
@@ -32,4 +35,7 @@ export default {
     SET_ALL_CLUB,
     DELETE_ALL_CLUB,
     DELETE_ALL_VENDOR,
+    TOTAL_COMPANY,
+    TOTAL_VENDOR,
+    TOTAL_CLUB,
 }

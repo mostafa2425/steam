@@ -9,7 +9,7 @@ import {
   HeaderPageSection,
 } from "./StyledComponents";
 import { Spin, message, Pagination } from "antd";
-import { setClubsList } from "../../Dashboard/store/actions";
+import { setClubsList, addTotalClub } from "../../Dashboard/store/actions";
 import { connect } from "react-redux";
 
 class ClubPage extends React.Component {
@@ -20,7 +20,7 @@ class ClubPage extends React.Component {
       loading: true,
       current: 1,
       total: 10,
-      pageSize: 10,
+      pageSize: 15,
     };
   }
 
@@ -44,6 +44,7 @@ class ClubPage extends React.Component {
               let total = data.total.total;
               this.setState({ clubs,total, loading: false });
               this.props.dispatch(setClubsList(clubs));
+              this.props.dispatch(addTotalClub(total));
             });
           } else {
             message.error("Network response was not ok.");
@@ -58,7 +59,7 @@ class ClubPage extends React.Component {
           );
         });
     } else {
-      this.setState({ clubs: this.props.clubsList, loading: false });
+      this.setState({ clubs: this.props.clubsList, total : this.props.totalClub, loading: false });
     }
   };
 
@@ -70,7 +71,7 @@ class ClubPage extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.state.clubs !== nextProps.clubsList) {
-      this.setState({ clubs: nextProps.clubsList });
+      this.setState({ clubs: nextProps.clubsList, total : nextProps.totalClub });
     }
   }
 
@@ -151,6 +152,7 @@ class ClubPage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     clubsList: state.dashboard.clubsList,
+    totalClub: state.dashboard.totalClub,
   };
 };
 

@@ -99,6 +99,7 @@ class UpdateCompany extends Component {
           message.success("company Updated successfully");
           this.props.dispatch(setCompanyList([]));
           this.props.history.push("/companies");
+          this.setState({ loadingBtn: false });
           // fetch(
           //   "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0",
           //   {

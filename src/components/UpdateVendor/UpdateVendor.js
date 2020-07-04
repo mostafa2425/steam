@@ -3,6 +3,7 @@ import { Form, Input, InputNumber, Button, Select, Switch, message, Upload, Spin
 import { Link } from "react-router-dom";
 import DropdownList from "../DropdownList";
 import UserAvatar from "../../images/avatar.jpg";
+import ImageUploader from "react-images-upload";
 import {
   HeaderPageSection,
   Container,
@@ -161,43 +162,22 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     this.setState({vendorStutes : value})
   };
 
-  // handleChangeCompany = (value) => {
-  //   this.setState({vendorStutes : value})
-  // };
-
-  onChangeimg = (info) => {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      getBase64(info.file.originFileObj, imageUrl =>{
-        let imageUrljpeg = imageUrl.replace("data:image/jpeg;base64,", "");
-        let imageUrlpeg = imageUrljpeg.replace("data:image/jpg;base64,", "");
-        let imageUrlpng = imageUrlpeg.replace("data:image/png;base64,", "");
-        this.setState({
-          imageUrl : imageUrlpng,
-          loading: false,
-        })
-      }
-        
+  onDrop = (pictureFiles, pictureDataURLs) => {
+    if (pictureFiles.length > 0) {
+      let dataURL = "" + pictureDataURLs;
+      let dataURL64 = dataURL.replace(
+        `;name=${pictureFiles[0].name};base64,`,
+        ""
       );
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
+      let imageUrljpeg = dataURL64.replace("data:image/jpeg", "");
+      let imageUrlpeg = imageUrljpeg.replace("data:image/jpg", "");
+      let imageUrlpng = imageUrlpeg.replace("data:image/png", "");
+      this.setState({
+        pictures: pictureFiles,
+        imageUrl: imageUrlpng,
+      });
     }
   };
-
-  beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === "image/jpg";
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
-    }
-    return isJpgOrPng && isLt2M;
-  }
 
   render() {
     return (
@@ -257,15 +237,17 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   label="Vendor Logo"
                   // rules={[{ required: true, message: "Please input Vendor Logo!", }]}
                 >
-                  <Upload onChange={this.onChangeimg}  
+                  <ImageUploader
+                      className="file-upload-wrapper"
+                      withIcon={false}
+                      buttonText="Choose images"
+                      onChange={this.onDrop}
+                      imgExtension={[".jpg", ".jpeg", ".png"]}
                       accept=".png, .jpg, .jpeg"
-                      name ='file'
-                      action = 'https://www.mocky.io/v2/5cc8019d300000980a055e76'
-                      beforeUpload={this.beforeUpload}> 
-                  <Button>
-                    <UploadOutlined /> Click to Upload
-                  </Button>
-                </Upload>
+                      // maxFileSize={4}
+                      singleImage={true}
+                      withPreview={true}
+                    />
                 </Form.Item>
                 <Form.Item
                   name="VendorDescription"

@@ -26,7 +26,7 @@ import {
 } from './StyledComponents';
 import { Menu, Dropdown, message, Modal } from 'antd';
 import { SettingOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { DeleteClub, DeleteCompany, DeleteVendor, deleteAllClubList, deleteAllVendorList } from '../../Dashboard/store/actions';
+import { DeleteClub, DeleteCompany, deleteVendor, deleteAllClubList, deleteAllVendorList } from '../../Dashboard/store/actions';
 import { connect } from 'react-redux';
 const { confirm } = Modal;
 class VendorCard extends React.Component {
@@ -104,7 +104,7 @@ class VendorCard extends React.Component {
           if(response.ok) {
             response.json().then((data) => {
               message.success('vendor deleted successfully'); 
-              this.props.dispatch(DeleteVendor(cardId))
+              this.props.dispatch(deleteVendor(cardId))
               this.props.dispatch(deleteAllVendorList(cardId))
             });
           } else {

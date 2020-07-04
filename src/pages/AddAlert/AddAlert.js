@@ -14,6 +14,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import DropdownList from "../../components/DropdownList";
 import UserAvatar from "../../images/avatar.jpg";
+import ImageUploader from 'react-images-upload';
 import {
   HeaderPageSection,
   Container,
@@ -105,7 +106,7 @@ class AddAlert extends Component {
       "Content-Type": "application/json",
       Authorization: JSON.parse(localStorage.getItem("token")),
     });
-    if (!this.props.vendorList.length > 0) {
+    if (!this.props.allVendorList.length > 0) {
       fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=-1", {
         method: 'GET',
         headers: myHeaders, 
@@ -133,7 +134,7 @@ class AddAlert extends Component {
     }else{
       this.setState({ vendors : this.props.allVendorList, loading: false });
     }
-    if (!this.props.clubsList.length > 0) {
+    if (!this.props.allClubList.length > 0) {
       fetch(
         "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=-1",
         {
@@ -167,47 +168,6 @@ class AddAlert extends Component {
     }
   }
 
-  onChangeimg = (info) => {
-    if (info.file.status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === "done") {
-      getBase64(info.file.originFileObj, (imageUrl) => {
-        let imageUrljpeg = imageUrl.replace("data:image/jpeg;base64,", "");
-        let imageUrlpeg = imageUrljpeg.replace("data:image/jpg;base64,", "");
-        let imageUrlpng = imageUrlpeg.replace("data:image/png;base64,", "");
-        this.setState({
-          imageUrl: imageUrlpng,
-          loading: false,
-          fileList: info.fileList,
-        });
-      });
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
-      this.setState({ fileList: info.fileList })
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  };
-
-  beforeUpload = (file) => {
-    // console.log(this.state.fileList.length)
-    // if (this.state.fileList.length >= 1) {
-    //   message.error("can't upload more than one image");
-    // } else {
-      const isJpgOrPng =
-        file.type === "image/jpeg" ||
-        file.type === "image/png" ||
-        file.type === "image/jpg";
-      if (!isJpgOrPng) {
-        message.error("You can only upload JPG/PNG file!");
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        message.error("Image must smaller than 2MB!");
-      }
-      return isJpgOrPng && isLt2M;
-    // }
-  };
 
   changeClub = (value) =>
     value === "all" && this.setState({ isSelectAllClubs: true });
@@ -237,26 +197,6 @@ class AddAlert extends Component {
                   onFinishFailed={this.onFinishFailed}
                   ref={this.formRef}
                 >
-                  {/* <Form.Item
-                    name="ClubLogo"
-                    label="Alert Logo"
-                    rules={[
-                      { required: true, message: "Please input Club Logo!" },
-                    ]}
-                  >
-                    <Upload
-                      // disabled={this.state.fileList.length >= 1}
-                      name="file"
-                      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                      onChange={this.onChangeimg}
-                      beforeUpload={this.beforeUpload}
-                      // fileList={this.state.fileList}
-                    >
-                      <Button>
-                        <UploadOutlined /> Click to Upload
-                      </Button>
-                    </Upload>
-                  </Form.Item> */}
                   <Form.Item
                     label="Club Name"
                     name="ClubName"

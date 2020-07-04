@@ -14,7 +14,7 @@ import {
 } from './StyledComponents';
 import { Spin,message, Pagination } from 'antd';
 import { connect } from 'react-redux';
-import { setVendorList } from '../../Dashboard/store/actions';
+import { setVendorList, addTotalVendor } from '../../Dashboard/store/actions';
 
 class VendorPage extends React.Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class VendorPage extends React.Component {
       loading : true,
       current: 1,
       total: 15,
-      pageSize: 10,
+      pageSize: 15,
     }
     this.cardRef = React.createRef()
   }
@@ -46,6 +46,7 @@ class VendorPage extends React.Component {
             let total = data.total.total;
             this.setState({vendors,total, loading : false} , () => {
               this.props.dispatch(setVendorList(vendors));
+              this.props.dispatch(addTotalVendor(total));
             })
           });
         } else {
@@ -60,13 +61,19 @@ class VendorPage extends React.Component {
         message.error('There has been a problem with your fetch operation: ' + error.message);
       });
     }else{
-      this.setState({ vendors: this.props.vendorList, loading: false });
+      this.setState({ vendors: this.props.vendorList, total : this.props.totalVendor, loading: false });
     }
   }
   
   componentDidMount() {
     !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
     this.fetchVendorList();
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.vendorList !== this.state.vendors){
+      this.setState({ vendors : nextProps.vendorList, total : nextProps.totalVendor}) 
+    }
   }
 
   onChangePage = (page) => {
@@ -137,6 +144,7 @@ class VendorPage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     vendorList: state.dashboard.vendorList,
+    totalVendor: state.dashboard.totalVendor,
   };
 };
 

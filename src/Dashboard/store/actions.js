@@ -15,6 +15,9 @@ import {
     SET_ALL_CLUB,
     DELETE_ALL_CLUB,
     DELETE_ALL_VENDOR,
+    TOTAL_COMPANY,
+    TOTAL_VENDOR,
+    TOTAL_CLUB,
 } from './action-types'
 
 
@@ -108,7 +111,7 @@ export function DeleteAlert(payload) {
     }
 }
 
-export function DeleteVendor(payload) {
+export function deleteVendor(payload) {
     return {
         type: DELETE_VENDOR,
         payload
@@ -125,6 +128,27 @@ export function DeleteCompany(payload) {
 export function addBranch(payload) {
     return {
         type: ADD_BRANCH,
+        payload
+    }
+}
+
+export function addTotalCompany(payload) {
+    return {
+        type: TOTAL_COMPANY,
+        payload
+    }
+}
+
+export function addTotalVendor(payload) {
+    return {
+        type: TOTAL_VENDOR,
+        payload
+    }
+}
+
+export function addTotalClub(payload) {
+    return {
+        type: TOTAL_CLUB,
         payload
     }
 }

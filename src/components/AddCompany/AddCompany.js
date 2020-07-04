@@ -68,6 +68,7 @@ class AddCompany extends Component {
           message.success("company added successfully");
                 this.props.dispatch(setCompanyList([]));
                 this.formRef.current.resetFields();
+                this.setState({ loadingBtn: false });
 
           // fetch(
           //   "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0",

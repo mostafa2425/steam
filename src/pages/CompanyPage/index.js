@@ -22,7 +22,7 @@ import {
   EnvironmentOutlined,
   PhoneOutlined,
 } from "@ant-design/icons";
-import { setCompanyList } from "../../Dashboard/store/actions";
+import { setCompanyList, addTotalCompany } from "../../Dashboard/store/actions";
 import { connect } from "react-redux";
 
 class CompanyPage extends React.Component {
@@ -33,7 +33,7 @@ class CompanyPage extends React.Component {
       loading: true,
       current: 1,
       total: 15,
-      pageSize: 10,
+      pageSize: 15,
     };
   }
 
@@ -61,6 +61,7 @@ class CompanyPage extends React.Component {
               let total = data.total.total;
               this.setState({ companies, total, loading: false }, () => {
                 this.props.dispatch(setCompanyList(companies));
+                this.props.dispatch(addTotalCompany(total));
               });
             });
           } else {
@@ -78,7 +79,7 @@ class CompanyPage extends React.Component {
           );
         });
     } else {
-      this.setState({ companies: this.props.CompanyList, loading: false });
+      this.setState({ companies: this.props.CompanyList, total : this.props.totalCompany, loading: false });
     }
   };
 
@@ -90,7 +91,7 @@ class CompanyPage extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.state.companies !== nextProps.CompanyList) {
-      this.setState({ companies: nextProps.CompanyList });
+      this.setState({ companies: nextProps.CompanyList, total : nextProps.totalCompany });
     }
   }
 
@@ -147,7 +148,13 @@ class CompanyPage extends React.Component {
                     />
                   ))}
               </div>
-              {this.state.total > this.state.pageSize && (
+              
+            </>
+          ) : (
+            <Spin />
+          )}
+        </PageContainer>
+        {this.state.total > this.state.pageSize && (
                 <Pagination
                   showTotal={(total) => `Total ${total} companies`}
                   current={this.state.current}
@@ -156,11 +163,6 @@ class CompanyPage extends React.Component {
                   total={this.state.total}
                 />
               )}
-            </>
-          ) : (
-            <Spin />
-          )}
-        </PageContainer>
       </Container>
     );
   }
@@ -171,6 +173,7 @@ class CompanyPage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     CompanyList: state.dashboard.CompanyList,
+    totalCompany: state.dashboard.totalCompany,
   };
 };
 

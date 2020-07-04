@@ -499,8 +499,14 @@ ul::-webkit-scrollbar-thumb,
   color: #81b955;
 }
 
+.company-veiw-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .company-veiw-wrapper > div {
   padding: 0 30px;
+  height: 100%;
 }
 
 @media only screen and (max-width: 575px) {
@@ -558,6 +564,32 @@ ul::-webkit-scrollbar-thumb,
 .add-offer-wrapper > div {
   padding: 0 30px;
   margin-bottom: 100px;
+}
+
+.file-upload-wrapper .fileContainer {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  flex-direction: row;
+  box-shadow: none;
+}
+
+.file-upload-wrapper .fileContainer > p {
+  display: none;
+}
+
+.file-upload-wrapper .fileContainer .chooseFileButton {
+  white-space: nowrap;
+}
+
+@media only screen and (max-width: 767px) {
+  .file-upload-wrapper .fileContainer {
+    flex-direction: column;
+  }
+}
+
+.ant-pagination-options {
+  display: none;
 }
 
 .club-wrapper {

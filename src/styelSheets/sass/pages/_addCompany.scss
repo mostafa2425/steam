@@ -1,6 +1,9 @@
 .company-veiw-wrapper{
+    display: flex;
+    flex-direction: column;
     > div{
         padding: 0 30px;
+        height: 100%;
         @include mq("phablet"){
             padding: 0 15px;
         }
@@ -50,4 +53,27 @@
         padding: 0 30px;
         margin-bottom: 100px;
     }
+}
+
+.file-upload-wrapper{
+    .fileContainer{
+        padding: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        flex-direction: row;
+        box-shadow : none;
+        > p{
+            display: none;
+        }
+        .chooseFileButton {
+            white-space: nowrap;
+        }
+        @include mq("tablet"){
+            flex-direction: column;
+        }
+    }
+}
+
+.ant-pagination-options{
+    display: none;
 }

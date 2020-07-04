@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Input, InputNumber, Button, Select, Switch, message, Upload } from "antd";
+import ImageUploader from "react-images-upload";
 import { Link } from "react-router-dom";
 import DropdownList from "../DropdownList";
 import UserAvatar from "../../images/avatar.jpg";
@@ -140,6 +141,23 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     return isJpgOrPng && isLt2M;
   }
 
+  onDrop = (pictureFiles, pictureDataURLs) => {
+    if (pictureFiles.length > 0) {
+      let dataURL = "" + pictureDataURLs;
+      let dataURL64 = dataURL.replace(
+        `;name=${pictureFiles[0].name};base64,`,
+        ""
+      );
+      let imageUrljpeg = dataURL64.replace("data:image/jpeg", "");
+      let imageUrlpeg = imageUrljpeg.replace("data:image/jpg", "");
+      let imageUrlpng = imageUrlpeg.replace("data:image/png", "");
+      this.setState({
+        pictures: pictureFiles,
+        imageUrl: imageUrlpng,
+      });
+    }
+  };
+
   render() {
     return (
       <Container>
@@ -180,15 +198,17 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   // className="mb-0"
                   rules={[{ required: true, message: "Please input Club Logo!", }]}
                 >
-                  <Upload
-                  name ='file'
-                  accept=".png, .jpg, .jpeg"
-                  action = 'https://www.mocky.io/v2/5cc8019d300000980a055e76' 
-                  onChange={this.onChangeimg} beforeUpload={this.beforeUpload}> 
-                  <Button>
-                    <UploadOutlined /> Click to Upload
-                  </Button>
-                </Upload>
+                <ImageUploader
+                      className="file-upload-wrapper"
+                      withIcon={false}
+                      buttonText="Choose images"
+                      onChange={this.onDrop}
+                      imgExtension={[".jpg", ".jpeg", ".png"]}
+                      accept=".png, .jpg, .jpeg"
+                      // maxFileSize={4}
+                      singleImage={true}
+                      withPreview={true}
+                    />
                 </Form.Item>
                 <Form.Item
                   label="League Division"

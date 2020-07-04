@@ -14,13 +14,20 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import DropdownList from "../../components/DropdownList";
 import UserAvatar from "../../images/avatar.jpg";
+import ImageUploader from "react-images-upload";
 import {
   HeaderPageSection,
   Container,
   PageContainer,
 } from "./StyledComponents";
 import { UploadOutlined } from "@ant-design/icons";
-import { setClubsList, setOfferList, setVendorList, setAllVendorList, setAllClubList } from "../../Dashboard/store/actions";
+import {
+  setClubsList,
+  setOfferList,
+  setVendorList,
+  setAllVendorList,
+  setAllClubList,
+} from "../../Dashboard/store/actions";
 import { connect } from "react-redux";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -51,7 +58,7 @@ class AddOffer extends Component {
       EndDate: null,
       imageUrl: null,
       isSelectAllClubs: false,
-      fileList : []
+      fileList: [],
     };
   }
 
@@ -78,25 +85,28 @@ class AddOffer extends Component {
     if (!this.state.isSelectAllClubs) {
       data.ClubId = values.ClubName;
     }
-    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddOffer", {
-      method: "post",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        'Authorization': JSON.parse(localStorage.getItem("token")),
-      },
-      body: JSON.stringify(data),
-    })
+    fetch(
+      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/AddOffer",
+      {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+        },
+        body: JSON.stringify(data),
+      }
+    )
       .then((response) => {
-        if(response.ok){
+        if (response.ok) {
           this.setState({ loadingBtn: false });
           message.success("offer added successfully");
-          this.props.dispatch(setOfferList([]))
+          this.props.dispatch(setOfferList([]));
           this.formRef.current.resetFields();
-        }else{
+        } else {
           response.json().then((data) => {
             this.setState({ loadingBtn: false });
-            message.error(`${data.errors.message}`); 
+            message.error(`${data.errors.message}`);
           });
         }
       })
@@ -109,17 +119,21 @@ class AddOffer extends Component {
   };
 
   componentDidMount() {
-    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
+    !JSON.parse(localStorage.getItem("token")) &&
+      this.props.history.push("/login");
 
     const myHeaders = new Headers({
       "Content-Type": "application/json",
-      'Authorization': JSON.parse(localStorage.getItem("token")),
+      Authorization: JSON.parse(localStorage.getItem("token")),
     });
     if (!this.props.allVendorList.length > 0) {
-      fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=-1", {
-        method: 'GET',
-        headers: myHeaders, 
-      })
+      fetch(
+        "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=-1",
+        {
+          method: "GET",
+          headers: myHeaders,
+        }
+      )
         .then((response) => {
           if (response.ok) {
             response.json().then((data) => {
@@ -128,27 +142,31 @@ class AddOffer extends Component {
               this.props.dispatch(setAllVendorList(vendors));
             });
           } else {
-              response.json().then((data) => {
+            response.json().then((data) => {
               this.setState({ loading: false });
-              message.error(`${data.errors.message}`); 
+              message.error(`${data.errors.message}`);
             });
           }
         })
         .catch((error) => {
           this.setState({ loading: false });
           message.error(
-            "There has been a problem with your fetch operation: " + error.message
+            "There has been a problem with your fetch operation: " +
+              error.message
           );
         });
-    }else{
-      this.setState({ vendors : this.props.allVendorList, loading: false });
+    } else {
+      this.setState({ vendors: this.props.allVendorList, loading: false });
     }
 
     if (!this.props.allClubList.length > 0) {
-      fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=-1", {
-        method: 'GET',
-        headers: myHeaders, 
-      })
+      fetch(
+        "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=-1",
+        {
+          method: "GET",
+          headers: myHeaders,
+        }
+      )
         .then((response) => {
           if (response.ok) {
             response.json().then((data) => {
@@ -159,7 +177,7 @@ class AddOffer extends Component {
           } else {
             response.json().then((data) => {
               this.setState({ loadingBtn: false });
-              message.error(`${data.errors.message}`); 
+              message.error(`${data.errors.message}`);
             });
           }
         })
@@ -187,7 +205,7 @@ class AddOffer extends Component {
         this.setState({
           imageUrl: imageUrlpng,
           loading: false,
-          fileList : info.fileList 
+          fileList: info.fileList,
         });
       });
       message.success(`${info.file.name} file uploaded successfully`);
@@ -209,6 +227,23 @@ class AddOffer extends Component {
       message.error("Image must smaller than 2MB!");
     }
     return isJpgOrPng && isLt2M;
+  };
+
+  onDrop = (pictureFiles, pictureDataURLs) => {
+    if (pictureFiles.length > 0) {
+      let dataURL = "" + pictureDataURLs;
+      let dataURL64 = dataURL.replace(
+        `;name=${pictureFiles[0].name};base64,`,
+        ""
+      );
+      let imageUrljpeg = dataURL64.replace("data:image/jpeg", "");
+      let imageUrlpeg = imageUrljpeg.replace("data:image/jpg", "");
+      let imageUrlpng = imageUrlpeg.replace("data:image/png", "");
+      this.setState({
+        pictures: pictureFiles,
+        imageUrl: imageUrlpng,
+      });
+    }
   };
 
   changeClub = (value) =>
@@ -242,18 +277,17 @@ class AddOffer extends Component {
                       { required: true, message: "Please input Club Logo!" },
                     ]}
                   >
-                    <Upload
+                    <ImageUploader
+                      className="file-upload-wrapper"
+                      withIcon={false}
+                      buttonText="Choose images"
+                      onChange={this.onDrop}
+                      imgExtension={[".jpg", ".jpeg", ".png"]}
                       accept=".png, .jpg, .jpeg"
-                      name="file"
-                      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                      onChange={this.onChangeimg}
-                      beforeUpload={this.beforeUpload}
-                      // fileList={this.state.fileList}
-                    >
-                      <Button>
-                        <UploadOutlined /> Click to Upload
-                      </Button>
-                    </Upload>
+                      // maxFileSize={4}
+                      singleImage={true}
+                      withPreview={true}
+                    />
                   </Form.Item>
                   <Form.Item
                     label="Club Name"
@@ -270,7 +304,7 @@ class AddOffer extends Component {
                       placeholder="select Club"
                     >
                       <>
-                      <Select.Option
+                        <Select.Option
                           style={{ fontWeight: "bold" }}
                           value="all"
                         >
@@ -278,11 +312,10 @@ class AddOffer extends Component {
                         </Select.Option>
                         {this.state.clubs &&
                           this.state.clubs.map((club, i) => (
-                            <Select.Option key={i} value={`${club.Id}`}>
+                            <Select.Option key={i} value={club.Id}>
                               {club.Name}
                             </Select.Option>
                           ))}
-                        
                       </>
                     </Select>
                   </Form.Item>
@@ -299,7 +332,7 @@ class AddOffer extends Component {
                     <Select placeholder="select Vendor">
                       {this.state.vendors &&
                         this.state.vendors.map((vendor, i) => (
-                          <Select.Option key={i} value={`${vendor.Id}`}>
+                          <Select.Option key={i} value={vendor.Id}>
                             {vendor.Name}
                           </Select.Option>
                         ))}
