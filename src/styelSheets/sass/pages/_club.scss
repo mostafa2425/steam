@@ -47,8 +47,10 @@
   }
 }
 .vendor-page-wrapper {
-  padding: 0 30px;
   padding-bottom: 100px;
+  >div{
+    padding: 0 30px;
+  }
   .vendor-card-list {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;

@@ -26,11 +26,18 @@ import {
 } from './StyledComponents';
 import { Menu, Dropdown, message, Modal } from 'antd';
 import { SettingOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { DeleteClub, DeleteCompany } from '../../Dashboard/store/actions';
+import { DeleteClub, DeleteCompany, DeleteVendor, deleteAllClubList, deleteAllVendorList } from '../../Dashboard/store/actions';
 import { connect } from 'react-redux';
 const { confirm } = Modal;
 class VendorCard extends React.Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentVendor: 0,
+      currentCompany: 0,
+      currentClub: 0,
+    }
+  }
 
   componentDidMount() {
     console.log(this.props.history)
@@ -77,6 +84,7 @@ class VendorCard extends React.Component {
             response.json().then((data) => {
               message.success('club deleted successfully'); 
               this.props.dispatch(DeleteClub(cardId))
+              this.props.dispatch(deleteAllClubList(cardId))
             });
           } else {
             response.json().then((data) => {
@@ -96,9 +104,8 @@ class VendorCard extends React.Component {
           if(response.ok) {
             response.json().then((data) => {
               message.success('vendor deleted successfully'); 
-              setTimeout(() => {
-                window.location.reload();
-              }, 800)
+              this.props.dispatch(DeleteVendor(cardId))
+              this.props.dispatch(deleteAllVendorList(cardId))
             });
           } else {
             response.json().then((data) => {
@@ -122,13 +129,13 @@ class VendorCard extends React.Component {
 
   covertTokFormatter = (num) => {
     if (num >= 1000000000) {
-      return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'G';
+      return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' G';
    }
    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+      return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' M';
    }
    if (num >= 1000) {
-      return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+      return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
    }
    return num;
   }

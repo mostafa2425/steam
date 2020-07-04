@@ -66,22 +66,25 @@ class AddCompany extends Component {
       .then((response) => {
         if (response.ok) {
           message.success("company added successfully");
-          fetch(
-            "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0",
-            {
-              method: "GET",
-              headers: myHeaders,
-            }
-          ).then((response) => {
-            if (response.ok) {
-                response.json().then((data) => {
-                let companies = data.model;
-                this.props.dispatch(setCompanyList(companies));
+                this.props.dispatch(setCompanyList([]));
                 this.formRef.current.resetFields();
-                this.setState({ loadingBtn: false });
-              });
-            }
-          }); 
+
+          // fetch(
+          //   "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0",
+          //   {
+          //     method: "GET",
+          //     headers: myHeaders,
+          //   }
+          // ).then((response) => {
+          //   if (response.ok) {
+          //       response.json().then((data) => {
+          //       let companies = data.model;
+          //       this.props.dispatch(setCompanyList(companies));
+          //       this.formRef.current.resetFields();
+          //       this.setState({ loadingBtn: false });
+          //     });
+          //   }
+          // }); 
         } else {
           response.json().then((data) => {
             this.setState({ loadingBtn: false });

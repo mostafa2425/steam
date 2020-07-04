@@ -9,6 +9,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 30px 100px;
+        height: 100%;
         @include mq("desktop"){
           grid-template-columns: 1fr 1fr;
           gap: 30px 60px;
@@ -22,6 +23,7 @@
             padding-top: 5px;
             margin-top: 0;
             position: relative;
+            height: fit-content;
             > div{
                 &:first-of-type{
                     img{

@@ -20,7 +20,7 @@ import {
   PageContainer,
 } from "./StyledComponents";
 import { UploadOutlined } from "@ant-design/icons";
-import { setClubsList } from "../../Dashboard/store/actions";
+import { setClubsList, setOfferList, setVendorList, setAllVendorList, setAllClubList } from "../../Dashboard/store/actions";
 import { connect } from "react-redux";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -91,6 +91,7 @@ class AddOffer extends Component {
         if(response.ok){
           this.setState({ loadingBtn: false });
           message.success("offer added successfully");
+          this.props.dispatch(setOfferList([]))
           this.formRef.current.resetFields();
         }else{
           response.json().then((data) => {
@@ -114,31 +115,37 @@ class AddOffer extends Component {
       "Content-Type": "application/json",
       'Authorization': JSON.parse(localStorage.getItem("token")),
     });
-    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
-      method: 'GET',
-      headers: myHeaders, 
-    })
-      .then((response) => {
-        if (response.ok) {
-          response.json().then((data) => {
-            let vendors = data.model;
-            this.setState({ vendors, loading: false });
-          });
-        } else {
-            response.json().then((data) => {
-            this.setState({ loading: false });
-            message.error(`${data.errors.message}`); 
-          });
-        }
+    if (!this.props.allVendorList.length > 0) {
+      fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=-1", {
+        method: 'GET',
+        headers: myHeaders, 
       })
-      .catch((error) => {
-        this.setState({ loading: false });
-        message.error(
-          "There has been a problem with your fetch operation: " + error.message
-        );
-      });
-    if (!this.props.clubsList.length > 0) {
-      fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
+        .then((response) => {
+          if (response.ok) {
+            response.json().then((data) => {
+              let vendors = data.model;
+              this.setState({ vendors, loading: false });
+              this.props.dispatch(setAllVendorList(vendors));
+            });
+          } else {
+              response.json().then((data) => {
+              this.setState({ loading: false });
+              message.error(`${data.errors.message}`); 
+            });
+          }
+        })
+        .catch((error) => {
+          this.setState({ loading: false });
+          message.error(
+            "There has been a problem with your fetch operation: " + error.message
+          );
+        });
+    }else{
+      this.setState({ vendors : this.props.allVendorList, loading: false });
+    }
+
+    if (!this.props.allClubList.length > 0) {
+      fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=-1", {
         method: 'GET',
         headers: myHeaders, 
       })
@@ -147,7 +154,7 @@ class AddOffer extends Component {
             response.json().then((data) => {
               let clubs = data.model;
               this.setState({ clubs, loading: false });
-              this.props.dispatch(setClubsList(clubs));
+              this.props.dispatch(setAllClubList(clubs));
             });
           } else {
             response.json().then((data) => {
@@ -164,7 +171,7 @@ class AddOffer extends Component {
           );
         });
     } else {
-      this.setState({ clubs: this.props.clubsList, loading: false });
+      this.setState({ clubs: this.props.allClubList, loading: false });
     }
   }
 
@@ -236,6 +243,7 @@ class AddOffer extends Component {
                     ]}
                   >
                     <Upload
+                      accept=".png, .jpg, .jpeg"
                       name="file"
                       action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                       onChange={this.onChangeimg}
@@ -315,6 +323,10 @@ class AddOffer extends Component {
                         required: true,
                         message: "Please input your hour cost!",
                       },
+                      // {
+                      //   min : 0,
+                      //   message: "Hour Cost minimum  1 ",
+                      // }
                     ]}
                   >
                     <InputNumber
@@ -380,7 +392,8 @@ class AddOffer extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    clubsList: state.dashboard.clubsList,
+    allClubList: state.dashboard.allClubList,
+    allVendorList: state.dashboard.allVendorList,
   };
 };
 export default connect(mapStateToProps)(AddOffer);

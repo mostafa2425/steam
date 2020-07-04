@@ -55,8 +55,6 @@ class VendorProfileDashboardPage extends React.Component {
             if (response.ok) {
               response.json().then((data) => {
                 let VendorInfo = data.model;
-                console.log(VendorInfo);
-
                 this.setState({ VendorInfo, loading: false });
                 // this.setState({branches, loading : false}, () => {
                 // })

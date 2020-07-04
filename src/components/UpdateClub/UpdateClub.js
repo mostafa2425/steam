@@ -9,7 +9,7 @@ import {
   PageContainer,
 } from "./StyledComponents";
 import { UploadOutlined } from '@ant-design/icons';
-import { setClubsList } from "../../Dashboard/store/actions";
+import { setClubsList, setAllClubList } from "../../Dashboard/store/actions";
 import { connect } from "react-redux";
 const { TextArea } = Input; 
 function getBase64(img, callback) {
@@ -81,29 +81,32 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
       },
       body: JSON.stringify(data) 
     })
-    .then( (response) => { 
+    .then((response) => { 
       if(response.ok) {
         message.success('club Updated successfully'); 
-        fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
-          method: 'GET',
-           headers: myHeaders, 
-        })
-        .then((response) => {
-          if (response.ok) {
-            response.json().then((data) => {
-              let clubs = data.model;
-              this.props.dispatch(setClubsList(clubs))
-              this.setState({loadingBtn : false})
-              this.props.history.push("/clubs");
-            });
-          }
-        })
-        .catch((error) => {
-          this.setState({ loading: false });
-          message.error(
-            "There has been a problem with your fetch operation: " + error.message
-          );
-        });
+        this.props.dispatch(setClubsList([]))
+        this.props.dispatch(setAllClubList([]))
+        this.props.history.push("/clubs");
+        // fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
+        //   method: 'GET',
+        //    headers: myHeaders, 
+        // })
+        // .then((response) => {
+        //   if (response.ok) {
+        //     response.json().then((data) => {
+        //       let clubs = data.model;
+        //       this.props.dispatch(setClubsList(clubs))
+        //       this.setState({loadingBtn : false})
+        //       this.props.history.push("/clubs");
+        //     });
+        //   }
+        // })
+        // .catch((error) => {
+        //   this.setState({ loading: false });
+        //   message.error(
+        //     "There has been a problem with your fetch operation: " + error.message
+        //   );
+        // });
       } else {
         response.json().then((data) => {
           this.setState({ loadingBtn: false });
@@ -196,6 +199,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 >
                   <Upload
                   name ='file'
+                  accept=".png, .jpg, .jpeg"
                   action = 'https://www.mocky.io/v2/5cc8019d300000980a055e76' 
                   onChange={this.onChangeimg} beforeUpload={this.beforeUpload}> 
                   <Button>

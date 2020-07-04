@@ -20,7 +20,7 @@ import {
   PageContainer,
 } from "./StyledComponents";
 import { UploadOutlined } from "@ant-design/icons";
-import { setClubsList } from "../../Dashboard/store/actions";
+import { setClubsList, setVendorList, setAlertList, setAllVendorList, setAllClubList } from "../../Dashboard/store/actions";
 import { connect } from "react-redux";
 const { TextArea } = Input;
 function disabledDate(current) {
@@ -82,6 +82,7 @@ class AddAlert extends Component {
         if (response.ok) {
           this.setState({ loadingBtn: false });
           message.success("Alert added successfully");
+          this.props.dispatch(setAlertList([]));
           this.formRef.current.resetFields();
         } else {
           this.setState({ loadingBtn: false });
@@ -104,33 +105,37 @@ class AddAlert extends Component {
       "Content-Type": "application/json",
       Authorization: JSON.parse(localStorage.getItem("token")),
     });
-    fetch(
-      "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0",
-      {
-        method: "GET",
-        headers: myHeaders,
-      }
-    )
-      .then((response) => {
-        if (response.ok) {
-          response.json().then((data) => {
-            let vendors = data.model;
-            this.setState({ vendors, loading: false });
-          });
-        } else {
-          message.error("Network response was not ok.");
-          this.setState({ loading: false }); 
-        }
+    if (!this.props.vendorList.length > 0) {
+      fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=-1", {
+        method: 'GET',
+        headers: myHeaders, 
       })
-      .catch((error) => {
-        this.setState({ loading: false });
-        message.error(
-          "There has been a problem with your fetch operation: " + error.message
-        );
-      });
+        .then((response) => {
+          if (response.ok) {
+            response.json().then((data) => {
+              let vendors = data.model;
+              this.setState({ vendors, loading: false });
+              this.props.dispatch(setAllVendorList(vendors));
+            });
+          } else {
+              response.json().then((data) => {
+              this.setState({ loading: false });
+              message.error(`${data.errors.message}`); 
+            });
+          }
+        })
+        .catch((error) => {
+          this.setState({ loading: false });
+          message.error(
+            "There has been a problem with your fetch operation: " + error.message
+          );
+        });
+    }else{
+      this.setState({ vendors : this.props.allVendorList, loading: false });
+    }
     if (!this.props.clubsList.length > 0) {
       fetch(
-        "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0",
+        "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=-1",
         {
           method: "GET",
           headers: myHeaders,
@@ -141,7 +146,7 @@ class AddAlert extends Component {
             response.json().then((data) => {
               let clubs = data.model;
               this.setState({ clubs, loading: false });
-              this.props.dispatch(setClubsList(clubs));
+              this.props.dispatch(setAllClubList(clubs));
             });
           } else {
             response.json().then((data) => {
@@ -158,7 +163,7 @@ class AddAlert extends Component {
           );
         });
     } else {
-      this.setState({ clubs: this.props.clubsList, loading: false });
+      this.setState({ clubs: this.props.allClubList, loading: false });
     }
   }
 
@@ -232,7 +237,7 @@ class AddAlert extends Component {
                   onFinishFailed={this.onFinishFailed}
                   ref={this.formRef}
                 >
-                  <Form.Item
+                  {/* <Form.Item
                     name="ClubLogo"
                     label="Alert Logo"
                     rules={[
@@ -251,7 +256,7 @@ class AddAlert extends Component {
                         <UploadOutlined /> Click to Upload
                       </Button>
                     </Upload>
-                  </Form.Item>
+                  </Form.Item> */}
                   <Form.Item
                     label="Club Name"
                     name="ClubName"
@@ -400,7 +405,8 @@ class AddAlert extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    clubsList: state.dashboard.clubsList,
+    allClubList: state.dashboard.allClubList,
+    allVendorList: state.dashboard.allVendorList,
   };
 };
 export default connect(mapStateToProps)(AddAlert);

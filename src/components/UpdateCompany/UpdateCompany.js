@@ -97,25 +97,29 @@ class UpdateCompany extends Component {
       .then((response) => {
         if (response.ok) {
           message.success("company Updated successfully");
-          fetch(
-            "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0",
-            {
-              method: "GET",
-              headers: myHeaders,
-            }
-          ).then((response) => {
-            if (response.ok) {
-              response.json().then((data) => {
-                let companies = data.model;
-                this.props.dispatch(setCompanyList(companies));
-                this.setState({ loadingBtn: false });
-                this.props.history.push("/companies");
-              });
-            }
-          });
+          this.props.dispatch(setCompanyList([]));
+          this.props.history.push("/companies");
+          // fetch(
+          //   "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0",
+          //   {
+          //     method: "GET",
+          //     headers: myHeaders,
+          //   }
+          // ).then((response) => {
+          //   if (response.ok) {
+          //     response.json().then((data) => {
+          //       let companies = data.model;
+          //       this.props.dispatch(setCompanyList(companies));
+          //       this.setState({ loadingBtn: false });
+          //       this.props.history.push("/companies");
+          //     });
+          //   }
+          // });
         } else {
-          message.error("Network response was not ok.");
-          this.setState({ loadingBtn: false });
+          response.json().then((data) => {
+            this.setState({ loadingBtn: false });
+            message.error(`${data.errors.message}`); 
+          });
         }
       })
       .catch((error) => {

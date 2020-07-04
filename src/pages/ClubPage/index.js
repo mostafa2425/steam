@@ -8,7 +8,7 @@ import {
   PageContainer,
   HeaderPageSection,
 } from "./StyledComponents";
-import { Spin, message } from "antd";
+import { Spin, message, Pagination } from "antd";
 import { setClubsList } from "../../Dashboard/store/actions";
 import { connect } from "react-redux";
 
@@ -18,25 +18,32 @@ class ClubPage extends React.Component {
     this.state = {
       clubs: null,
       loading: true,
+      current: 1,
+      total: 10,
+      pageSize: 10,
     };
   }
-  componentDidMount() {
-    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
+
+  fetchClubsList = (isPaginate = false) => {
     const myHeaders = new Headers({
       "Content-Type": "application/json",
-      'Authorization': JSON.parse(localStorage.getItem("token")),
+      Authorization: JSON.parse(localStorage.getItem("token")),
     });
-    if (!this.props.clubsList.length > 0) {
-      fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
-        method: 'GET',
-        headers: myHeaders, 
-      })
+    if (!this.props.clubsList.length > 0 || isPaginate) {
+      fetch(
+        `https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=${this.state.current - 1}`,
+        {
+          method: "GET",
+          headers: myHeaders,
+        }
+      )
         .then((response) => {
           if (response.ok) {
             response.json().then((data) => {
               let clubs = data.model;
-              this.setState({ clubs, loading: false });
-              this.props.dispatch(setClubsList(clubs))
+              let total = data.total.total;
+              this.setState({ clubs,total, loading: false });
+              this.props.dispatch(setClubsList(clubs));
             });
           } else {
             message.error("Network response was not ok.");
@@ -53,13 +60,30 @@ class ClubPage extends React.Component {
     } else {
       this.setState({ clubs: this.props.clubsList, loading: false });
     }
+  };
+
+  componentDidMount() {
+    !JSON.parse(localStorage.getItem("token")) &&
+      this.props.history.push("/login");
+      this.fetchClubsList();
   }
 
-  componentWillReceiveProps(nextProps){
-    if(this.state.clubs !== nextProps.clubsList){
-      this.setState({clubs : nextProps.clubsList}) 
+  componentWillReceiveProps(nextProps) {
+    if (this.state.clubs !== nextProps.clubsList) {
+      this.setState({ clubs: nextProps.clubsList });
     }
   }
+
+  onChangePage = (page) => {
+    this.setState(
+      {
+        current: page,
+      },
+      () => {
+        this.fetchClubsList(true);
+      }
+    );
+  };
 
   render() {
     return (
@@ -100,11 +124,20 @@ class ClubPage extends React.Component {
                       to={{
                         pathname: `/dashbord-profile/:${club.Id}`,
                         clubInfo: club,
-                        id: club.Id,  
+                        id: club.Id,
                       }}
                     />
                   ))}
               </div>
+              {this.state.total > this.state.pageSize && (
+                <Pagination
+                  showTotal={(total) => `Total ${total} clubs`}
+                  current={this.state.current}
+                  pageSize={this.state.pageSize}
+                  onChange={this.onChangePage}
+                  total={this.state.total}
+                />
+              )}
             </>
           ) : (
             <Spin />

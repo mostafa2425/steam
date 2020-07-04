@@ -5,6 +5,16 @@ import {
     DELETE_CLUB,
     SET_CCOMPANY,
     DELETE_CCOMPANY,
+    DELETE_OFFER,
+    SET_VENDOR,
+    SET_ALERT,
+    SET_OFFER,
+    DELETE_VENDOR,
+    DELETE_ALERT,
+    SET_ALL_VENDOR,
+    SET_ALL_CLUB,
+    DELETE_ALL_CLUB,
+    DELETE_ALL_VENDOR,
 } from './action-types'
 
 
@@ -29,9 +39,78 @@ export function setCompanyList(payload) {
     }
 }
 
+export function setVendorList(payload) {
+    return {
+        type: SET_VENDOR,
+        payload
+    }
+}
+
+export function setAlertList(payload) {
+    return {
+        type: SET_ALERT,
+        payload
+    }
+}
+
+export function setOfferList(payload) {
+    return {
+        type: SET_OFFER,
+        payload
+    }
+}
+
+export function setAllVendorList(payload) {
+    return {
+        type: SET_ALL_VENDOR,
+        payload
+    }
+}
+
+export function setAllClubList(payload) {
+    return {
+        type: SET_ALL_CLUB,
+        payload
+    }
+}
+export function deleteAllVendorList(payload) {
+    return {
+        type: DELETE_ALL_VENDOR,
+        payload
+    }
+}
+
+export function deleteAllClubList(payload) {
+    return {
+        type: DELETE_ALL_CLUB,
+        payload
+    }
+}
+
 export function DeleteClub(payload) {
     return {
         type: DELETE_CLUB,
+        payload
+    }
+}
+
+export function DeleteOffer(payload) {
+    return {
+        type: DELETE_OFFER,
+        payload
+    }
+}
+
+export function DeleteAlert(payload) {
+    return {
+        type: DELETE_ALERT,
+        payload
+    }
+}
+
+export function DeleteVendor(payload) {
+    return {
+        type: DELETE_VENDOR,
         payload
     }
 }

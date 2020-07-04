@@ -15,7 +15,7 @@ import {
   AddBtn,
   HeaderPageSection,
 } from "./StyledComponents";
-import { Dropdown, Menu, Spin, message } from "antd";
+import { Dropdown, Menu, Spin, message, Pagination } from "antd";
 import {
   MoreOutlined,
   MailOutlined,
@@ -31,18 +31,23 @@ class CompanyPage extends React.Component {
     this.state = {
       companies: null,
       loading: true,
+      current: 1,
+      total: 15,
+      pageSize: 10,
     };
   }
-  componentDidMount() {
-    !JSON.parse(localStorage.getItem("token")) &&
-      this.props.history.push("/login");
+
+  fetchCompanyList = (isPaginate = false) => {
     const myHeaders = new Headers({
       "Content-Type": "application/json",
       Authorization: JSON.parse(localStorage.getItem("token")),
     });
-    if (!this.props.CompanyList.length > 0) {
+    this.setState({loading : true})
+    if (!this.props.CompanyList.length > 0 || isPaginate) {
       fetch(
-        "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0",
+        `https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=${
+          this.state.current - 1
+        }`,
         {
           method: "GET",
           headers: myHeaders,
@@ -51,14 +56,18 @@ class CompanyPage extends React.Component {
         .then((response) => {
           if (response.ok) {
             response.json().then((data) => {
+              console.log(data)
               let companies = data.model;
-              this.setState({ companies, loading: false }, () => {
+              let total = data.total.total;
+              this.setState({ companies, total, loading: false }, () => {
                 this.props.dispatch(setCompanyList(companies));
               });
             });
           } else {
-            message.error("Network response was not ok.");
-            this.setState({ loading: false });
+            response.json().then((data) => {
+              this.setState({ loading: false });
+              message.error(`${data.errors.message}`); 
+            });
           }
         })
         .catch((error) => {
@@ -68,9 +77,15 @@ class CompanyPage extends React.Component {
               error.message
           );
         });
-    }else{
+    } else {
       this.setState({ companies: this.props.CompanyList, loading: false });
     }
+  };
+
+  componentDidMount() {
+    !JSON.parse(localStorage.getItem("token")) &&
+      this.props.history.push("/login");
+    this.fetchCompanyList();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -78,6 +93,17 @@ class CompanyPage extends React.Component {
       this.setState({ companies: nextProps.CompanyList });
     }
   }
+
+  onChangePage = (page) => {
+    this.setState(
+      {
+        current: page,
+      },
+      () => {
+        this.fetchCompanyList(true);
+      }
+    );
+  };
 
   render() {
     return (
@@ -121,6 +147,15 @@ class CompanyPage extends React.Component {
                     />
                   ))}
               </div>
+              {this.state.total > this.state.pageSize && (
+                <Pagination
+                  showTotal={(total) => `Total ${total} companies`}
+                  current={this.state.current}
+                  pageSize={this.state.pageSize}
+                  onChange={this.onChangePage}
+                  total={this.state.total}
+                />
+              )}
             </>
           ) : (
             <Spin />

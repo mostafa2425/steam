@@ -16,6 +16,9 @@ import {
 } from "./StyledComponents";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { message, Spin } from "antd";
+import { setOfferList } from "../../Dashboard/store/actions";
+import { connect } from "react-redux";
+
 
 class OffersPage extends React.Component {
   constructor(props) {
@@ -26,48 +29,61 @@ class OffersPage extends React.Component {
     };
   }
 
-  componentDidMount() {
-    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
+  fetchOfferList = (isPaginate = false) => {
     const myHeaders = new Headers({
       "Content-Type": "application/json",
       'Authorization': JSON.parse(localStorage.getItem("token")),
     });
-    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetOffers?Page=0", {
-      method: 'GET',
-      headers: myHeaders, 
-    })
-      .then((response) => {
-        if (response.ok) {
-          response.json().then((data) => {
-            let offers = data.model;
-            let calenderOffer = [];
-            offers.map((offer) =>
-              calenderOffer.push({
-                Id: offer.Id,
-                VendorId: offer.VendorId,
-                ClubId: offer.ClubId,
-                ForAll: offer.ForAll,
-                BannerImage: offer.BannerImage,
-                title: offer.Description,
-                titleAr: offer.DescriptionLT,
-                HourCost: offer.HourCost,
-                start: moment(offer.StartDate).toDate(),
-                end: moment(offer.EndDate).toDate(), 
-              })
-            );
-            this.setState({ offers: calenderOffer, loading: false });
-          });
-        } else {
-          message.error("Network response was not ok.");
-          this.setState({ loading: false });
-        }
+    if(!this.props.offerList.length > 0){
+      fetch(`https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetOffers?Page=-1`, {
+        method: 'GET',
+        headers: myHeaders, 
       })
-      .catch((error) => {
-        this.setState({ loading: false });
-        message.error(
-          "There has been a problem with your fetch operation: " + error.message
-        );
-      });
+        .then((response) => {
+          if (response.ok) {
+            response.json().then((data) => {
+              let offers = data.model;
+              let calenderOffer = [];
+              offers.map((offer) =>
+                calenderOffer.push({
+                  Id: offer.Id,
+                  VendorId: offer.VendorId,
+                  ClubId: offer.ClubId,
+                  ForAll: offer.ForAll,
+                  BannerImage: offer.BannerImage,
+                  title: offer.Description,
+                  titleAr: offer.DescriptionLT,
+                  HourCost: offer.HourCost,
+                  start: moment(offer.StartDate).toDate(),
+                  end: moment(offer.EndDate).toDate(), 
+                })
+              );
+              this.setState({ offers: calenderOffer, loading: false } , () => {
+                this.props.dispatch(setOfferList(calenderOffer)); 
+              });
+            });
+          } else {
+            message.error("Network response was not ok.");
+            this.setState({ loading: false });
+          }
+        })
+        .catch((error) => {
+          this.setState({ loading: false });
+          message.error(
+            "There has been a problem with your fetch operation: " + error.message
+          );
+        });
+
+    }else{
+      this.setState({ offers: this.props.offerList, loading: false });
+    }
+  }
+
+
+
+  componentDidMount() {
+    !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
+    this.fetchOfferList();
   }
 
   localizer = momentLocalizer(moment);
@@ -125,4 +141,10 @@ class OffersPage extends React.Component {
   }
 }
 
-export default OffersPage;
+const mapStateToProps = (state) => {
+  return {
+    offerList: state.dashboard.offerList,
+  };
+};
+
+export default connect(mapStateToProps)(OffersPage);

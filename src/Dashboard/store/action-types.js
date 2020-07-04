@@ -4,6 +4,16 @@ export const SET_CLUBS = 'SET_CLUBS'
 export const DELETE_CLUB = 'DELETE_CLUB'
 export const SET_CCOMPANY = 'SET_CCOMPANY'
 export const DELETE_CCOMPANY = 'DELETE_CCOMPANY'
+export const DELETE_VENDOR = 'DELETE_VENDOR'
+export const SET_VENDOR = 'SET_VENDOR'
+export const SET_OFFER = 'SET_OFFER'
+export const SET_ALERT = 'SET_ALERT'
+export const DELETE_ALERT = 'DELETE_ALERT'
+export const DELETE_OFFER = 'DELETE_OFFER'
+export const SET_ALL_VENDOR = 'SET_ALL_VENDOR'
+export const DELETE_ALL_VENDOR = 'DELETE_ALL_VENDOR'
+export const SET_ALL_CLUB = 'SET_ALL_CLUB'
+export const DELETE_ALL_CLUB = 'DELETE_ALL_CLUB'
 
 export default {
     SET_BRANCHES,
@@ -12,4 +22,14 @@ export default {
     DELETE_CLUB,
     SET_CCOMPANY,
     DELETE_CCOMPANY,
+    DELETE_VENDOR,
+    SET_VENDOR,
+    SET_OFFER,
+    SET_ALERT,
+    DELETE_OFFER,
+    DELETE_ALERT,
+    SET_ALL_VENDOR,
+    SET_ALL_CLUB,
+    DELETE_ALL_CLUB,
+    DELETE_ALL_VENDOR,
 }

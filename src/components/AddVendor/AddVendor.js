@@ -9,6 +9,8 @@ import {
   PageContainer,
 } from "./StyledComponents";
 import { UploadOutlined } from '@ant-design/icons';
+import { connect } from "react-redux";
+import { setVendorList } from "../../Dashboard/store/actions";
 const { TextArea } = Input;
 
 function getBase64(img, callback) {
@@ -17,7 +19,7 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 };
 
-export default class AddVendor extends Component {
+class AddVendor extends Component {
 
   constructor(props) {
     super(props);
@@ -116,6 +118,8 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
         this.setState({loadingBtn : false})
         message.success('vendor added successfully'); 
         this.formRef.current.resetFields();
+        this.props.dispatch(setVendorList([]));
+        this.setState({imageUrl : null, })
       }else{
         response.json().then((data) => {
           this.setState({ loadingBtn: false });
@@ -230,6 +234,8 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                 >
                   <Upload onChange={this.onChangeimg}  
                       name ='file'
+                  accept=".png, .jpg, .jpeg"
+
                       // defaultFileList={this.state.FileList}
                       action = 'https://www.mocky.io/v2/5cc8019d300000980a055e76'
                       beforeUpload={this.beforeUpload}> 
@@ -375,3 +381,5 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     );
   }
 }
+
+export default connect()(AddVendor)

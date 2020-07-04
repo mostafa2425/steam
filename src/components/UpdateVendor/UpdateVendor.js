@@ -9,6 +9,8 @@ import {
   PageContainer,
 } from "./StyledComponents";
 import { UploadOutlined } from '@ant-design/icons';
+import { setVendorList, setAllVendorList } from "../../Dashboard/store/actions";
+import { connect } from "react-redux";
 const { TextArea } = Input;
 
 function getBase64(img, callback) {
@@ -17,7 +19,7 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 };
 
-export default class UpdateVendor extends Component {
+class UpdateVendor extends Component {
 
   constructor(props) {
     super(props);
@@ -135,6 +137,8 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
       if(response.ok){
         this.setState({loadingBtn : false})
         message.success('vendor Updated successfully'); 
+        this.props.dispatch(setVendorList([]));
+        this.props.dispatch(setAllVendorList([]))
         this.props.history.push("/vendors");
       }else{
         response.json().then((data) => {
@@ -254,6 +258,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                   // rules={[{ required: true, message: "Please input Vendor Logo!", }]}
                 >
                   <Upload onChange={this.onChangeimg}  
+                      accept=".png, .jpg, .jpeg"
                       name ='file'
                       action = 'https://www.mocky.io/v2/5cc8019d300000980a055e76'
                       beforeUpload={this.beforeUpload}> 
@@ -399,3 +404,5 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
     );
   }
 }
+
+export default connect()(UpdateVendor)

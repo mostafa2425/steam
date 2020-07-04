@@ -46,8 +46,8 @@ class HomePage extends React.Component {
         response.json().then((data) => {
           let dashboard = data.model;
           this.setState({dashboard, loading : false, 
-            orderCount : dashboard.BarCharts.map(order => order.OrderCount), 
-            orderDay : dashboard.BarCharts.map(order => Moment(order.Day).format('L'))
+            orderCount : dashboard.BarCharts.reverse().map(order => order.OrderCount), 
+            orderDay : dashboard.BarCharts.map(order => Moment(order.Day).format('L')) 
           })
           });
         

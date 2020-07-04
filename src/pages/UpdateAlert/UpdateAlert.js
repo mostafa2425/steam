@@ -22,7 +22,7 @@ import {
 } from "./StyledComponents";
 import { UploadOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
-import { setClubsList } from "../../Dashboard/store/actions";
+import { setClubsList, DeleteAlert, setAlertList, setVendorList, setAllVendorList, setAllClubList } from "../../Dashboard/store/actions";
 const { confirm } = Modal;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -47,10 +47,58 @@ class UpdateAlert extends Component {
       EndDate: null,
       imageUrl: null,
       Id: null,
-      isSelectAllClubs : false
+      isSelectAllClubs : false,
+      clubLoading: true,
     };
     this.formRef = React.createRef();
   }
+
+  fetchClubList = (ClubId) => {
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+      Authorization: JSON.parse(localStorage.getItem("token")),
+    });
+
+    if (!this.props.clubsList.length > 0) {
+      fetch(
+        "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=-1",
+        {
+          method: "GET",
+          headers: myHeaders,
+        }
+      )
+        .then((response) => {
+          if (response.ok) {
+            response.json().then((data) => {
+              let clubs = data.model;
+              this.setState({ clubs, clubLoading: false }, () => {
+                setTimeout(() => {
+                  this.formRef.current.setFieldsValue({ ClubName: ClubId });
+                }, 100);
+              });
+              this.props.dispatch(setAllClubList(clubs));
+            });
+          } else {
+            response.json().then((data) => {
+              this.setState({ clubLoading: false });
+              message.error(`${data.errors.message}`);
+            });
+          }
+        })
+        .catch((error) => {
+          message.error(
+            "There has been a problem with your fetch operation: " +
+              error.message
+          );
+        });
+    } else {
+      this.setState({ clubs: this.props.allClubList, clubLoading: false }, () => {
+        setTimeout(() => {
+          this.formRef.current.setFieldsValue({ ClubName: ClubId });
+        }, 0);
+      });
+    }
+  };
 
   componentDidMount() {
     !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
@@ -71,9 +119,9 @@ class UpdateAlert extends Component {
       } = this.props.history.location.data;
       let startDate = moment(start, "DD-MM-YYYY HH:mm");
       this.setState({StartDate : startDate.format('YYYY/MM/DD HH:mm')}) 
-
+      if (!this.props.vendorList.length > 0) {
       fetch(
-        "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=0", {
+        "https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetVendors?Page=-1", {
           method: 'GET',
           headers: myHeaders, 
         }
@@ -82,6 +130,7 @@ class UpdateAlert extends Component {
           if (response.ok) {
             response.json().then((data) => {
               let vendors = data.model;
+              this.props.dispatch(setAllVendorList(vendors));
               this.setState(
                 { vendors, Id, loading : false },
                 () => {
@@ -95,48 +144,15 @@ class UpdateAlert extends Component {
                     });
                     
                   }, 100);
-                  if (!this.props.clubsList.length > 0) {
-                    fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetClubs?Page=0", {
-                      method: 'GET',
-                      headers: myHeaders, 
-                    })
-                      .then((response) => {
-                        if (response.ok) {
-                          response.json().then((data) => {
-                            let clubs = data.model;
-                            this.setState({ clubs}, () => {
-                              setTimeout(() => {
-                                this.formRef.current.setFieldsValue({ ClubName: ClubId });
-                              }, 100);
-                            });
-                            this.props.dispatch(setClubsList(clubs));
-                          });
-                        } else {
-                          message.error("Network response was not ok.");
-                          this.setState({ loading: false });
-                        }
-                      })
-                      .catch((error) => {
-                        this.setState({ loading: false });
-                        message.error(
-                          "There has been a problem with your fetch operation: " +
-                            error.message
-                        );
-                      });
-                  } else {
-                    this.setState({ clubs: this.props.clubsList, }, () => {
-                      setTimeout(() => {
-                          this.formRef.current.setFieldsValue({ ClubName: ClubId }); 
-                      }, 0);
-                    });
-                  }
+                  this.fetchClubList(ClubId);
                 }
-                
               );
             });
           } else {
-            message.error("Network response was not ok.");
-            this.setState({ loading: false });
+            response.json().then((data) => {
+              this.setState({ loading: false });
+              message.error(`${data.errors.message}`);
+            });
           }
         })
         .catch((error) => {
@@ -146,6 +162,21 @@ class UpdateAlert extends Component {
               error.message
           );
         });
+      } else {
+        this.setState({ vendors: this.props.allVendorList, Id, loading: false }, () => {
+          setTimeout(() => {
+            this.formRef.current.setFieldsValue({
+              VendorName: VendorId,
+              TotalCost: TotalCost ? TotalCost.toFixed(2) : 0,
+              OfferDescription: title, 
+              OfferDescriptionAr: titleAr,
+              // Time: Time,
+            });
+            
+          }, 100);
+          this.fetchClubList(ClubId);
+        });
+      }
 
     } else {
       this.props.history.push("/alerts");
@@ -180,6 +211,7 @@ class UpdateAlert extends Component {
     )
       .then((response) => {
         this.setState({ loadingBtn: false });
+        this.props.dispatch(setAlertList([]));
         message.success("alert update successfully");
         this.props.history.push("/alerts");
       })
@@ -241,6 +273,7 @@ class UpdateAlert extends Component {
             if (response.ok) {
               response.json().then((data) => {
                 message.success("alert deleted successfully");
+                this.props.dispatch(DeleteAlert(this.state.Id));
                 this.props.history.push("/alerts");
               });
             } else {
@@ -285,7 +318,7 @@ class UpdateAlert extends Component {
                   onFinish={this.handelSubmit}
                   ref={this.formRef}
                 >
-                  <Form.Item
+                  {/* <Form.Item
                     name="ClubLogo"
                     label="Alert Logo"
                     // rules={[{ required: true, message: "Please input Club Logo!", }]}
@@ -300,7 +333,7 @@ class UpdateAlert extends Component {
                         <UploadOutlined /> Click to Upload
                       </Button>
                     </Upload>
-                  </Form.Item>
+                  </Form.Item> */}
                   <Form.Item
                     label="Club Name"
                     name="ClubName"
@@ -311,7 +344,7 @@ class UpdateAlert extends Component {
                       },
                     ]}
                   >
-                    <Select placeholder="select Club">
+                    <Select loading={this.state.clubLoading} placeholder="select Club">
                       <>
                       {this.state.clubs &&
                         this.state.clubs.map((club) => (
@@ -441,6 +474,7 @@ class UpdateAlert extends Component {
 const mapStateToProps = (state) => {
   return {
     clubsList: state.dashboard.clubsList,
+    vendorList: state.dashboard.vendorList,
   };
 };
 export default connect(mapStateToProps)(UpdateAlert);
