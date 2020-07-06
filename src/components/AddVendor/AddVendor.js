@@ -25,7 +25,8 @@ class AddVendor extends Component {
       companies : null,
       vendorIndustry : null,
       companyVendorId : null,
-      FileList : []
+      FileList : [],
+      companySelectLoading : true
     }
   }
 
@@ -34,28 +35,28 @@ class AddVendor extends Component {
     !JSON.parse(localStorage.getItem("token")) && this.props.history.push("/login");
 
     if(!this.props.isFromCompany){
-    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=0').then((response) => {
+    fetch('https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/api/GetCompanies?Page=-1').then((response) => {
       if(response.ok) {
         response.json().then((data) => {
           let companies = data.model;
           if(this.props.location.companyVendorId){
-            this.setState({ companyVendorId : this.props.location.companyVendorId}, () => {
+            this.setState({ companyVendorId : this.props.location.companyVendorId, companySelectLoading : false}, () => {
               this.formRef.current.setFieldsValue({
                 CompanyName : this.props.location.companyVendorId
               })
             })
           }
-          this.setState({companies, loading : false})
+          this.setState({companies, loading : false, companySelectLoading : false})
         });
       } else {
         response.json().then((data) => {
-          this.setState({ loading: false });
+          this.setState({ loading: false, companySelectLoading : false });
           message.error(`${data.errors.message}`); 
         });
       }
     })
     .catch((error) => {
-      this.setState({loading : false})
+      this.setState({loading : false, companySelectLoading : false})
       message.error('There has been a problem with your fetch operation: ' + error.message);
     });
 
@@ -181,7 +182,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://native-001-site2.ctempurl.com/
                     },
                   ]}
                 >
-                  <Select disabled= {!!this.state.companyVendorId}> 
+                  <Select loading={this.state.companySelectLoading} disabled= {!!this.state.companyVendorId}> 
                       {this.state.companies && this.state.companies.map( (company, i) => <Select.Option key={i} value={company.Id}>{company.Name}</Select.Option>)}
                   </Select>
                 </Form.Item>
