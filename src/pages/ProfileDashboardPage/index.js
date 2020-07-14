@@ -129,7 +129,9 @@ class ProfileDashboardPage extends React.Component {
                   image={Profit}
                   number={
                     clubInfo &&
-                    `${clubInfo.TotalProfit ? this.covertTokFormatter(clubInfo.TotalProfit) : 0}`
+                    // `${clubInfo.TotalProfit ? this.covertTokFormatter(clubInfo.TotalProfit) : 0}`
+                    `${clubInfo.TotalProfit ? Number.isInteger(clubInfo.TotalProfit) ? this.covertTokFormatter(clubInfo.TotalProfit) : this.covertTokFormatter(clubInfo.TotalProfit.toFixed(2)) : 0}`
+
                   }
                   transparent
                 />

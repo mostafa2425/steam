@@ -1,314 +1,320 @@
-
-
-.root-wrapper{
-    > section{
-        background-color: #f2f3f8;
-    }
+.root-wrapper {
+  > section {
+    background-color: #f2f3f8;
+  }
 }
 
-.profile-holder{
+.profile-holder {
+  display: flex;
+  align-items: center;
+  p {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+  > div {
+    padding: 15px 10px;
+    top: 40px;
+    > p {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.ant-menu-item .anticon + span,
+.ant-menu-submenu-title .anticon + span {
+  font-size: 16px;
+}
+
+.active-tag {
+  background-color: rgba(10, 187, 135, 0.1);
+  color: #0abb87;
+  cursor: text !important;
+  border-radius: 2rem;
+  padding: 5px 20px;
+  font-size: 16px;
+}
+.inactive-tag {
+  background-color: rgba(253, 57, 122, 0.1);
+  color: #fd397a;
+  cursor: text !important;
+  border-radius: 2rem;
+  padding: 5px 20px;
+  font-size: 16px;
+}
+
+.grid-holder {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 15px 20px;
+  width: 100%;
+  > div {
+    padding: 20px 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: #fff;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    p{
-        margin-bottom: 0;
-        margin-top: 0;
+    padding-top: 5px;
+    position: relative;
+    margin: 0;
+    transition: all ease-in-out 0.3s;
+    cursor: pointer;
+    &:hover {
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     }
-    > div{
-        padding: 15px 10px;
-        top: 40px;
-        > p{
-            margin-bottom: 10px;
-        }
-    }
+  }
+}
+.company-veiw-wrapper {
+  padding-bottom: 100px;
 }
 
-.ant-menu-item .anticon + span, .ant-menu-submenu-title .anticon + span{
-    font-size: 16px;
-}
-
-.active-tag{
-    background-color: rgba(10, 187, 135, 0.1);
-    color: #0abb87;
-    cursor: text !important;    
-    border-radius: 2rem;
-    padding: 5px 20px;
-    font-size: 16px;
-}
-.inactive-tag{
-    background-color: rgba(253, 57, 122, 0.1);
-    color: #fd397a;
-    cursor: text !important;    
-    border-radius: 2rem;
-    padding: 5px 20px;
-    font-size: 16px;
-}
-
-.grid-holder{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-    gap: 15px 20px;
-    width: 100%;
-    >div{
-        padding: 20px 15px;
-        border-radius: 4px;
-        border: 1px solid #DDD;
-        background: #FFF;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding-top: 5px;
-        position: relative;
-        margin: 0;
-        transition: all ease-in-out 0.3s; 
-        cursor: pointer;
-        &:hover{
-            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-        }
-    }
-}
-.company-veiw-wrapper{
-    padding-bottom: 100px;
-}
-
-.grid-holder{
-    padding: 0 30px;
-.company-card{
+.grid-holder {
+  padding: 0 30px;
+  .company-card {
     align-items: flex-start !important;
     padding-top: 20px;
-    .company-info{
+    .company-info {
+      display: flex;
+      align-items: center;
+      h4 {
+        font-size: 20px;
+        color: #48465b;
+        font-weight: 500;
+        margin: 0 20px;
+      }
+      img {
+        width: 50px;
+        margin: auto;
+      }
+    }
+    .primary-fill {
+      margin-top: 20px;
+    }
+    .anticon-more {
+      position: absolute;
+      top: 10px;
+      right: 6px;
+      font-size: 22px;
+    }
+    .active-tag,
+    .inactive-tag {
+      margin-left: auto;
+    }
+    .company-detailes {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-top: 15px;
+      > div {
         display: flex;
         align-items: center;
-        h4{
-            font-size: 20px;
-            color: #48465b;
-            font-weight: 500;
-            margin: 0 20px;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        cursor: text;
+        p,
+        h5 {
+          margin-bottom: 0;
         }
-        img{
-            width: 50px;
-            margin: auto;
+        h5 {
+          color: #48465b;
+          font-weight: 600;
+          font-size: 15px;
         }
-    }
-    .primary-fill{
-        margin-top: 20px;
-    }
-    .anticon-more{
-        position: absolute;
-        top: 10px;
-        right: 6px;
-        font-size: 22px;
+        p,
+        a {
+          color: #74788d;
+          font-weight: 400;
+          font-size: 15px;
+        }
       }
-      .active-tag,.inactive-tag{
-        margin-left: auto;
+    }
+  }
+}
+
+.dashboard-wrapper {
+  .dashboard-content {
+    padding: 0 30px;
+    padding-bottom: 100px;
+    overflow: hidden auto;
+    @include mq("phablet") {
+      padding: 0 10px;
+      padding-bottom: 100px;
+    }
+  }
+  .card-wrapper {
+    display: grid;
+    // grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+
+    @include mq("tablet-qc", "max") {
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+    @include mq("phablet") {
+      grid-template-columns: 1fr;
+    }
+    > div {
+      width: 100%;
+      margin-top: 0;
+      box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      margin-bottom: 0;
+      > div > p:first-of-type {
+        // color: #646991;
       }
-      .company-detailes{
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          margin-top: 15px;
-          > div{
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              margin-bottom: 5px;
-              cursor: text;
-              p,h5{
-                  margin-bottom: 0;
-              }
-              h5{
-                color: #48465b;
-                font-weight: 600;
-                font-size: 15px;
-              }
-              p,a{
-                color: #74788d;
-                font-weight: 400;
-                font-size: 15px;
-              }
-          }
+    }
+  }
+  .top-venor-holder {
+    display: flex;
+    > div {
+      width: auto;
+      flex: 1;
+      &:first-of-type {
+        margin-right: 30px;
       }
-}
-}
-
-.dashboard-wrapper{
-    .dashboard-content{
-        padding: 0 30px;
-        padding-bottom: 100px;
-        overflow: hidden auto;
-        @include mq("phablet"){
-            padding: 0 10px;
-            padding-bottom: 100px;
-        }
     }
-    .card-wrapper{
-        display: grid;
-        // grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
-        grid-template-columns : repeat(4, 1fr);
-        gap: 20px;
-
-        @include mq("tablet-qc", "max"){
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    @include mq("ipad") {
+      flex-direction: column;
+      > div {
+        margin: 0 !important;
+        margin-bottom: 25px !important;
+        @include mq("phablet") {
+          padding: 15px 10px;
         }
-        @include mq("phablet"){
-            grid-template-columns : 1fr; 
-        }
-        > div{
-            width: 100%;
-            margin-top: 0;
-            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-            margin-bottom: 0;
-            > div > p:first-of-type{
-                // color: #646991;
-            }
-        }
+      }
     }
-    .top-venor-holder{
-        display: flex;
-        > div{
-            width: auto;
-            flex: 1;
-            &:first-of-type{
-                margin-right: 30px;
-            }
-        }
-        @include mq("ipad"){
-            flex-direction: column;
-            > div{
-                margin: 0 !important;
-                margin-bottom: 25px !important;
-                @include mq("phablet"){
-                    padding: 15px 10px;
-                }
-            }
-        }
+  }
+  .chart-wrapper {
+    > div {
+      width: 100% !important;
+      overflow: auto hidden;
     }
-    .chart-wrapper{
-        > div{
-            width: 100% !important;
-            overflow: auto hidden;
-        }
-    }
+  }
 }
 
-.revenue-holder{
-    @include mq("phablet"){
-        > div{
-            padding: 15px 10px;
-        }
-        .revenue-name{
-                margin: 0; 
-        }
+.revenue-holder {
+  .ant-progress-outer {
+    width: 88%;
+  }
+  @include mq("phablet") {
+    > div {
+      padding: 15px 10px;
     }
-    .progress-holder{
-        display: flex;
-        align-items: center;
-        top: 0;
-        .ant-progress-text{
-            color: #000;
-            font-weight: bold;
-            font-size: 17px;
-            width: 50px;
-        }
+    .revenue-name {
+      margin: 0;
     }
+  }
+  .progress-holder {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    top: 0;
+    .ant-progress-text {
+      color: #000;
+      font-weight: bold;
+      font-size: 17px;
+      width: 50px;
+      margin-right: 10px;
+    }
+  }
 }
-.ant-progress-inner{
-    background-color: #ebedf2;
+.ant-progress-inner {
+  background-color: #ebedf2;
 }
 
-.auth-wrapper{
+.auth-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f2f3f8;
+  .auth-content {
+    width: 85%;
+    max-width: 1250px;
+    height: 70%;
+    display: flex;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    @include mq("ipad") {
+      width: 95%;
+    }
+  }
+  .form-wrapper { 
+    width: 40%; 
+    background-color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    background-color: #f2f3f8;
-    .auth-content{ 
-        width: 85%;
-        max-width: 1250px;
-        height: 70%;
-        display: flex;
-        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
-        @include mq("ipad"){
-            width: 95%;   
-        }
+    flex-direction: column;
+    padding: 110px 50px;
+
+    .primary-fill {
+      padding: 0 34px;
     }
-      .form-wrapper{
-        width: 40%;
-        background-color: #FFF;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        padding: 110px 50px;
-
-        .primary-fill{
-            padding: 0 34px;
-        }
-        .ant-form-item-label > label{
-            color: #d7d7d7;
-            height: 20px;
-        }
-        .ant-form-item-label > label.ant-form-item-required::before{
-            display: none;
-        }
-        .ant-input,
-        .ant-input-affix-wrapper{
-            background-color: #f2f3f8;
-            border: 0;
-            width: 80%;
-            height: 40px;
-        }
-        .ant-input-affix-wrapper{
-            .ant-input{
-                height: 100%;
-            }
-        }
-        @include mq("ipad"){
-            width: 50%;
-        }
-        @include mq("tablet"){
-            width: 100%;
-            padding: 40px 25px; 
-        }
-        .warning-msg{
-            color: #d83025;
-            font-size: 15px;
-            text-transform: capitalize;
-        }
-        form{
-            width: 100%;
-        }
-        .ant-form-item{
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-bottom: 10px;    
-            .ant-form-item-control{
-                width: 100%; 
-            }
-        }
-      }  
-      .auth-hero{
-        width: 60%;
-        background: url(../../images/login.png);
-        background-repeat: no-repeat;
-        background-size: cover;
-        @include mq("tablet"){
-           display: none;
-        }
+    .ant-form-item-label > label {
+      color: #d7d7d7;
+      height: 20px;
+    }
+    .ant-form-item-label > label.ant-form-item-required::before {
+      display: none;
+    }
+    .ant-input,
+    .ant-input-affix-wrapper {
+      background-color: #f2f3f8;
+      border: 0;
+      width: 80%;
+      height: 40px;
+    }
+    .ant-input-affix-wrapper {
+      .ant-input {
+        height: 100%;
       }
-      .login-btn{
-          display: flex;
-          align-items: center;
-          margin-top: 25px;
-          .ant-form-item{
-              margin-bottom: 0;
-          }
-          a{
-              margin: 0 16px;
-              color: #81b955;
-          }
+    }
+    @include mq("ipad") {
+      width: 50%;
+    }
+    @include mq("tablet") {
+      width: 100%;
+      padding: 40px 25px;
+    }
+    .warning-msg {
+      color: #d83025;
+      font-size: 15px;
+      text-transform: capitalize;
+    }
+    form {
+      width: 100%;
+    }
+    .ant-form-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      .ant-form-item-control {
+        width: 100%;
       }
+    }
+  }
+  .auth-hero {
+    width: 60%;
+    background: url(../../images/login.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    @include mq("tablet") {
+      display: none;
+    }
+  }
+  .login-btn {
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+    .ant-form-item {
+      margin-bottom: 0;
+    }
+    a {
+      margin: 0 16px;
+      color: #81b955;
+    }
+  }
 }
-
